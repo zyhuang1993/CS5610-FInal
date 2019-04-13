@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  findImageForAMovie(movieId) {
-    // return this.movieService.findImageByMovieId(movieId).subscribe((data: any))
+  getImageUrlForAMovie(url) {
+    return 'https://image.tmdb.org/t/p/original' + url;
   }
 }
