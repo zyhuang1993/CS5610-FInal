@@ -18,13 +18,14 @@
 <main>
   <div class="container">
     <h3>Now Playing Movies</h3>
-    <div class="media" *ngFor="let movie of movies">
-      <div class="card media-item" style="width: 18rem">
-        <img class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
+    <ul class="movie-list-group">
+      <li class="media movie-list-group-item" *ngFor="let movie of movies">
+        <div class="card media-item" style="width: 100%">
+          <img class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
           <div class="float-right">
             <div class="card-body">
               <h5 class="card-title">{{movie.title}}</h5>
-              <p class="card-text">{{movie.overview}}</p>
+              <!--<p class="card-text">{{movie.overview}}</p>-->
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">{{movie.release_date}}</li>
@@ -32,9 +33,11 @@
             <div class="card-body">
               <a href="#" class="card-link">More info</a>
             </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
+
   </div>
 </main>
 <footer></footer>

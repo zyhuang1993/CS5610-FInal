@@ -15,5 +15,16 @@ main {
   margin-top: 20px;
 }
 
+li.movie-list-group-item {
+  float: left;
+  margin-left: 20px;
+  width: 20%;
+  height: 600px;
+}
+
+.card-title {
+  height: 60px;
+}
+
 
 
