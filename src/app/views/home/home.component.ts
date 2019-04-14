@@ -8,11 +8,14 @@ import {MovieService} from '../../service/movie.client.service';
 })
 export class HomeComponent implements OnInit {
   movies: [any];
-
+  status: string;
+  loginOrProfile: string;
   constructor(private movieService: MovieService) { }
 
   ngOnInit() {
    this.findNowPlayingMoviesByPages(1);
+   this.status = '/login';
+   this.loginOrProfile = 'login';
   }
 
   findNowPlayingMoviesByPages(page) {

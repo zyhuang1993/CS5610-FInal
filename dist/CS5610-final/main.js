@@ -38,6 +38,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/movie/movie-list/movie-list.component */ "./src/app/views/movie/movie-list/movie-list.component.ts");
 /* harmony import */ var _views_home_home_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/home/home.component */ "./src/app/views/home/home.component.ts");
+/* harmony import */ var _views_user_register_register_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/user/register/register.component */ "./src/app/views/user/register/register.component.ts");
+/* harmony import */ var _views_user_login_login_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/user/login/login.component */ "./src/app/views/user/login/login.component.ts");
+
+
 
 
 
@@ -45,7 +49,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = [
     { path: '', component: _views_home_home_component__WEBPACK_IMPORTED_MODULE_4__["HomeComponent"] },
-    { path: 'movie', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] }
+    { path: 'movie', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
+    { path: 'register', component: _views_user_register_register_component__WEBPACK_IMPORTED_MODULE_5__["RegisterComponent"] },
+    { path: 'login', component: _views_user_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -141,6 +147,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/movie/movie-list/movie-list.component */ "./src/app/views/movie/movie-list/movie-list.component.ts");
 /* harmony import */ var _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/movie/movie-detail/movie-detail.component */ "./src/app/views/movie/movie-detail/movie-detail.component.ts");
 /* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./service/movie.client.service */ "./src/app/service/movie.client.service.ts");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./service/user.client.service */ "./src/app/service/user.client.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+
+
 
 
 
@@ -173,9 +183,10 @@ var AppModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_15__["FormsModule"]
             ],
-            providers: [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__["MovieService"]],
+            providers: [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_14__["UserService"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
@@ -229,6 +240,49 @@ var MovieService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/service/user.client.service.ts":
+/*!************************************************!*\
+  !*** ./src/app/service/user.client.service.ts ***!
+  \************************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+        this.apiKey = 'd2d9450a243aa2b04c0ce3439b094b25';
+        this.moviedbUrl = 'https://api.themoviedb.org/3';
+    }
+    UserService.prototype.findNowPlayingMovies = function (page) {
+        var url = this.moviedbUrl + ("/movie/now_playing?page=" + page + "&language=en-US&api_key=" + this.apiKey);
+        return this.http.get(url);
+    };
+    UserService.prototype.findImageByMovieId = function (movieId) {
+        var url = this.moviedbUrl + ("/movie/" + movieId + "/images?api_key=" + this.apiKey + "&language=en-US");
+        return this.http.get(url);
+    };
+    UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], UserService);
+    return UserService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/views/home/home.component.css":
 /*!***********************************************!*\
   !*** ./src/app/views/home/home.component.css ***!
@@ -247,7 +301,7 @@ module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"fixed-top\">\n  <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Review</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <form class=\"form-inline my-2 my-lg-0\">\n        <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search for a movie\" aria-label=\"Search\">\n        <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n      </form>\n    </div>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" href=\"#\">Profile</a>\n    </span>\n  </nav>\n</header>\n<main>\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <ul class=\"movie-list-group\">\n      <li class=\"media movie-list-group-item\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\" style=\"width: 100%\">\n          <img class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"float-right\">\n            <div class=\"card-body\">\n              <h5 class=\"card-title\">{{movie.title}}</h5>\n              <!--<p class=\"card-text\">{{movie.overview}}</p>-->\n            </div>\n            <ul class=\"list-group list-group-flush\">\n              <li class=\"list-group-item\">{{movie.release_date}}</li>\n            </ul>\n            <div class=\"card-body\">\n              <a href=\"#\" class=\"card-link\">More info</a>\n            </div>\n          </div>\n        </div>\n      </li>\n    </ul>\n\n  </div>\n</main>\n<footer></footer>\n"
+module.exports = "<header class=\"fixed-top\">\n  <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Review</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <form class=\"form-inline my-2 my-lg-0\">\n        <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search for a movie\" aria-label=\"Search\">\n        <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n      </form>\n    </div>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"{{status}}\">{{loginOrProfile}}</a>\n    </span>\n  </nav>\n</header>\n<main>\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <ul class=\"movie-list-group\">\n      <li class=\"media movie-list-group-item\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\" style=\"width: 100%\">\n          <img class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"float-right\">\n            <div class=\"card-body\">\n              <h5 class=\"card-title\">{{movie.title}}</h5>\n              <!--<p class=\"card-text\">{{movie.overview}}</p>-->\n            </div>\n            <ul class=\"list-group list-group-flush\">\n              <li class=\"list-group-item\">{{movie.release_date}}</li>\n            </ul>\n            <div class=\"card-body\">\n              <a href=\"#\" class=\"card-link\">More info</a>\n            </div>\n          </div>\n        </div>\n      </li>\n    </ul>\n\n  </div>\n</main>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -273,6 +327,8 @@ var HomeComponent = /** @class */ (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.findNowPlayingMoviesByPages(1);
+        this.status = '/login';
+        this.loginOrProfile = 'login';
     };
     HomeComponent.prototype.findNowPlayingMoviesByPages = function (page) {
         var _this = this;
@@ -484,7 +540,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  login works!\n</p>\n"
+module.exports = "<a routerLink=\"/register\">Register</a>\n"
 
 /***/ }),
 
@@ -596,7 +652,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  register works!\n</p>\n"
+module.exports = "<div class=\"container\">\n  <!--<div *ngIf=\"errorFlag\" class=\"alert alert-danger\">-->\n    <!--{{errorMsg}}-->\n  <!--</div>-->\n  <h1>Register</h1>\n  <form (ngSubmit)=\"register()\" #f=\"ngForm\">\n    <div class=\"form-group\">\n      <input type=\"text\" class=\"form-control\" name=\"username\" placeholder=\"username\" ngModel required #username=\"ngModel\"/>\n    </div>\n    <span class=\"help-block\" *ngIf=\"!username.valid && username.touched\">\n      Please Enter Username!\n    </span>\n    <div class=\"form-group\">\n      <input type=\"password\" name=\"password\" class=\"form-control\" placeholder=\"password\" ngModel required #password=\"ngModel\"/>\n    </div>\n    <span class=\"help-block\" *ngIf=\"!password.valid && password.touched\">\n      Please Enter Password!\n    </span>\n    <div class=\"form-group\">\n      <input type=\"password\" name=\"v_password\" class=\"form-control\" placeholder=\"verify password\" ngModel required #v_password=\"ngModel\"/>\n    </div>\n    <span class=\"help-block\" *ngIf=\"!v_password.valid && v_password.touched\">\n      Please verify your password!\n    </span>\n    <div class=\"form-group large-input-bottom-margin\">\n      <label for=\"FormControlSelect\"><small><b>Select account type</b></small></label>\n      <select class = \"form-control\" (change)=\"filterChanged($event.target.value)\" id=\"FormControlSelect\">\n        <option *ngFor=\"let type of filterTypes\" [value]=\"type.value\">{{type.display}}\n        </option>\n      </select>\n    </div>\n    <div class=\"form-group\">\n      <button [disabled]=\"!f.valid\" class=\"btn btn-block btn-primary\" type=\"submit\">Register</button>\n    </div>\n    <div class=\"form-group\">\n      <a routerLink=\"/login\" class=\"btn btn-block btn-success\">Cancel</a>\n    </div>\n  </form>\n\n</div>\n"
 
 /***/ }),
 
@@ -612,20 +668,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterComponent", function() { return RegisterComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
+
+
+
 
 
 var RegisterComponent = /** @class */ (function () {
-    function RegisterComponent() {
+    function RegisterComponent(userService, router) {
+        this.userService = userService;
+        this.router = router;
+        this.errorMsg = '';
+        this.filterTypes = [
+            { value: 'Admin', display: 'Admin' },
+            { value: 'Unpaid', display: 'User' },
+            { value: 'Paid', display: 'Vip' }
+        ];
+        this.errorFlag = false;
     }
     RegisterComponent.prototype.ngOnInit = function () {
+        this.errorFlag = false;
     };
+    RegisterComponent.prototype.filterChanged = function (selectedValue) {
+        this.selectedValue = selectedValue;
+    };
+    RegisterComponent.prototype.register = function () {
+        this.username = this.registerForm.value.username;
+        this.password = this.registerForm.value.password;
+        this.v_password = this.registerForm.value.v_password;
+        if (this.v_password === this.password) {
+            // const user: User = new User(Math.random() + '', this.username, this.password, this.firstName, this.lastName, this.email);
+            //   this.userService.register(user).subscribe(
+            //     (data: any) => {
+            //       if (data.message === 'User is already exist!') {
+            //         this.errorFlag = true;
+            //         this.errorMsg = 'User is already exist! Please use a new username!';
+            //       } else {
+            //         // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
+            //         this.router.navigate(['/profile']);
+            //       }
+            //     }
+            //   );
+            // } else {
+            //   this.errorFlag = true;
+            //   this.errorMsg = 'Password needs to be verified!';
+        }
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('f'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"])
+    ], RegisterComponent.prototype, "registerForm", void 0);
     RegisterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-register',
             template: __webpack_require__(/*! ./register.component.html */ "./src/app/views/user/register/register.component.html"),
             styles: [__webpack_require__(/*! ./register.component.css */ "./src/app/views/user/register/register.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_user_client_service__WEBPACK_IMPORTED_MODULE_4__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], RegisterComponent);
     return RegisterComponent;
 }());
