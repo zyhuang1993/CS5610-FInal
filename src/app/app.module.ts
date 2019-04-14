@@ -11,7 +11,9 @@ import { ProfileComponent } from './views/user/profile/profile.component';
 import { ReviewNewComponent } from './views/review/review-new/review-new.component';
 import { MovieListComponent } from './views/movie/movie-list/movie-list.component';
 import { MovieDetailComponent } from './views/movie/movie-detail/movie-detail.component';
-import {MovieService} from './service/movie.client.service';
+import { MovieService } from './service/movie.client.service';
+import { UserService } from  './service/user.client.service';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,9 +29,10 @@ import {MovieService} from './service/movie.client.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
-  providers: [MovieService],
+  providers: [MovieService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
