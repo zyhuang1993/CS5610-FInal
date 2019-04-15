@@ -50,5 +50,9 @@ h2 {
   /*overflow: hidden;*/
 /*}*/
 
+ul>li>a {
+  cursor: pointer;
+}
+
 
 
