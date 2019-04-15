@@ -18,6 +18,7 @@ import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
 import { UserListComponent } from './views/user/user-list/user-list.component';
 import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.component';
+import {PaginationService} from './service/pagination.client.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,7 @@ import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.comp
     HttpClientModule,
     FormsModule
   ],
-  providers: [MovieService, UserService, SharedService],
+  providers: [MovieService, UserService, SharedService, PaginationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
