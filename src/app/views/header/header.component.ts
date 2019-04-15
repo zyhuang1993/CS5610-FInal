@@ -9,18 +9,18 @@ import {SharedService} from '../../service/shared.client.service';
 export class HeaderComponent implements OnInit {
   status: string;
   loginOrProfile: string;
-  topViewers: string;
+  topReviews: string;
   constructor(private sharedService: SharedService) { }
 
   ngOnInit() {
     if (this.sharedService.user === null) {
       this.status = '/login';
       this.loginOrProfile = 'Login';
-      this.topViewers = '/login';
+      this.topReviews = '/login';
     } else {
       this.status = '/profile';
       this.loginOrProfile = 'Profile';
-      this.topViewers = '/reviewer';
+      this.topReviews = '/topReviews';
     }
   }
 
