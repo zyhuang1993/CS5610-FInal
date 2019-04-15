@@ -10,11 +10,12 @@ export class PaginationService {
 
   getPager(currentPage) {
     const totalPages = 30;
+    const pageSize = 10;
     let startPage: number;
     let endPage: number;
-    if (currentPage <= 10) {
+    if (currentPage <= 6) {
       startPage = 1;
-      endPage = 5;
+      endPage = 10;
     } else if (currentPage + 4 >= totalPages) {
       startPage = totalPages - 9;
       endPage = totalPages;
@@ -22,13 +23,16 @@ export class PaginationService {
       startPage = currentPage - 5;
       endPage = currentPage + 4;
     }
-
+    console.log('startpage:' + startPage);
+    console.log('current:' + currentPage);
+    console.log('end:' + endPage);
     const pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
 
     // return object with all pager properties required by the view
     return {
       currentPage,
       totalPages,
+      pageSize,
       startPage,
       endPage,
       pages
