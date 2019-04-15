@@ -5,7 +5,7 @@ var reviewSchema = require('../review/review.schema.server');
 var userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    type: {type: String, enum: ['Anonymous', 'Admin', 'Unpaid', 'Paid']},
+    type: {type: String, enum: ['Admin', 'Unpaid', 'Paid']},
     reviews : [reviewSchema],
     favorite: [movieSchema],
     follower: {type: mongoose.Schema.ObjectId, ref: "User"},

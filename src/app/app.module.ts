@@ -13,7 +13,10 @@ import { MovieListComponent } from './views/movie/movie-list/movie-list.componen
 import { MovieDetailComponent } from './views/movie/movie-detail/movie-detail.component';
 import { MovieService } from './service/movie.client.service';
 import { UserService } from  './service/user.client.service';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './views/header/header.component';
+import { SharedService } from './service/shared.client.service';
+import { UserListComponent } from './views/user/user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import {FormsModule} from '@angular/forms';
     ProfileComponent,
     ReviewNewComponent,
     MovieListComponent,
-    MovieDetailComponent
+    MovieDetailComponent,
+    HeaderComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +37,7 @@ import {FormsModule} from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [MovieService, UserService],
+  providers: [MovieService, UserService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
