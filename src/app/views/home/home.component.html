@@ -1,25 +1,25 @@
 <app-header></app-header>
 <main>
+  <div class="home-background">
+    <h1>Welcome to Movie Reivew!</h1>
+    <h2>It's movie time!</h2>
+  </div>
   <div class="container">
     <h3>Now Playing Movies</h3>
-    <ul class="movie-list-group">
-      <li class="media movie-list-group-item" *ngFor="let movie of movies">
-        <div class="card media-item" style="width: 100%">
+    <div class="card-columns">
+      <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
+        <div class="card media-item">
           <img class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
-          <div class="float-right">
-            <div class="card-body">
-              <h5 class="card-title">{{movie.title}}</h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Release Date: {{movie.release_date}}</li>
-            </ul>
-            <div class="card-body">
-              <a href="#" class="card-link">More info</a>
-            </div>
+          <div class="card-body">
+            <h5 class="card-title">{{movie.title}}</h5>
+          </div>
+          <div class="card-footer">
+            <p>{{movie.release_date}}</p>
+            <a href="#" class="card-link">More info</a>
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </main>
 <footer>

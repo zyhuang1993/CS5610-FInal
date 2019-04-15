@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
 import { UserListComponent } from './views/user/user-list/user-list.component';
+import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { UserListComponent } from './views/user/user-list/user-list.component';
     MovieListComponent,
     MovieDetailComponent,
     HeaderComponent,
-    UserListComponent
+    UserListComponent,
+    TopReivewsComponent
   ],
   imports: [
     BrowserModule,
