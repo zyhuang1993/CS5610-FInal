@@ -412,7 +412,11 @@ module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+<<<<<<< HEAD
+module.exports = "<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <ul class=\"movie-list-group\">\n      <li class=\"media movie-list-group-item\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\" style=\"width: 100%\">\n          <img class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"float-right\">\n            <div class=\"card-body\">\n              <h5 class=\"card-title\">{{movie.title}}</h5>\n            </div>\n            <ul class=\"list-group list-group-flush\">\n              <li class=\"list-group-item\">Release Date: {{movie.release_date}}</li>\n            </ul>\n            <div class=\"card-body\">\n              <a href=\"#\" class=\"card-link\">More info</a>\n            </div>\n          </div>\n        </div>\n      </li>\n    </ul>\n  </div>\n</main>\n<footer>\n  <p id=\"dynamic-content\">Pagination goes here</p>\n  <p id=\"show-paginator\"></p>\n</footer>\n"
+=======
 module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to Movie Reivew!</h1>\n    <h2>It's movie time!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\">\n          <img class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">{{movie.title}}</h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a href=\"#\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n<footer></footer>\n"
+>>>>>>> master
 
 /***/ }),
 
@@ -540,7 +544,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header>\n  <nav class=\"navbar navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Reviews</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <ul class=\"navbar-nav mr-auto\">\n        <li class=\"nav-item active\">\n          <a class=\"nav-link\" href=\"#\">Home</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">Discover</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">Movies</a>\n        </li>\n      </ul>\n      <span class=\"navbar-text\">\n      Navbar text with an inline element\n    </span>\n    </div>\n  </nav>\n</header>\n<main></main>\n<footer></footer>\n"
+module.exports = "<header>\n</header>\n<main></main>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -1051,7 +1055,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })
