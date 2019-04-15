@@ -10,25 +10,12 @@
       <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
         <div class="card media-item">
           <img class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
-<<<<<<< HEAD
-          <div class="float-right">
-            <div class="card-body">
-              <h5 class="card-title">{{movie.title}}</h5>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Release Data {{movie.release_date}}</li>
-            </ul>
-            <div class="card-body">
-              <a href="#" class="card-link">More info</a>
-            </div>
-=======
           <div class="card-body">
             <h5 class="card-title">{{movie.title}}</h5>
           </div>
           <div class="card-footer">
             <p>{{movie.release_date}}</p>
             <a href="#" class="card-link">More info</a>
->>>>>>> 152a3cfe3e2ca828176f9ccba8aa26a47133067e
           </div>
         </div>
       </div>
