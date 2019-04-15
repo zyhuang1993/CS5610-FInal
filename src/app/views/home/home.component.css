@@ -2,10 +2,6 @@ body {
   font-family: 'Source Sans Pro', Arial, sans-serif;
 }
 
-main {
-  margin-top: 110px;
-}
-
 .navbar-profile {
   font-size: 20px;
   font-weight: bold;
@@ -15,16 +11,44 @@ main {
   margin-top: 20px;
 }
 
-li.movie-list-group-item {
-  float: left;
-  margin-left: 20px;
-  width: 20%;
-  height: 600px;
+.home-background {
+  background-image: url("../../../assets/images/cinema.jpg");
+  background-repeat: no-repeat;
+  height: 550px;
+  position: relative;
+  background-size: 100% 100%;
+  text-align:center;
 }
 
-.card-title {
-  height: 60px;
+h1 {
+  padding-top: 180px;
+  margin-left: 22%;
+  width: 56%;
 }
+
+h2 {
+  margin-left: 22%;
+  width: 56%;
+}
+
+.container {
+  margin-top: 30px;
+}
+
+/*.card-img-top {*/
+  /*height: 30%;*/
+/*}*/
+/*li.movie-list-group-item {*/
+  /*float: left;*/
+  /*margin-left: 20px;*/
+  /*width: 20%;*/
+  /*height: 600px;*/
+/*}*/
+
+/*.card-title {*/
+  /*height: 60px;*/
+  /*overflow: hidden;*/
+/*}*/
 
 
 

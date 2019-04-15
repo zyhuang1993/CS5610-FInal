@@ -1,27 +1,16 @@
-<header class="fixed-top">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Movie Review</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search for a movie" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </div>
-    <span class="navbar-text navbar-profile">
-      <a class="nav-link" routerLink="{{status}}">{{loginOrProfile}}</a>
-    </span>
-  </nav>
-</header>
+<app-header></app-header>
 <main>
+  <div class="home-background">
+    <h1>Welcome to Movie Reivew!</h1>
+    <h2>It's movie time!</h2>
+  </div>
   <div class="container">
     <h3>Now Playing Movies</h3>
-    <ul class="movie-list-group">
-      <li class="media movie-list-group-item" *ngFor="let movie of movies">
-        <div class="card media-item" style="width: 100%">
+    <div class="card-columns">
+      <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
+        <div class="card media-item">
           <img class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
+<<<<<<< HEAD
           <div class="float-right">
             <div class="card-body">
               <h5 class="card-title">{{movie.title}}</h5>
@@ -32,11 +21,18 @@
             <div class="card-body">
               <a href="#" class="card-link">More info</a>
             </div>
+=======
+          <div class="card-body">
+            <h5 class="card-title">{{movie.title}}</h5>
+          </div>
+          <div class="card-footer">
+            <p>{{movie.release_date}}</p>
+            <a href="#" class="card-link">More info</a>
+>>>>>>> 152a3cfe3e2ca828176f9ccba8aa26a47133067e
           </div>
         </div>
-      </li>
-    </ul>
-
+      </div>
+    </div>
   </div>
 </main>
 <footer></footer>
