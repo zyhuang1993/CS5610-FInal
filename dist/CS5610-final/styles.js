@@ -557,7 +557,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/styles.css */"./src/styles.css");
 
 
 /***/ })
