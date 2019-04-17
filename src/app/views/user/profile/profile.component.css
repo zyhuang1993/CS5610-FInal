@@ -5,19 +5,31 @@ body {
   background-size: 100% 100%;
 }
 
-.head-background {
-  background-image: url("../../../../assets/images/default-heads.jpg");
-  background-repeat: no-repeat;
-  position: relative;
-  background-size: 100% 100%;
-  height: 300px;
+.user-info {
+  margin-top: 20px;
+  width: 80%;
+  margin-left: 10%;
 }
 
-#big-name {
+.user-main {
+  margin-top: 40px;
+  /*z-index: 200;*/
+}
+
+.edit-form {
+  margin-top: 40px;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.user-follow {
+  text-align: right;
   position: relative;
-  width: 200px;
-  z-index: 100;
-  font-size: 30px;
-  font-weight: bold;
-  background: aqua;
+  left: 20%;
+}
+
+.update {
+  color: white !important;
 }

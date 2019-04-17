@@ -7,16 +7,49 @@
       {{errorMsg}}
     </div>
     <div class="container">
-      <div class="head-background">
-        <a id="big-name">{{user.username}}</a>
-      </div>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" [(ngModel)]="user.username" id="username" placeholder="{{user.username}}"/>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" [(ngModel)]="user.password" id="password" placeholder="{{user.password}}"/>
+      <div class="row colrow user-info">
+        <div class="col-sm-4 d-none d-sm-block user-main">
+          <div class="media d-done d-sm-block">
+            <div class="card">
+              <img  class="card-img-top" [src]="getUserImg()" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title"><span class="badge badge-secondary">{{user.username}}</span></h5>
+              </div>
+              <div class="card-footer">
+                <p><a routerLink="/user-list" class="card-link">Followers</a><span class="user-follow">{{user.follower.length}}</span></p>
+                <p><a routerLink="/user-list" class="card-link">Following</a><span class="user-follow">{{user.following.length}}</span></p>
+                <p><a routerLink="/review-list" class="card-link">Review History </a></p>
+                <p><a routerLink="/favorite-movie" class="card-link">Favorite Movies</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-8 right-form edit-form">
+          <h2>Edit Your Profile</h2>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" [(ngModel)]="user.username" id="username" placeholder="{{user.username}}"/>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" [(ngModel)]="user.password" id="password" placeholder="{{user.password}}"/>
+          </div>
+          <div class="form-group">
+            <label for="image-URL">URL</label>
+            <input type="text" class="form-control" id="image-URL" [(ngModel)]="user.img" placeholder="{{user.img}}">
+          </div>
+          <div class="form-group large-input-bottom-margin">
+            <label for="FormControlSelect"><small><b>Select account type</b></small></label>
+            <select class = "form-control" (change)="filterChanged($event.target.value)" id="FormControlSelect">
+              <option *ngFor="let type of filterTypes" [value]="type.value">{{type.display}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <a (click)="updateUser()" class="update btn btn-block btn-primary">Update Your Info</a>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>

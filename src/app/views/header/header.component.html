@@ -11,7 +11,7 @@
       <a class="nav-link" routerLink="/movie">Movies</a>
     </span>
     <span class="navbar-text navbar-profile">
-      <a class="nav-link" routerLink="{{topMovies}}">Top Reviews</a>
+      <a class="nav-link" routerLink="{{topMovies}}">Top Movies</a>
     </span>
     <div class="collapse navbar-collapse" id="navbarText">
       <form class="form-inline my-2 my-lg-0">
@@ -19,14 +19,16 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
-    <span class="navbar-text navbar-profile">
-      <a class="nav-link" routerLink="{{status}}">{{loginOrProfile}}</a>
-    </span>
-    <span class="navbar-text navbar-profile">
-      <a class="nav-link" routerLink="/profile">Profile</a>
-    </span>
-    <span class="navbar-text navbar-profile">
-      <a class="nav-link" *ngIf="loggedIn" routerLink="{{logoutPath}}">{{logout}}</a>
-    </span>
+    <div class="collapse navbar-collapse">
+      <span class="navbar-text navbar-profile">
+        <a class="nav-link" routerLink="{{status}}">{{loginOrProfile}}</a>
+      </span>
+      <span class="navbar-text navbar-profile">
+        <a class="nav-link" routerLink="/profile">Profile</a>
+      </span>
+      <span class="navbar-text navbar-profile">
+        <a class="nav-link" *ngIf="loggedIn" routerLink="{{logoutPath}}">{{logout}}</a>
+      </span>
+    </div>
   </nav>
 </header>
