@@ -12,7 +12,7 @@ import { ReviewNewComponent } from './views/review/review-new/review-new.compone
 import { MovieListComponent } from './views/movie/movie-list/movie-list.component';
 import { MovieDetailComponent } from './views/movie/movie-detail/movie-detail.component';
 import { MovieService } from './service/movie.client.service';
-import { UserService } from  './service/user.client.service';
+import { UserService } from './service/user.client.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
