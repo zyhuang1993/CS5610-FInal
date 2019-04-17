@@ -1,0 +1,23 @@
+body {
+  background-image: url("../../../../assets/images/login-background.jpg");
+  background-repeat: no-repeat;
+  position: relative;
+  background-size: 100% 100%;
+}
+
+.head-background {
+  background-image: url("../../../../assets/images/default-heads.jpg");
+  background-repeat: no-repeat;
+  position: relative;
+  background-size: 100% 100%;
+  height: 300px;
+}
+
+#big-name {
+  position: relative;
+  width: 200px;
+  z-index: 100;
+  font-size: 30px;
+  font-weight: bold;
+  background: aqua;
+}
