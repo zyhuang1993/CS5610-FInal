@@ -17,8 +17,11 @@ import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
 import { UserListComponent } from './views/user/user-list/user-list.component';
-import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {PaginationService} from './service/pagination.client.service';
+import { ReviewListComponent } from './views/review/review-list/review-list.component';
 
 @NgModule({
   declarations: [
@@ -32,15 +35,17 @@ import {PaginationService} from './service/pagination.client.service';
     MovieDetailComponent,
     HeaderComponent,
     UserListComponent,
-    TopReivewsComponent
+    ReviewListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
   ],
-  providers: [MovieService, UserService, SharedService, PaginationService],
+  providers: [MovieService, UserService, SharedService, PaginationService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

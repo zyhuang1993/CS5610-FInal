@@ -1,10 +1,12 @@
+<html>
+<body>
 <app-header></app-header>
 <main>
   <div class="container">
-    <!--<div *ngIf="errorFlag" class="alert alert-danger">-->
-    <!--{{errorMsg}}-->
-    <!--</div>-->
-    <h1>Register</h1>
+    <div *ngIf="errorFlag" class="alert alert-danger">
+    {{errorMsg}}
+    </div>
+    <h1>Register for a community membership</h1>
     <form (ngSubmit)="register()" #f="ngForm">
       <div class="form-group">
         <input type="text" class="form-control" name="username" placeholder="username" ngModel required #username="ngModel"/>
@@ -40,4 +42,6 @@
     </form>
   </div>
 </main>
+</body>
+</html>
 
