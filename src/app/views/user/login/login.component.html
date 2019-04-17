@@ -1,10 +1,12 @@
+<html>
+<body>
 <app-header></app-header>
 <main>
   <div class="container">
     <div *ngIf="errorFlag" class="alert alert-danger">
       {{errorMsg}}
     </div>
-    <h1>Login</h1>
+    <h1>Login to start your journey</h1>
     <form (ngSubmit)="login()" #f="ngForm">
       <div class="form-group">
         <input type="text" class="form-control" name="username" placeholder="username" ngModel required #username="ngModel"/>
@@ -22,7 +24,7 @@
         <button [disabled]="!f.valid" class="btn btn-block btn-primary" type="submit">Login</button>
       </div>
       <div class="form-group">
-        <a href="/facebook/login" class="btn btn-primary btn-block"> <span class="fa fa-facebook"></span> Facebook </a>
+        <a href="/facebook/login" class="btn btn-primary btn-block"> <span><i class="fab fa-facebook-square"></i></span> Facebook </a>
       </div>
       <div class="form-group">
         <a routerLink="/register" class="btn btn-block btn-success">Register</a>
@@ -30,4 +32,8 @@
     </form>
   </div>
 </main>
+</body>
+</html>
+
+
 
