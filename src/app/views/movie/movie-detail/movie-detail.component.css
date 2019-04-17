@@ -1,0 +1,44 @@
+main {
+  margin-top: 70px;
+}
+
+
+.detail-background {
+  background-color: #0c286e;
+  background-repeat: no-repeat;
+  height: 600px;
+  position: relative;
+  background-size: 100% 100%;
+  text-align:center;
+}
+
+.container {
+  padding-top: 30px;
+}
+
+.poster {
+  width: 240px;
+  height: 500px;
+}
+
+.movie-title {
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  text-align: left;
+}
+
+.movie-poster {
+  margin-left: 100px;
+}
+.movie-description {
+  margin-left: 0px;
+}
+
+.description-content {
+  color: white;
+  text-align: left;
+  font-size: 18px;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+}

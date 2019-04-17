@@ -34,7 +34,6 @@ export class HomeComponent implements OnInit {
 
   setPage(page) {
     this.pager = this.paginationService.getPager(page);
-    console.log(this.pager.pages);
     this.findNowPlayingMoviesByPages(page);
   }
 }
