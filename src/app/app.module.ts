@@ -12,7 +12,7 @@ import { ReviewNewComponent } from './views/review/review-new/review-new.compone
 import { MovieListComponent } from './views/movie/movie-list/movie-list.component';
 import { MovieDetailComponent } from './views/movie/movie-detail/movie-detail.component';
 import { MovieService } from './service/movie.client.service';
-import { UserService } from  './service/user.client.service';
+import { UserService } from './service/user.client.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
@@ -44,7 +44,11 @@ import { ReviewListComponent } from './views/review/review-list/review-list.comp
     FormsModule,
     BrowserAnimationsModule,
   ],
+<<<<<<< HEAD
+  providers: [MovieService, UserService, SharedService, PaginationService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+=======
   providers: [MovieService, UserService, SharedService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+>>>>>>> 912b7a157202af2c31526a0a52fe090863374853
   bootstrap: [AppComponent]
 })
 
