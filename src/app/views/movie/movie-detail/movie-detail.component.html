@@ -1,3 +1,27 @@
-<p>
-  movie-detail works!
-</p>
+<app-header></app-header>
+<main>
+  <div class="detail-background">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <img class="poster movie-poster" [src]="getImageUrlForAMovie(movie.poster_path)" alt="movie poster">
+        </div>
+        <div class="col-6 movie-description">
+          <div class="movie-title">
+            {{movie.original_title}}
+          </div>
+          <div class="icon">
+
+          </div>
+          <div class="description-content">
+            {{movie.release_date}}
+          </div>
+          <div class="description-content">
+            {{movie.overview}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer></footer>
