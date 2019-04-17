@@ -18,13 +18,10 @@ import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
 import { UserListComponent } from './views/user/user-list/user-list.component';
 import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.component';
-<<<<<<< HEAD
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {RouterModule} from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-=======
 import {PaginationService} from './service/pagination.client.service';
->>>>>>> master
 
 @NgModule({
   declarations: [
@@ -47,11 +44,7 @@ import {PaginationService} from './service/pagination.client.service';
     FormsModule,
     BrowserAnimationsModule,
   ],
-<<<<<<< HEAD
   providers: [MovieService, UserService, SharedService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
-=======
-  providers: [MovieService, UserService, SharedService, PaginationService],
->>>>>>> master
   bootstrap: [AppComponent]
 })
 
