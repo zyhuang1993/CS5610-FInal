@@ -22,6 +22,8 @@ import { RouterModule } from '@angular/router';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {PaginationService} from './service/pagination.client.service';
 import { ReviewListComponent } from './views/review/review-list/review-list.component';
+import { FavoriteMovieComponent } from './views/movie/favorite-movie/favorite-movie.component';
+import { OtherUserComponent } from './views/user/other-user/other-user.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { ReviewListComponent } from './views/review/review-list/review-list.comp
     MovieDetailComponent,
     HeaderComponent,
     UserListComponent,
-    ReviewListComponent
+    ReviewListComponent,
+    FavoriteMovieComponent,
+    OtherUserComponent
   ],
   imports: [
     BrowserModule,
