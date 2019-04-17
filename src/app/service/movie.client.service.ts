@@ -15,8 +15,9 @@ export class MovieService {
     return this.http.get(url);
   }
 
-  findImageByMovieId(movieId) {
-    const url = this.moviedbUrl + `/movie/${movieId}/images?api_key=${this.apiKey}&language=en-US`;
+  findMovieDetailsById(movieId) {
+    const url = this.moviedbUrl + `/movie/${movieId}?api_key=${this.apiKey}&language=en-US`;
     return this.http.get(url);
   }
+
 }

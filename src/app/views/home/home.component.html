@@ -9,13 +9,13 @@
     <div class="card-columns">
       <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
         <div class="card media-item">
-          <img class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
+          <img  class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">{{movie.title}}</h5>
           </div>
           <div class="card-footer">
             <p>{{movie.release_date}}</p>
-            <a href="#" class="card-link">More info</a>
+            <a routerLink="/movie/{{movie.id}}" class="card-link">More info</a>
           </div>
         </div>
       </div>
