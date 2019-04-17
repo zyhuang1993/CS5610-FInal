@@ -1,0 +1,35 @@
+body {
+  background-image: url("../../../../assets/images/login-background.jpg");
+  background-repeat: no-repeat;
+  position: relative;
+  background-size: 100% 100%;
+}
+
+.user-info {
+  margin-top: 20px;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.user-main {
+  margin-top: 40px;
+  /*z-index: 200;*/
+}
+
+.edit-form {
+  margin-top: 40px;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.user-follow {
+  text-align: right;
+  position: relative;
+  left: 20%;
+}
+
+.update {
+  color: white !important;
+}

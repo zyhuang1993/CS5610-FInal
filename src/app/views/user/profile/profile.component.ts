@@ -6,8 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  @Input()
-  ngStyle: { [key: string]: string; };
+
   user: any;
   selectedValue: string;
   public filterTypes = [
