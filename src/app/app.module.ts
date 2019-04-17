@@ -24,6 +24,8 @@ import {PaginationService} from './service/pagination.client.service';
 import { ReviewListComponent } from './views/review/review-list/review-list.component';
 import { FavoriteMovieComponent } from './views/movie/favorite-movie/favorite-movie.component';
 import { OtherUserComponent } from './views/user/other-user/other-user.component';
+import { FollowerListComponent } from './views/user/follower-list/follower-list.component';
+import { FollowingListComponent } from './views/user/following-list/following-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { OtherUserComponent } from './views/user/other-user/other-user.component
     UserListComponent,
     ReviewListComponent,
     FavoriteMovieComponent,
-    OtherUserComponent
+    OtherUserComponent,
+    FollowerListComponent,
+    FollowingListComponent
   ],
   imports: [
     BrowserModule,

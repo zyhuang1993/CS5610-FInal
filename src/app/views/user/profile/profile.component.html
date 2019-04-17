@@ -16,8 +16,9 @@
                 <h5 class="card-title"><span class="badge badge-secondary">{{user.username}}</span></h5>
               </div>
               <div class="card-footer">
-                <p><a routerLink="/user-list" class="card-link">Followers</a><span class="user-follow">{{user.follower.length}}</span></p>
-                <p><a routerLink="/user-list" class="card-link">Following</a><span class="user-follow">{{user.following.length}}</span></p>
+                <p *ngIf="isAdmin"><a routerLink="/user-list" class="card-link">Manage User</a></p>
+                <p><a routerLink="/follower-list" class="card-link">Followers</a><span class="user-follow">{{user.follower.length}}</span></p>
+                <p><a routerLink="/following-list" class="card-link">Following</a><span class="user-follow">{{user.following.length}}</span></p>
                 <p><a routerLink="/review-list" class="card-link">Review History </a></p>
                 <p><a routerLink="/favorite-movie" class="card-link">Favorite Movies</a></p>
               </div>
