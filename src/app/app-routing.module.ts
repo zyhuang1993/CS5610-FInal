@@ -8,6 +8,8 @@ import {UserListComponent} from './views/user/user-list/user-list.component';
 import {MovieDetailComponent} from './views/movie/movie-detail/movie-detail.component';
 import {ProfileComponent} from './views/user/profile/profile.component';
 import {FavoriteMovieComponent} from './views/movie/favorite-movie/favorite-movie.component';
+import {FollowerListComponent} from './views/user/follower-list/follower-list.component';
+import {FollowingListComponent} from './views/user/following-list/following-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,7 +20,9 @@ const routes: Routes = [
   {path: 'topMovies', component: MovieListComponent},
   {path: 'movie/:movieId', component: MovieDetailComponent},
   {path: 'user-list', component: UserListComponent},
-  {path: 'favorite-movie', component: FavoriteMovieComponent}
+  {path: 'favorite-movie', component: FavoriteMovieComponent},
+  {path: 'follower-list', component: FollowerListComponent},
+  {path: 'following-list', component: FollowingListComponent}
 ];
 
 @NgModule({
