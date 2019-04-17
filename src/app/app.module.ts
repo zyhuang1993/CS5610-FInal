@@ -18,6 +18,9 @@ import { HeaderComponent } from './views/header/header.component';
 import { SharedService } from './service/shared.client.service';
 import { UserListComponent } from './views/user/user-list/user-list.component';
 import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule} from '@angular/router';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -37,9 +40,11 @@ import { TopReivewsComponent } from './views/review/top-reivews/top-reivews.comp
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
   ],
-  providers: [MovieService, UserService, SharedService],
+  providers: [MovieService, UserService, SharedService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
