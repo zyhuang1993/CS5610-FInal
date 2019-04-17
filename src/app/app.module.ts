@@ -44,7 +44,11 @@ import { ReviewListComponent } from './views/review/review-list/review-list.comp
     FormsModule,
     BrowserAnimationsModule,
   ],
+<<<<<<< HEAD
   providers: [MovieService, UserService, SharedService, PaginationService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+=======
+  providers: [MovieService, UserService, SharedService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+>>>>>>> 912b7a157202af2c31526a0a52fe090863374853
   bootstrap: [AppComponent]
 })
 
