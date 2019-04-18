@@ -10,6 +10,8 @@ import {ProfileComponent} from './views/user/profile/profile.component';
 import {FavoriteMovieComponent} from './views/movie/favorite-movie/favorite-movie.component';
 import {FollowerListComponent} from './views/user/follower-list/follower-list.component';
 import {FollowingListComponent} from './views/user/following-list/following-list.component';
+import {OtherUserComponent} from './views/user/other-user/other-user.component';
+import {ReviewListComponent} from './views/review/review-list/review-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -19,10 +21,12 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'topMovies', component: MovieListComponent},
   {path: 'movie/:movieId', component: MovieDetailComponent},
-  {path: 'user-list', component: UserListComponent},
-  {path: 'favorite-movie', component: FavoriteMovieComponent},
-  {path: 'follower-list', component: FollowerListComponent},
-  {path: 'following-list', component: FollowingListComponent}
+  {path: 'user/user-list', component: UserListComponent},
+  {path: 'user/:username', component: OtherUserComponent},
+  {path: 'user/favorite-movie', component: FavoriteMovieComponent},
+  {path: 'user/follower-list', component: FollowerListComponent},
+  {path: 'user/following-list', component: FollowingListComponent},
+  {path: 'user/review-list', component: ReviewListComponent}
 ];
 
 @NgModule({
