@@ -46,6 +46,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/movie/favorite-movie/favorite-movie.component */ "./src/app/views/movie/favorite-movie/favorite-movie.component.ts");
 /* harmony import */ var _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/user/follower-list/follower-list.component */ "./src/app/views/user/follower-list/follower-list.component.ts");
 /* harmony import */ var _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/user/following-list/following-list.component */ "./src/app/views/user/following-list/following-list.component.ts");
+/* harmony import */ var _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/review/review-new/review-new.component */ "./src/app/views/review/review-new/review-new.component.ts");
+
 
 
 
@@ -66,6 +68,7 @@ var routes = [
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"] },
     { path: 'login', component: _views_user_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"] },
     { path: 'movie/:dbId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
+    { path: 'movie/:dbId/review-new', component: _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__["ReviewNewComponent"] },
     { path: 'topMovies', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
     { path: 'user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"] },
     { path: 'favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"] },
@@ -340,9 +343,6 @@ var PaginationService = /** @class */ (function () {
             startPage = currentPage - 5;
             endPage = currentPage + 4;
         }
-        console.log('startpage:' + startPage);
-        console.log('current:' + currentPage);
-        console.log('end:' + endPage);
         var pages = Array.from(Array((endPage + 1) - startPage).keys()).map(function (i) { return startPage + i; });
         // return object with all pager properties required by the view
         return {
@@ -665,7 +665,7 @@ module.exports = "\nbody {\n  margin-top: -10px;\n  background-image: linear-gra
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"movieInMongo&&movieInMongo.rate\">\n              User Score: {{movieInMongo.rate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"movieInMongo&&movieInMongo.rate\">\n              User Score: {{movieInMongo.rate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <a *ngIf=\"loggedIn\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -690,10 +690,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MovieDetailComponent = /** @class */ (function () {
-    function MovieDetailComponent(movieService, activatedRoute, sharedService) {
+    function MovieDetailComponent(movieService, activatedRoute, sharedService, router) {
         this.movieService = movieService;
         this.activatedRoute = activatedRoute;
         this.sharedService = sharedService;
+        this.router = router;
         this.loggedIn = true;
         this.movie = '';
         this.trails = '';
@@ -720,14 +721,28 @@ var MovieDetailComponent = /** @class */ (function () {
         if (url) {
             return 'https://image.tmdb.org/t/p/original' + url;
         }
-        else {
-            return '../../../../assets/images/coming-soon.jpg';
-        }
-    };
-    MovieDetailComponent.prototype.getRateForAMovie = function (dbId) {
     };
     MovieDetailComponent.prototype.getTrailUrl = function (key) {
         return 'https://www.youtube.com/embed/' + key;
+    };
+    MovieDetailComponent.prototype.navigateToReview = function () {
+        var _this = this;
+        if (this.movieInMongo) {
+            this.router.navigate(['/movie/:dbID/review-new']);
+        }
+        else {
+            var newMovie = {
+                title: this.movie.original_title,
+                rate: undefined,
+                db_id: this.dbId,
+                reviews: []
+            };
+            console.log(newMovie);
+            this.movieService.createMovie(newMovie).subscribe(function (data) {
+                _this.movieInMongo = data;
+                _this.router.navigate(['/movie/:dbID/review-new']);
+            });
+        }
     };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -735,7 +750,7 @@ var MovieDetailComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./movie-detail.component.html */ "./src/app/views/movie/movie-detail/movie-detail.component.html"),
             styles: [__webpack_require__(/*! ./movie-detail.component.css */ "./src/app/views/movie/movie-detail/movie-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], MovieDetailComponent);
     return MovieDetailComponent;
 }());

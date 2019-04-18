@@ -23,9 +23,6 @@ export class PaginationService {
       startPage = currentPage - 5;
       endPage = currentPage + 4;
     }
-    console.log('startpage:' + startPage);
-    console.log('current:' + currentPage);
-    console.log('end:' + endPage);
     const pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
 
     // return object with all pager properties required by the view
