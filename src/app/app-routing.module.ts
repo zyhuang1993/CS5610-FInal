@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'topMovies', component: MovieListComponent},
   {path: 'movie/:movieId', component: MovieDetailComponent},
   {path: 'user/user-list', component: UserListComponent},
-  {path: 'user/:username', component: OtherUserComponent},
+  {path: 'users/:username', component: OtherUserComponent},
   {path: 'user/favorite-movie', component: FavoriteMovieComponent},
   {path: 'user/follower-list', component: FollowerListComponent},
   {path: 'user/following-list', component: FollowingListComponent},

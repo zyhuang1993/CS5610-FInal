@@ -10,6 +10,8 @@ export class ProfileComponent implements OnInit {
   user: any;
   selectedValue: string;
   isAdmin: boolean;
+  errorFlag: boolean;
+  errorMsg = '';
   public filterTypes = [
     {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
@@ -29,9 +31,9 @@ export class ProfileComponent implements OnInit {
     this.user.type = 'Admin';
     this.isAdmin = true;
   }
-  
+
   getUserImg() {
-    if (this.user.img == '') {
+    if (this.user.img === '') {
       return '../../../../assets/images/default-heads.jpg';
     } else {
       return this.user.img;

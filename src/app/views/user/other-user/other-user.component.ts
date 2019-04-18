@@ -8,13 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class OtherUserComponent implements OnInit {
 
   user: any;
-  selectedValue: string;
   follow: string;
-  public filterTypes = [
-    {value: 'Admin', display: 'Admin'},
-    {value: 'Unpaid', display: 'User'},
-    {value: 'Paid', display: 'Vip'}
-  ];
+  errorFlag: boolean;
+  errorMsg = '';
   constructor() { }
 
   ngOnInit() {
@@ -30,7 +26,7 @@ export class OtherUserComponent implements OnInit {
   }
 
   getUserImg() {
-    if (this.user.img == '') {
+    if (this.user.img === '') {
       return '../../../../assets/images/default-heads.jpg';
     } else {
       return this.user.img;
@@ -45,10 +41,6 @@ export class OtherUserComponent implements OnInit {
     //   }
     // );
     // alert('Update successfully!');
-  }
-
-  filterChanged(selectedValue: string){
-    this.selectedValue = selectedValue;
   }
   
   followUser() {
