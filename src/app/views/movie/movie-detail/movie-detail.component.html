@@ -1,27 +1,45 @@
+<html>
 <app-header></app-header>
+<body>
 <main>
-  <div class="detail-background">
     <div class="container">
       <div class="row">
-        <div class="col-6">
+        <div class="col-sm">
           <img class="poster movie-poster" [src]="getImageUrlForAMovie(movie.poster_path)" alt="movie poster">
         </div>
-        <div class="col-6 movie-description">
+        <div class="col-md movie-description">
           <div class="movie-title">
             {{movie.original_title}}
           </div>
-          <div class="icon">
-
-          </div>
           <div class="description-content">
             {{movie.release_date}}
+          </div>
+          <div class="icon description-content">
+            <span *ngIf="!movieInMongo ||!movieInMongo.rate">
+              Waiting for review
+            </span>
+            <span *ngIf="movieInMongo&&movieInMongo.rate">
+              User Score: {{movieInMongo.rate}}/100
+            </span>
+            <a *ngIf="loggedIn" class=" far fa-heart icon-item"></a>
+            <a *ngIf="loggedIn" class="far fa-star icon-item"></a>
+            <a *ngIf="loggedIn" class="fas fa-list icon-item"></a>
+            <!--<a href="#" class="fas fa-play icon-item"><span class="icon-text"> Play Traileir</span></a>-->
+          </div>
+          <div class="description-title">
+            Overview
           </div>
           <div class="description-content">
             {{movie.overview}}
           </div>
         </div>
       </div>
+      <div class="trails">
+        <span *ngFor="let trail of trails">
+          <iframe width="640" height="360" frameborder="0" allowfullscreen [src]="getTrailUrl(trail.key)"></iframe>
+        </span>
+      </div>
     </div>
-  </div>
 </main>
+</body>
 <footer></footer>
