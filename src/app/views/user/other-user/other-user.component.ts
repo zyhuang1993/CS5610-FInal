@@ -1,15 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  selector: 'app-other-user',
+  templateUrl: './other-user.component.html',
+  styleUrls: ['./other-user.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class OtherUserComponent implements OnInit {
 
   user: any;
   selectedValue: string;
-  isAdmin: boolean;
   public filterTypes = [
     {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
@@ -26,10 +25,8 @@ export class ProfileComponent implements OnInit {
     // this.user.reviews = [];
     // this.user.favorite = [];
     this.user.img = '../../../../assets/images/default-heads.jpg';
-    this.user.type = 'Admin';
-    this.isAdmin = true;
   }
-  
+
   getUserImg() {
     if (this.user.img == '') {
       return '../../../../assets/images/default-heads.jpg';
@@ -50,7 +47,6 @@ export class ProfileComponent implements OnInit {
 
   filterChanged(selectedValue: string){
     this.selectedValue = selectedValue;
-    this.isAdmin = this.selectedValue === 'Admin';
   }
 
 }
