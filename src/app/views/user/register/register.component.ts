@@ -13,6 +13,7 @@ export class RegisterComponent implements OnInit {
   username: string;
   password: string;
   v_password: string;
+  img: string;
   selectedValue: string;
   errorFlag: boolean;
   errorMsg = '';
@@ -39,7 +40,7 @@ export class RegisterComponent implements OnInit {
     this.username = this.registerForm.value.username;
     this.password = this.registerForm.value.password;
     this.v_password = this.registerForm.value.v_password;
-
+    this.img = this.registerForm.value.img;
     if (this.v_password === this.password) {
       // const user: User = new User(Math.random() + '', this.username, this.password, this.firstName, this.lastName, this.email);
 
