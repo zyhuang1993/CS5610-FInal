@@ -65,8 +65,8 @@ var routes = [
     { path: 'register', component: _views_user_register_register_component__WEBPACK_IMPORTED_MODULE_5__["RegisterComponent"] },
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"] },
     { path: 'login', component: _views_user_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"] },
+    { path: 'movie/:dbId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
     { path: 'topMovies', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
-    { path: 'movie/:movieId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
     { path: 'user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"] },
     { path: 'favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"] },
     { path: 'follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"] },
@@ -259,6 +259,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+
 
 
 
@@ -267,7 +269,9 @@ var MovieService = /** @class */ (function () {
         this.http = http;
         this.apiKey = 'd2d9450a243aa2b04c0ce3439b094b25';
         this.moviedbUrl = 'https://api.themoviedb.org/3';
+        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].baseUrl;
     }
+    // tmdb
     MovieService.prototype.findNowPlayingMovies = function (page) {
         var url = this.moviedbUrl + ("/movie/now_playing?page=" + page + "&language=en-US&api_key=" + this.apiKey);
         return this.http.get(url);
@@ -275,6 +279,19 @@ var MovieService = /** @class */ (function () {
     MovieService.prototype.findMovieDetailsById = function (movieId) {
         var url = this.moviedbUrl + ("/movie/" + movieId + "?api_key=" + this.apiKey + "&language=en-US");
         return this.http.get(url);
+    };
+    MovieService.prototype.findTrailsById = function (movieId) {
+        var url = this.moviedbUrl + ("/movie/" + movieId + "?api_key=" + this.apiKey + "&language=en-US");
+        return this.http.get(url);
+    };
+    // own db
+    MovieService.prototype.findMovieByDbId = function (dbId) {
+        var url = this.baseUrl + '/api/movie/' + dbId;
+        return this.http.get(url);
+    };
+    MovieService.prototype.createMovie = function (movie) {
+        var url = this.baseUrl + '/api/movie';
+        return this.http.post(url, movie);
     };
     MovieService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -637,7 +654,7 @@ var FavoriteMovieComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "main {\n  margin-top: 70px;\n}\n\n\n.detail-background {\n  background-color: #0c286e;\n  background-repeat: no-repeat;\n  height: 600px;\n  position: relative;\n  background-size: 100% 100%;\n  text-align:center;\n}\n\n\n.container {\n  padding-top: 30px;\n}\n\n\n.poster {\n  width: 240px;\n  height: 500px;\n}\n\n\n.movie-title {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n  font-size: 30px;\n  font-weight: bold;\n  color: white;\n  text-align: left;\n}\n\n\n.movie-poster {\n  margin-left: 100px;\n}\n\n\n.movie-description {\n  margin-left: 0px;\n}\n\n\n.description-content {\n  color: white;\n  text-align: left;\n  font-size: 18px;\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtZGV0YWlsL21vdmllLWRldGFpbC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZ0JBQWdCO0FBQ2xCOzs7QUFHQTtFQUNFLHlCQUF5QjtFQUN6Qiw0QkFBNEI7RUFDNUIsYUFBYTtFQUNiLGtCQUFrQjtFQUNsQiwwQkFBMEI7RUFDMUIsaUJBQWlCO0FBQ25COzs7QUFFQTtFQUNFLGlCQUFpQjtBQUNuQjs7O0FBRUE7RUFDRSxZQUFZO0VBQ1osYUFBYTtBQUNmOzs7QUFFQTtFQUNFLGlEQUFpRDtFQUNqRCxlQUFlO0VBQ2YsaUJBQWlCO0VBQ2pCLFlBQVk7RUFDWixnQkFBZ0I7QUFDbEI7OztBQUVBO0VBQ0Usa0JBQWtCO0FBQ3BCOzs7QUFDQTtFQUNFLGdCQUFnQjtBQUNsQjs7O0FBRUE7RUFDRSxZQUFZO0VBQ1osZ0JBQWdCO0VBQ2hCLGVBQWU7RUFDZixpREFBaUQ7QUFDbkQiLCJmaWxlIjoic3JjL2FwcC92aWV3cy9tb3ZpZS9tb3ZpZS1kZXRhaWwvbW92aWUtZGV0YWlsLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYWluIHtcbiAgbWFyZ2luLXRvcDogNzBweDtcbn1cblxuXG4uZGV0YWlsLWJhY2tncm91bmQge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiAjMGMyODZlO1xuICBiYWNrZ3JvdW5kLXJlcGVhdDogbm8tcmVwZWF0O1xuICBoZWlnaHQ6IDYwMHB4O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIGJhY2tncm91bmQtc2l6ZTogMTAwJSAxMDAlO1xuICB0ZXh0LWFsaWduOmNlbnRlcjtcbn1cblxuLmNvbnRhaW5lciB7XG4gIHBhZGRpbmctdG9wOiAzMHB4O1xufVxuXG4ucG9zdGVyIHtcbiAgd2lkdGg6IDI0MHB4O1xuICBoZWlnaHQ6IDUwMHB4O1xufVxuXG4ubW92aWUtdGl0bGUge1xuICBmb250LWZhbWlseTogJ1NvdXJjZSBTYW5zIFBybycsIEFyaWFsLCBzYW5zLXNlcmlmO1xuICBmb250LXNpemU6IDMwcHg7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBjb2xvcjogd2hpdGU7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG59XG5cbi5tb3ZpZS1wb3N0ZXIge1xuICBtYXJnaW4tbGVmdDogMTAwcHg7XG59XG4ubW92aWUtZGVzY3JpcHRpb24ge1xuICBtYXJnaW4tbGVmdDogMHB4O1xufVxuXG4uZGVzY3JpcHRpb24tY29udGVudCB7XG4gIGNvbG9yOiB3aGl0ZTtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbiAgZm9udC1zaXplOiAxOHB4O1xuICBmb250LWZhbWlseTogJ1NvdXJjZSBTYW5zIFBybycsIEFyaWFsLCBzYW5zLXNlcmlmO1xufVxuIl19 */"
+module.exports = "\nbody {\n  margin-top: -10px;\n  background-image: linear-gradient(160deg, #2884ff 20%, #7cfff2 80%);\n  background-repeat: no-repeat;\n  position: relative;\n  background-size: 100% 100%;\n\n}\n\n.container {\n  padding-top: 50px;\n}\n\n.poster {\n  height: 500px;\n}\n\n.movie-title {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n  font-size: 30px;\n  font-weight: bold;\n  color: white;\n  text-align: left;\n}\n\n.movie-poster {\n  margin-left: 100px;\n  overflow: hidden;\n}\n\n.movie-description {\n  margin-left: -100px;\n  overflow: hidden;\n}\n\n.description-content {\n  margin-top: 20px;\n  color: white;\n  text-align: left;\n  font-size: 18px;\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n}\n\n.col-sm {\n  width: 250px;\n}\n\n.col-md {\n  width: 500px;\n}\n\n.icon-item {\n  margin-left: 20px;\n}\n\n.icon-item:hover {\n  cursor: pointer;\n  color: darkgrey;\n}\n\n.description-title {\n  margin-top: 40px;\n  font-size: 22px;\n  font-weight: bold;\n  color: white;\n}\n\n.icon-text {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n  font-size: 16px;\n  font-weight: bold;\n  color: #fff;\n}\n\n\n\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtZGV0YWlsL21vdmllLWRldGFpbC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQTtFQUNFLGlCQUFpQjtFQUNqQixtRUFBbUU7RUFDbkUsNEJBQTRCO0VBQzVCLGtCQUFrQjtFQUNsQiwwQkFBMEI7O0FBRTVCOztBQUVBO0VBQ0UsaUJBQWlCO0FBQ25COztBQUdBO0VBQ0UsYUFBYTtBQUNmOztBQUVBO0VBQ0UsaURBQWlEO0VBQ2pELGVBQWU7RUFDZixpQkFBaUI7RUFDakIsWUFBWTtFQUNaLGdCQUFnQjtBQUNsQjs7QUFFQTtFQUNFLGtCQUFrQjtFQUNsQixnQkFBZ0I7QUFDbEI7O0FBQ0E7RUFDRSxtQkFBbUI7RUFDbkIsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFlBQVk7RUFDWixnQkFBZ0I7RUFDaEIsZUFBZTtFQUNmLGlEQUFpRDtBQUNuRDs7QUFFQTtFQUNFLFlBQVk7QUFDZDs7QUFFQTtFQUNFLFlBQVk7QUFDZDs7QUFFQTtFQUNFLGlCQUFpQjtBQUNuQjs7QUFFQTtFQUNFLGVBQWU7RUFDZixlQUFlO0FBQ2pCOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLGVBQWU7RUFDZixpQkFBaUI7RUFDakIsWUFBWTtBQUNkOztBQUVBO0VBQ0UsaURBQWlEO0VBQ2pELGVBQWU7RUFDZixpQkFBaUI7RUFDakIsV0FBVztBQUNiIiwiZmlsZSI6InNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtZGV0YWlsL21vdmllLWRldGFpbC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXG5ib2R5IHtcbiAgbWFyZ2luLXRvcDogLTEwcHg7XG4gIGJhY2tncm91bmQtaW1hZ2U6IGxpbmVhci1ncmFkaWVudCgxNjBkZWcsICMyODg0ZmYgMjAlLCAjN2NmZmYyIDgwJSk7XG4gIGJhY2tncm91bmQtcmVwZWF0OiBuby1yZXBlYXQ7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgYmFja2dyb3VuZC1zaXplOiAxMDAlIDEwMCU7XG5cbn1cblxuLmNvbnRhaW5lciB7XG4gIHBhZGRpbmctdG9wOiA1MHB4O1xufVxuXG5cbi5wb3N0ZXIge1xuICBoZWlnaHQ6IDUwMHB4O1xufVxuXG4ubW92aWUtdGl0bGUge1xuICBmb250LWZhbWlseTogJ1NvdXJjZSBTYW5zIFBybycsIEFyaWFsLCBzYW5zLXNlcmlmO1xuICBmb250LXNpemU6IDMwcHg7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xuICBjb2xvcjogd2hpdGU7XG4gIHRleHQtYWxpZ246IGxlZnQ7XG59XG5cbi5tb3ZpZS1wb3N0ZXIge1xuICBtYXJnaW4tbGVmdDogMTAwcHg7XG4gIG92ZXJmbG93OiBoaWRkZW47XG59XG4ubW92aWUtZGVzY3JpcHRpb24ge1xuICBtYXJnaW4tbGVmdDogLTEwMHB4O1xuICBvdmVyZmxvdzogaGlkZGVuO1xufVxuXG4uZGVzY3JpcHRpb24tY29udGVudCB7XG4gIG1hcmdpbi10b3A6IDIwcHg7XG4gIGNvbG9yOiB3aGl0ZTtcbiAgdGV4dC1hbGlnbjogbGVmdDtcbiAgZm9udC1zaXplOiAxOHB4O1xuICBmb250LWZhbWlseTogJ1NvdXJjZSBTYW5zIFBybycsIEFyaWFsLCBzYW5zLXNlcmlmO1xufVxuXG4uY29sLXNtIHtcbiAgd2lkdGg6IDI1MHB4O1xufVxuXG4uY29sLW1kIHtcbiAgd2lkdGg6IDUwMHB4O1xufVxuXG4uaWNvbi1pdGVtIHtcbiAgbWFyZ2luLWxlZnQ6IDIwcHg7XG59XG5cbi5pY29uLWl0ZW06aG92ZXIge1xuICBjdXJzb3I6IHBvaW50ZXI7XG4gIGNvbG9yOiBkYXJrZ3JleTtcbn1cblxuLmRlc2NyaXB0aW9uLXRpdGxlIHtcbiAgbWFyZ2luLXRvcDogNDBweDtcbiAgZm9udC1zaXplOiAyMnB4O1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgY29sb3I6IHdoaXRlO1xufVxuXG4uaWNvbi10ZXh0IHtcbiAgZm9udC1mYW1pbHk6ICdTb3VyY2UgU2FucyBQcm8nLCBBcmlhbCwgc2Fucy1zZXJpZjtcbiAgZm9udC1zaXplOiAxNnB4O1xuICBmb250LXdlaWdodDogYm9sZDtcbiAgY29sb3I6ICNmZmY7XG59XG5cblxuXG5cbiJdfQ== */"
 
 /***/ }),
 
@@ -648,7 +665,7 @@ module.exports = "main {\n  margin-top: 70px;\n}\n\n\n.detail-background {\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<main>\n  <div class=\"detail-background\">\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-6\">\n          <img class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-6 movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"icon\">\n\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n<footer></footer>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"movieInMongo&&movieInMongo.rate\">\n              User Score: {{movieInMongo.rate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -666,26 +683,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+
 
 
 
 
 var MovieDetailComponent = /** @class */ (function () {
-    function MovieDetailComponent(movieService, activatedRoute) {
+    function MovieDetailComponent(movieService, activatedRoute, sharedService) {
         this.movieService = movieService;
         this.activatedRoute = activatedRoute;
+        this.sharedService = sharedService;
+        this.loggedIn = true;
+        this.movie = '';
+        this.trails = '';
     }
     MovieDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
+        if (this.sharedService.user !== null) {
+            this.loggedIn = true;
+        }
         this.activatedRoute.params.subscribe(function (params) {
-            _this.movieId = params.movieId;
-            _this.movieService.findMovieDetailsById(_this.movieId).subscribe(function (movie) {
+            _this.dbId = params.dbId;
+            _this.movieService.findTrailsById(_this.dbId).subscribe(function (trails) {
+                _this.trails = trails.results;
+            });
+            _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (movie) {
+                _this.movieInMongo = movie;
+            });
+            _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
                 _this.movie = movie;
             });
         });
     };
     MovieDetailComponent.prototype.getImageUrlForAMovie = function (url) {
-        return 'https://image.tmdb.org/t/p/original' + url;
+        if (url) {
+            return 'https://image.tmdb.org/t/p/original' + url;
+        }
+        else {
+            return '../../../../assets/images/coming-soon.jpg';
+        }
+    };
+    MovieDetailComponent.prototype.getRateForAMovie = function (dbId) {
+    };
+    MovieDetailComponent.prototype.getTrailUrl = function (key) {
+        return 'https://www.youtube.com/embed/' + key;
     };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -693,7 +735,7 @@ var MovieDetailComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./movie-detail.component.html */ "./src/app/views/movie/movie-detail/movie-detail.component.html"),
             styles: [__webpack_require__(/*! ./movie-detail.component.css */ "./src/app/views/movie/movie-detail/movie-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
     ], MovieDetailComponent);
     return MovieDetailComponent;
 }());
@@ -1211,7 +1253,7 @@ var ProfileComponent = /** @class */ (function () {
         // this.user.favorite = [];
         this.user.img = '../../../../assets/images/default-heads.jpg';
         this.user.type = 'Admin';
-        this.isAdmin = this.selectedValue === 'Admin';
+        this.isAdmin = true;
     };
     ProfileComponent.prototype.getUserImg = function () {
         if (this.user.img == '') {
@@ -1421,7 +1463,7 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 var environment = {
     production: false,
-    baseUrl: 'http://localhost:3200'
+    baseUrl: 'http://localhost:4200'
 };
 /*
  * For easier debugging in development mode, you can import the following file
@@ -1468,7 +1510,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })
