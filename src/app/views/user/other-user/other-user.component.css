@@ -33,3 +33,12 @@ body {
 .update {
   color: white !important;
 }
+
+h1 {
+  margin-bottom: 30px;
+  color: darkmagenta;
+}
+
+h3 {
+  margin-bottom: 20px;
+}

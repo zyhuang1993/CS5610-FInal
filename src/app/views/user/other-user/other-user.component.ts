@@ -9,6 +9,7 @@ export class OtherUserComponent implements OnInit {
 
   user: any;
   selectedValue: string;
+  follow: string;
   public filterTypes = [
     {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
@@ -22,9 +23,10 @@ export class OtherUserComponent implements OnInit {
     this.user.password = 'password';
     this.user.follower = [];
     this.user.following = [];
-    // this.user.reviews = [];
-    // this.user.favorite = [];
+    this.user.reviews = [];
+    this.user.favorite = [];
     this.user.img = '../../../../assets/images/default-heads.jpg';
+    this.follow = 'Follow';
   }
 
   getUserImg() {
@@ -47,6 +49,14 @@ export class OtherUserComponent implements OnInit {
 
   filterChanged(selectedValue: string){
     this.selectedValue = selectedValue;
+  }
+  
+  followUser() {
+    if (this.follow === 'Follow') {
+      this.follow = 'Unfollow'
+    } else if (this.follow === 'Unfollow') {
+      this.follow = 'Follow'
+    }
   }
 
 }
