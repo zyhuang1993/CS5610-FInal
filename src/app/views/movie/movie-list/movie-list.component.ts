@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./movie-list.component.css']
 })
 export class MovieListComponent implements OnInit {
-
+  movies: [any];
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getMoviePoster() {
+
   }
 
 }

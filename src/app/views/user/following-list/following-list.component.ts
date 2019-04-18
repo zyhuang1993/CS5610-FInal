@@ -6,10 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./following-list.component.css']
 })
 export class FollowingListComponent implements OnInit {
+  users: [any];
+  follow: string;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  followUser() {
+    if (this.follow === 'Follow') {
+      this.follow = 'Unfollow';
+    } else if (this.follow === 'Unfollow') {
+      this.follow = 'Follow';
+    }
   }
 
 }

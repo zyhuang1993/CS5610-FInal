@@ -1,3 +1,28 @@
-<p>
-  favorite-movie works!
-</p>
+<html>
+<body>
+<app-header></app-header>
+<main>
+  <div class="container">
+    <h3>Favorite List</h3>
+    <div class="card-columns">
+      <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
+        <div class="card">
+          <img  class="card-img-top" [src]="getMoviePoster()" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><span class="badge badge-secondary">{{movie.title}}</span></h5>
+          </div>
+          <div class="card-footer">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
+
+
+
+
+

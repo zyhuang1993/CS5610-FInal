@@ -42,7 +42,7 @@ export class OtherUserComponent implements OnInit {
     // );
     // alert('Update successfully!');
   }
-  
+
   followUser() {
     if (this.follow === 'Follow') {
       this.follow = 'Unfollow'
