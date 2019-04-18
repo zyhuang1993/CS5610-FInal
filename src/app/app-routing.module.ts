@@ -10,10 +10,12 @@ import {ProfileComponent} from './views/user/profile/profile.component';
 import {FavoriteMovieComponent} from './views/movie/favorite-movie/favorite-movie.component';
 import {FollowerListComponent} from './views/user/follower-list/follower-list.component';
 import {FollowingListComponent} from './views/user/following-list/following-list.component';
+import {ReviewNewComponent} from './views/review/review-new/review-new.component';
 import {OtherUserComponent} from './views/user/other-user/other-user.component';
 import {ReviewListComponent} from './views/review/review-list/review-list.component';
 
 const routes: Routes = [
+  // guest
   {path: '', component: HomeComponent},
   {path: 'movie', component: MovieListComponent},
   {path: 'register', component: RegisterComponent},
@@ -21,7 +23,13 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'movie/:dbId', component: MovieDetailComponent},
   {path: 'topMovies', component: MovieListComponent},
-  {path: 'movie/:movieId', component: MovieDetailComponent},
+
+  // user
+  {path: 'movie/:dbId/review-new', component: ReviewNewComponent},
+  {path: 'user-list', component: UserListComponent},
+  {path: 'favorite-movie', component: FavoriteMovieComponent},
+  {path: 'follower-list', component: FollowerListComponent},
+  {path: 'following-list', component: FollowingListComponent},
   {path: 'user/user-list', component: UserListComponent},
   {path: 'users/:username', component: OtherUserComponent},
   {path: 'user/favorite-movie', component: FavoriteMovieComponent},

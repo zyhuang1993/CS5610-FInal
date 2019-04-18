@@ -6,10 +6,10 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const app = express();
-require('./server/app')(app);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+require('./server/app')(app);
+
 
 // Point static path to dist -- For building -- REMOVE
 app.use(express.static(path.join(__dirname, 'dist/CS5610-final')));
