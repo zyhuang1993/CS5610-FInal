@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = [[module.i, "/* You can add global styles to this file, and also import other style files */\nhtml, body {\n  height: 100% !important;\n}\nmain {\n  margin-top: 70px;\n}\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9zdHlsZXMuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDhFQUE4RTtBQUM5RTtFQUNFLHVCQUF1QjtBQUN6QjtBQUVBO0VBQ0UsZ0JBQWdCO0FBQ2xCIiwiZmlsZSI6InNyYy9zdHlsZXMuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogWW91IGNhbiBhZGQgZ2xvYmFsIHN0eWxlcyB0byB0aGlzIGZpbGUsIGFuZCBhbHNvIGltcG9ydCBvdGhlciBzdHlsZSBmaWxlcyAqL1xuaHRtbCwgYm9keSB7XG4gIGhlaWdodDogMTAwJSAhaW1wb3J0YW50O1xufVxuXG5tYWluIHtcbiAgbWFyZ2luLXRvcDogNzBweDtcbn1cblxuIl19 */", '', '']]
+module.exports = [[module.i, "html, body {\n  height: 100% !important;\n}\n\nmain {\n  margin-top: 70px;\n}\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9zdHlsZXMuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsdUJBQXVCO0FBQ3pCOztBQUVBO0VBQ0UsZ0JBQWdCO0FBQ2xCIiwiZmlsZSI6InNyYy9zdHlsZXMuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiaHRtbCwgYm9keSB7XG4gIGhlaWdodDogMTAwJSAhaW1wb3J0YW50O1xufVxuXG5tYWluIHtcbiAgbWFyZ2luLXRvcDogNzBweDtcbn1cblxuIl19 */", '', '']]
 
 /***/ }),
 
@@ -557,7 +557,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/styles.css */"./src/styles.css");
 
 
 /***/ })

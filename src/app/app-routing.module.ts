@@ -19,6 +19,7 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'profile', component: ProfileComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'movie/:dbId', component: MovieDetailComponent},
   {path: 'topMovies', component: MovieListComponent},
   {path: 'movie/:movieId', component: MovieDetailComponent},
   {path: 'user/user-list', component: UserListComponent},

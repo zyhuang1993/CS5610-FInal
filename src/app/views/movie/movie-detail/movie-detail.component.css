@@ -1,23 +1,19 @@
-main {
-  margin-top: 70px;
-}
 
-
-.detail-background {
-  background-color: #0c286e;
+body {
+  margin-top: -10px;
+  background-image: linear-gradient(160deg, #2884ff 20%, #7cfff2 80%);
   background-repeat: no-repeat;
-  height: 600px;
   position: relative;
   background-size: 100% 100%;
-  text-align:center;
+
 }
 
 .container {
-  padding-top: 30px;
+  padding-top: 50px;
 }
 
+
 .poster {
-  width: 240px;
   height: 500px;
 }
 
@@ -31,14 +27,52 @@ main {
 
 .movie-poster {
   margin-left: 100px;
+  overflow: hidden;
 }
 .movie-description {
-  margin-left: 0px;
+  margin-left: -100px;
+  overflow: hidden;
 }
 
 .description-content {
+  margin-top: 20px;
   color: white;
   text-align: left;
   font-size: 18px;
   font-family: 'Source Sans Pro', Arial, sans-serif;
 }
+
+.col-sm {
+  width: 250px;
+}
+
+.col-md {
+  width: 500px;
+}
+
+.icon-item {
+  margin-left: 20px;
+}
+
+.icon-item:hover {
+  cursor: pointer;
+  color: darkgrey;
+}
+
+.description-title {
+  margin-top: 40px;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+.icon-text {
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+
+
+

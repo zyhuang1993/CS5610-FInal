@@ -6,6 +6,7 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const app = express();
+require('./server/app')(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,32 +22,22 @@ app.use(function(req, res, next) {
   next();
 });
 
-const port = process.env.PORT || '3200';
+const port = process.env.PORT || '4200';
 app.set('port', port);
-
 
 // Create HTTP server
 const server = http.createServer(app);
-server.listen( port , () => console.log('Running on port 3200'));
+server.listen( port , () => console.log('Running on port 4200'));
+
 
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const db = mongoose.connect('mongodb://heroku_p1dr3dp9:3kpum3ptca8ab0l1braf1dh5l7@ds135456.mlab.com:35456/heroku_p1dr3dp9', {useNewUrlParser: true});
-/*var dbServer = require('./test-mongodb/app');
-dbServer(app);*/
 
-//require('./test-mongodb/app')(app);
-
-
-// For Build: Catch all other routes and return the index file -- BUILDING
-/*
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
-*/
-
-
-
-//require('./assignment/app')(app);
+let isHeroku = false;
+if (isHeroku) {
+  const db = mongoose.connect('mongodb://heroku_p1dr3dp9:3kpum3ptca8ab0l1braf1dh5l7@ds135456.mlab.com:35456/heroku_p1dr3dp9', {useNewUrlParser: true});
+} else {
+  const db = mongoose.connect('mongodb://localhost:27017/webfinal', {useNewUrlParser: true});
+}
 
 
