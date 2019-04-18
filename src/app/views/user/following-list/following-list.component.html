@@ -1,3 +1,29 @@
-<p>
-  following-list works!
-</p>
+<html>
+<body>
+<app-header></app-header>
+<main>
+  <div class="container">
+    <h3>All Users You're Following</h3>
+    <div class="card-columns">
+      <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let user of users">
+        <div class="card">
+          <img  class="card-img-top" [src]="user.img" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><span class="badge badge-secondary">{{user.username}}</span></h5>
+            <h5 class="card-title"><button (click) = "followUser()"class="btn btn-block btn-danger">{{follow}}</button></h5>
+          </div>
+          <div class="card-footer">
+            <p><a routerLink="/user/follower-list" class="card-link">Followers</a></p>
+            <p><a routerLink="/user/following-list" class="card-link">Following</a></p>
+            <p><a routerLink="/user/review-list" class="card-link">Review History</a></p>
+            <p><a routerLink="/user/favorite-movie" class="card-link">Favorite Movies</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>
+
+

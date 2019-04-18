@@ -11,6 +11,8 @@ import {FavoriteMovieComponent} from './views/movie/favorite-movie/favorite-movi
 import {FollowerListComponent} from './views/user/follower-list/follower-list.component';
 import {FollowingListComponent} from './views/user/following-list/following-list.component';
 import {ReviewNewComponent} from './views/review/review-new/review-new.component';
+import {OtherUserComponent} from './views/user/other-user/other-user.component';
+import {ReviewListComponent} from './views/review/review-list/review-list.component';
 
 const routes: Routes = [
   // guest
@@ -27,7 +29,13 @@ const routes: Routes = [
   {path: 'user-list', component: UserListComponent},
   {path: 'favorite-movie', component: FavoriteMovieComponent},
   {path: 'follower-list', component: FollowerListComponent},
-  {path: 'following-list', component: FollowingListComponent}
+  {path: 'following-list', component: FollowingListComponent},
+  {path: 'user/user-list', component: UserListComponent},
+  {path: 'users/:username', component: OtherUserComponent},
+  {path: 'user/favorite-movie', component: FavoriteMovieComponent},
+  {path: 'user/follower-list', component: FollowerListComponent},
+  {path: 'user/following-list', component: FollowingListComponent},
+  {path: 'user/review-list', component: ReviewListComponent}
 ];
 
 @NgModule({

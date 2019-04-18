@@ -18,14 +18,17 @@
         <input type="password" name="password" class="form-control" placeholder="password" ngModel required #password="ngModel"/>
       </div>
       <span class="help-block" *ngIf="!password.valid && password.touched">
-      Please Enter Password!
-    </span>
+        Please Enter Password!
+      </span>
       <div class="form-group">
         <input type="password" name="v_password" class="form-control" placeholder="verify password" ngModel required #v_password="ngModel"/>
       </div>
       <span class="help-block" *ngIf="!v_password.valid && v_password.touched">
-      Please verify your password!
-    </span>
+        Please verify your password!
+      </span>
+      <div class="form-group">
+        <input type="text" class="form-control" name="img" placeholder="image for your profile photo" ngModel required #img="ngModel">
+      </div>
       <div class="form-group large-input-bottom-margin">
         <label for="FormControlSelect"><small><b>Select account type</b></small></label>
         <select class = "form-control" (change)="filterChanged($event.target.value)" id="FormControlSelect">

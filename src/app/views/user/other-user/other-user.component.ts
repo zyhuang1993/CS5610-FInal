@@ -8,12 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class OtherUserComponent implements OnInit {
 
   user: any;
-  selectedValue: string;
-  public filterTypes = [
-    {value: 'Admin', display: 'Admin'},
-    {value: 'Unpaid', display: 'User'},
-    {value: 'Paid', display: 'Vip'}
-  ];
+  follow: string;
+  errorFlag: boolean;
+  errorMsg = '';
   constructor() { }
 
   ngOnInit() {
@@ -22,13 +19,14 @@ export class OtherUserComponent implements OnInit {
     this.user.password = 'password';
     this.user.follower = [];
     this.user.following = [];
-    // this.user.reviews = [];
-    // this.user.favorite = [];
+    this.user.reviews = [];
+    this.user.favorite = [];
     this.user.img = '../../../../assets/images/default-heads.jpg';
+    this.follow = 'Follow';
   }
 
   getUserImg() {
-    if (this.user.img == '') {
+    if (this.user.img === '') {
       return '../../../../assets/images/default-heads.jpg';
     } else {
       return this.user.img;
@@ -45,8 +43,12 @@ export class OtherUserComponent implements OnInit {
     // alert('Update successfully!');
   }
 
-  filterChanged(selectedValue: string){
-    this.selectedValue = selectedValue;
+  followUser() {
+    if (this.follow === 'Follow') {
+      this.follow = 'Unfollow'
+    } else if (this.follow === 'Unfollow') {
+      this.follow = 'Follow'
+    }
   }
 
 }
