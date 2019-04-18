@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./favorite-movie.component.css']
 })
 export class FavoriteMovieComponent implements OnInit {
-
+  movies: [any];
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getMoviePoster() {
+
   }
 
 }
