@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
       this.loginOrProfile = 'Login';
       this.topReviews = '/login';
       this.loggedIn = false;
-
     } else {
       this.status = '/profile';
       this.loginOrProfile = 'Profile';

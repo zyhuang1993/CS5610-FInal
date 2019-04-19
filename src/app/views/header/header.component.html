@@ -25,9 +25,6 @@
         <a class="nav-link" routerLink="{{status}}">{{loginOrProfile}}</a>
       </span>
         <span class="navbar-text navbar-profile">
-        <a class="nav-link" routerLink="/profile">Profile</a>
-      </span>
-        <span class="navbar-text navbar-profile">
         <a class="nav-link" *ngIf="loggedIn" routerLink="{{logoutPath}}">{{logout}}</a>
       </span>
       </div>

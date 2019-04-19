@@ -25,12 +25,6 @@ export class UserService {
     withCredentials: true
   };
 
-
-  users = [
-    new User('001', 'alice', 'alice', 'Alice', 'Wonder', '123@gmail.com'),
-    new User('002', 'bob', 'bob', 'Bob', 'Carley', '456@neu.edu')
-  ];
-
   api = {
     'createUser' : this.createUser,
     'findUserById' : this.findUserById,

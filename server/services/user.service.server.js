@@ -1,5 +1,5 @@
 module.exports = function (app) {
-  var userModel = require('../model/user/user.model.server');
+  var userModel = require('../models/user/user.model.server');
   var passport = require('passport');
   var bcrypt = require("bcrypt-nodejs");
   var LocalStrategy = require('passport-local').Strategy;
@@ -56,7 +56,7 @@ module.exports = function (app) {
   app.get('/api/user/:uid', findUserById);
   app.put('/api/user/:uid', updateUserById);
   app.delete('/api/user/:uid', deleteUserById);
-  app.post('/api/loggedin', loggedin);
+  app.post('/api/loggedIn', loggedIn);
   app.get ('/facebook/login', passport.authenticate('facebook', { scope : 'email' }));
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/#/profile', failureRedirect: '/#/login' }));
 
@@ -91,7 +91,7 @@ module.exports = function (app) {
         });
   }
 
-  function loggedin(req, res) {
+  function loggedIn(req, res) {
     res.send(req.isAuthenticated() ? req.user : '0');
   }
 
@@ -117,7 +117,7 @@ module.exports = function (app) {
     res.status(200).send();
   }
 
-  function register (req, res) {
+  function register(req, res) {
     var user = req.body;
     user.password = bcrypt.hashSync(user.password);
 
