@@ -71,8 +71,9 @@ module.exports = function (app) {
             var newFacebookUser = {
               lastName: names[1],
               firstName: names[0],
-              email: profile.emails ? profile.emails[0].value:"",
-              facebook: { id: profile.id, token: token } };
+              img: "../../src/app/assets/images/default-heads.jpg",
+              facebook: { id: profile.id, token: token },
+              type: "Unpaid"};
             return userModel.createUser(newFacebookUser); } },
         function(err) {
           if (err) {
@@ -146,11 +147,10 @@ module.exports = function (app) {
 
   function createUser(req, res) {
     var user = new Object();
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
     user.username = req.body.username;
     user.password = req.body.password;
-    user.email = req.body.email;
+    user.img = req.body.img;
+    user.type = req.body.type;
     userModel.findUserByUsername(user.username).then(
       function(response) {
         if (!response) {

@@ -42,22 +42,25 @@ export class RegisterComponent implements OnInit {
     this.v_password = this.registerForm.value.v_password;
     this.img = this.registerForm.value.img;
     if (this.v_password === this.password) {
-      // const user: User = new User(Math.random() + '', this.username, this.password, this.firstName, this.lastName, this.email);
-
-    //   this.userService.register(user).subscribe(
-    //     (data: any) => {
-    //       if (data.message === 'User is already exist!') {
-    //         this.errorFlag = true;
-    //         this.errorMsg = 'User is already exist! Please use a new username!';
-    //       } else {
-    //         // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-    //         this.router.navigate(['/profile']);
-    //       }
-    //     }
-    //   );
-    // } else {
-    //   this.errorFlag = true;
-    //   this.errorMsg = 'Password needs to be verified!';
+      var user = new Object();
+      user.username = this.username;
+      user.password = this.password;
+      user.img = this.img;
+      user.type = this.selectedValue;
+      this.userService.register(user).subscribe(
+        (data: any) => {
+          if (data.message === 'User is already exist!') {
+            this.errorFlag = true;
+            this.errorMsg = 'User is already exist! Please use a new username!';
+          } else {
+            // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
+            this.router.navigate(['/profile']);
+          }
+        }
+      );
+    } else {
+      this.errorFlag = true;
+      this.errorMsg = 'Password needs to be verified!';
     }
   }
 

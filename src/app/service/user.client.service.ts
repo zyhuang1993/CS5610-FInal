@@ -61,4 +61,9 @@ export class UserService {
       })
     );
   }
+
+  register(user: any) {
+    this.options.withCredentials = true;
+    return this.http.post(this.baseUrl + '/api/register', user, this.options);
+  }
 }
