@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var movieSchema = require('../movie/movie.schema.server');
 var reviewSchema = require('../review/review.schema.server');
 
 var userSchema = new mongoose.Schema({
@@ -8,7 +7,7 @@ var userSchema = new mongoose.Schema({
     img: String,
     type: {type: String, enum: ['Admin', 'Unpaid', 'Paid']},
     reviews : [reviewSchema],
-    favorite: [movieSchema],
+    favorite: [String],
     follower: [mongoose.Schema.ObjectId],
     following: [mongoose.Schema.ObjectId],
     dateCreated: {type:Date, default: Date.now()},

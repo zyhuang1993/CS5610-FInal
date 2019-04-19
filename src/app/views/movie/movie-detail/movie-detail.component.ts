@@ -62,7 +62,7 @@ export class MovieDetailComponent implements OnInit {
         title: this.movie.original_title,
         rate: undefined,
         db_id: this.dbId,
-        reviews: []
+        reviews: [],
       };
       console.log(newMovie);
       this.movieService.createMovie(newMovie).subscribe((data) => {

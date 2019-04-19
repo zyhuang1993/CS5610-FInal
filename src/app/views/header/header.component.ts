@@ -48,7 +48,12 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateToSearch() {
+    if (this.keyword && this.keyword !== '') {
+      this.router.navigate(['/search/movie/' + this.keyword]);
 
+    } else {
+      this.router.navigate(['/topMovies']);
+    }
   }
 
 }
