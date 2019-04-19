@@ -15,6 +15,7 @@ import {OtherUserComponent} from './views/user/other-user/other-user.component';
 import {ReviewListComponent} from './views/review/review-list/review-list.component';
 import {AuthGuardUser} from './service/authguard-user.client.service';
 import {AuthGuardAdmin} from './service/authguard-admin.client.service';
+import {MovieSearchComponent} from './views/movie/movie-search/movie-search.component';
 
 const routes: Routes = [
   // guest
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path: 'movie', component: MovieListComponent},
   {path: 'movie/:dbId', component: MovieDetailComponent},
   {path: 'topMovies', component: MovieListComponent},
+  {path: 'search/movie/query?=:keyword', component: MovieSearchComponent},
 
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardUser]},
   {path: 'users/:username', component: OtherUserComponent, canActivate: [AuthGuardUser]},

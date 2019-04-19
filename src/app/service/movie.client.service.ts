@@ -28,6 +28,11 @@ export class MovieService {
     return this.http.get(url);
   }
 
+  searchMovies(keyword) {
+    const url = this.moviedbUrl + `/search/movie?query=${keyword}&page=1&language=en-US$api_key=${this.apiKey}`;
+    return this.http.get(url);
+  }
+
   // own db
   findMovieByDbId(dbId) {
     const url = this.baseUrl + '/api/movie/' + dbId;
