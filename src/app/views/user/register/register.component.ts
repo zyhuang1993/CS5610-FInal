@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   selectedValue: string;
   errorFlag: boolean;
   errorMsg = '';
+  user: any;
   public filterTypes = [
     {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
@@ -42,23 +43,28 @@ export class RegisterComponent implements OnInit {
     this.v_password = this.registerForm.value.v_password;
     this.img = this.registerForm.value.img;
     if (this.v_password === this.password) {
-      // const user: User = new User(Math.random() + '', this.username, this.password, this.firstName, this.lastName, this.email);
-
-    //   this.userService.register(user).subscribe(
-    //     (data: any) => {
-    //       if (data.message === 'User is already exist!') {
-    //         this.errorFlag = true;
-    //         this.errorMsg = 'User is already exist! Please use a new username!';
-    //       } else {
-    //         // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-    //         this.router.navigate(['/profile']);
-    //       }
-    //     }
-    //   );
-    // } else {
-    //   this.errorFlag = true;
-    //   this.errorMsg = 'Password needs to be verified!';
+      this.user = new Object();
+      this.user.username = this.username;
+      this.user.password = this.password;
+      this.user.img = this.img;
+      this.user.type = this.selectedValue;
+      this.userService.register(this.user).subscribe(
+        (data: any) => {
+          if (data.message === 'User is already exist!') {
+            this.errorFlag = true;
+            this.errorMsg = 'User is already exist! Please use a new username!';
+          } else {
+            // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
+            this.router.navigate(['/profile/']);
+          }
+        }
+      );
+    } else {
+      this.errorFlag = true;
+      this.errorMsg = 'Password needs to be verified!';
     }
   }
+
+
 
 }

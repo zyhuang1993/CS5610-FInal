@@ -193,6 +193,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./views/user/other-user/other-user.component */ "./src/app/views/user/other-user/other-user.component.ts");
 /* harmony import */ var _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./views/user/follower-list/follower-list.component */ "./src/app/views/user/follower-list/follower-list.component.ts");
 /* harmony import */ var _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./views/user/following-list/following-list.component */ "./src/app/views/user/following-list/following-list.component.ts");
+/* harmony import */ var _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./service/authguard-user.client.service */ "./src/app/service/authguard-user.client.service.ts");
+/* harmony import */ var _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./service/authguard-admin.client.service */ "./src/app/service/authguard-admin.client.service.ts");
+
+
 
 
 
@@ -249,7 +253,7 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_15__["FormsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_19__["BrowserAnimationsModule"],
             ],
-            providers: [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_14__["UserService"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_17__["SharedService"], _service_pagination_client_service__WEBPACK_IMPORTED_MODULE_21__["PaginationService"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_20__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_20__["HashLocationStrategy"] }],
+            providers: [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_14__["UserService"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_17__["SharedService"], _service_pagination_client_service__WEBPACK_IMPORTED_MODULE_21__["PaginationService"], _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_27__["AuthGuardUser"], _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_28__["AuthGuardAdmin"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_20__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_20__["HashLocationStrategy"] }],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
@@ -260,6 +264,31 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+
+/***/ "./src/app/models/user.client.model.ts":
+/*!*********************************************!*\
+  !*** ./src/app/models/user.client.model.ts ***!
+  \*********************************************/
+/*! exports provided: User */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+var User = /** @class */ (function () {
+    function User(uid, username, password, img, type) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
+        this.img = img;
+        this.type = type;
+    }
+    return User;
+}());
+
+
+
+/***/ }),
 /***/ "./src/app/service/authguard-admin.client.service.ts":
 /*!***********************************************************!*\
   !*** ./src/app/service/authguard-admin.client.service.ts ***!
@@ -547,12 +576,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var UserService = /** @class */ (function () {
-    function UserService(http, router, sharedService) {
+    function UserService(http, sharedService, router) {
         this.http = http;
-        this.router = router;
         this.sharedService = sharedService;
+        this.router = router;
         this.apiKey = 'd2d9450a243aa2b04c0ce3439b094b25';
         this.moviedbUrl = 'https://api.themoviedb.org/3';
+        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl;
+
         this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
             'Content-Type': 'application/json'
         });
@@ -560,8 +591,43 @@ var UserService = /** @class */ (function () {
             headers: this.headers,
             withCredentials: true
         };
-        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl;
+        this.api = {
+            'createUser': this.createUser,
+            'findUserById': this.findUserById,
+            'findUserByUsername': this.findUserByUserName,
+            'findUserByCredentials': this.findUserByCredentials,
+            'updateUser': this.updateUser,
+            'deleteUser': this.deleteUser
+        };
+
     }
+    UserService.prototype.createUser = function (user) {
+        return this.http.post(this.baseUrl + '/api/user', user);
+    };
+    UserService.prototype.findUserById = function (userId) {
+        return this.http.get(this.baseUrl + '/api/user/' + userId);
+    };
+    UserService.prototype.findUserByUserName = function (username) {
+        return this.http.get(this.baseUrl + '/api/user?' + 'username=' + username);
+    };
+    UserService.prototype.findUserByCredentials = function (username, password) {
+        return this.http.get(this.baseUrl + '/api/user?' + 'username=' + username + '&' + 'password=' + password);
+    };
+    UserService.prototype.updateUser = function (userId, user) {
+        return this.http.put(this.baseUrl + '/api/user/' + userId, user);
+    };
+    UserService.prototype.deleteUser = function (userId) {
+        return this.http.delete(this.baseUrl + '/api/user/' + userId);
+    };
+    UserService.prototype.login = function (username, password) {
+        this.options.withCredentials = true;
+        var body = { username: username, password: password };
+        return this.http.post(this.baseUrl + '/api/login', body, this.options);
+    };
+    UserService.prototype.logout = function () {
+        this.options.withCredentials = true;
+        return this.http.post(this.baseUrl + '/api/logout', '', this.options);
+    };
     UserService.prototype.findNowPlayingMovies = function (page) {
         var url = this.moviedbUrl + ("/movie/now_playing?page=" + page + "&language=en-US&api_key=" + this.apiKey);
         return this.http.get(url);
@@ -598,10 +664,16 @@ var UserService = /** @class */ (function () {
             }
         }));
     };
+    UserService.prototype.register = function (user) {
+        this.options.withCredentials = true;
+        return this.http.post(this.baseUrl + '/api/register', user, this.options);
+    };
+
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], _shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
     ], UserService);
     return UserService;
@@ -629,7 +701,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"fixed-top\">\n  <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Review</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/\">Home</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/movie\">Movies</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"{{topMovies}}\">Top Movies</a>\n    </span>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <form class=\"form-inline my-2 my-lg-0\">\n        <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search for a movie\" aria-label=\"Search\">\n        <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n      </form>\n    </div>\n    <div>\n      <div class=\"collapse navbar-collapse float-right\">\n      <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" routerLink=\"{{status}}\">{{loginOrProfile}}</a>\n      </span>\n        <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" routerLink=\"/profile\">Profile</a>\n      </span>\n        <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" *ngIf=\"loggedIn\" routerLink=\"{{logoutPath}}\">{{logout}}</a>\n      </span>\n      </div>\n    </div>\n  </nav>\n</header>\n"
+module.exports = "<header class=\"fixed-top\">\n  <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Review</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/\">Home</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/movie\">Movies</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"{{topMovies}}\">Top Movies</a>\n    </span>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <form class=\"form-inline my-2 my-lg-0\">\n        <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search for a movie\" aria-label=\"Search\">\n        <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n      </form>\n    </div>\n    <div>\n      <div class=\"collapse navbar-collapse float-right\">\n      <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" routerLink=\"{{status}}\">{{loginOrProfile}}</a>\n      </span>\n        <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" (click)=\"logout()\" *ngIf=\"loggedIn\">{{logoutMsg}}</a>\n      </span>\n      </div>\n    </div>\n  </nav>\n</header>\n"
 
 /***/ }),
 
@@ -646,12 +718,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../service/user.client.service */ "./src/app/service/user.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
 
 
 
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(sharedService) {
+    function HeaderComponent(sharedService, userService, router) {
         this.sharedService = sharedService;
+        this.userService = userService;
+        this.router = router;
     }
     HeaderComponent.prototype.ngOnInit = function () {
         if (this.sharedService.user === null) {
@@ -666,8 +744,16 @@ var HeaderComponent = /** @class */ (function () {
             this.topReviews = '/topReviews';
             this.loggedIn = true;
             this.logoutPath = '';
-            this.logout = 'Log Out';
+            this.logoutMsg = 'Log Out';
         }
+    };
+    HeaderComponent.prototype.logout = function () {
+        var _this = this;
+        this.sharedService.user = null;
+        this.userService.logout()
+            .subscribe(function (data) {
+            _this.router.navigate(['/login']);
+        });
     };
     HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -675,7 +761,7 @@ var HeaderComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./header.component.html */ "./src/app/views/header/header.component.html"),
             styles: [__webpack_require__(/*! ./header.component.css */ "./src/app/views/header/header.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], HeaderComponent);
     return HeaderComponent;
 }());
@@ -1328,7 +1414,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import {User} from '../../../models/user.model.client';
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(userService, router) {
         this.userService = userService;
@@ -1337,21 +1422,20 @@ var LoginComponent = /** @class */ (function () {
         this.errorFlag = false;
     }
     LoginComponent.prototype.login = function () {
+        var _this = this;
         this.username = this.loginForm.value.username;
         this.password = this.loginForm.value.password;
-        // this.userService.login(this.username, this.password).subscribe(
-        //   (user: any) => {
-        //     if (user === null || user.message === 'User not found or Wrong password!') {
-        //       this.errorFlag = true;
-        //       this.errorMsg = 'User does not exist or Wrong Password';
-        //     } else {
-        //       this.router.navigate(['/profile/']);
-        //     }
-        //   }
-        // );
+        this.userService.login(this.username, this.password).subscribe(function (user) {
+            if (user === null || user.message === 'User not found or Wrong password!') {
+                _this.errorFlag = true;
+                _this.errorMsg = 'User does not exist or Wrong Password';
+            }
+            else {
+                _this.router.navigate(['/profile/']);
+            }
+        });
     };
     LoginComponent.prototype.ngOnInit = function () {
-        console.log('login page!' + this.username);
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('f'),
@@ -1481,7 +1565,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <div *ngIf=\"errorFlag\" class=\"alert alert-danger\">\n      {{errorMsg}}\n    </div>\n    <div class=\"container\">\n      <div class=\"row colrow user-info\">\n        <div class=\"col-sm-4 d-none d-sm-block user-main\">\n          <div class=\"media d-done d-sm-block\">\n            <div class=\"card\">\n              <img  class=\"card-img-top\" [src]=\"getUserImg()\" alt=\"Card image cap\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{user.username}}</span></h5>\n              </div>\n              <div class=\"card-footer\">\n                <p *ngIf=\"isAdmin\"><a routerLink=\"/user/user-list\" class=\"card-link\">Manage User</a></p>\n                <p><a routerLink=\"/user/follower-list\" class=\"card-link\">Followers</a><span class=\"user-follow\">{{user.follower.length}}</span></p>\n                <p><a routerLink=\"/user/following-list\" class=\"card-link\">Following</a><span class=\"user-follow\">{{user.following.length}}</span></p>\n                <p><a routerLink=\"/user/review-list\" class=\"card-link\">Review History</a></p>\n                <p><a routerLink=\"/user/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"col-sm-8 right-form edit-form\">\n          <h2>Edit Your Profile</h2>\n          <div class=\"form-group\">\n            <label for=\"username\">Username</label>\n            <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.username\" id=\"username\" placeholder=\"{{user.username}}\"/>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"password\">Password</label>\n            <input type=\"password\" class=\"form-control\" [(ngModel)]=\"user.password\" id=\"password\" placeholder=\"{{user.password}}\"/>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"image-URL\">URL</label>\n            <input type=\"text\" class=\"form-control\" id=\"image-URL\" [(ngModel)]=\"user.img\" placeholder=\"{{user.img}}\">\n          </div>\n          <div class=\"form-group large-input-bottom-margin\">\n            <label for=\"FormControlSelect\"><small><b>Select account type</b></small></label>\n            <select class = \"form-control\" (change)=\"filterChanged($event.target.value)\" id=\"FormControlSelect\">\n              <option *ngFor=\"let type of filterTypes\" [value]=\"type.value\">{{type.display}}\n              </option>\n            </select>\n          </div>\n          <div class=\"form-group\">\n            <a (click)=\"updateUser()\" class=\"update btn btn-block btn-primary\">Update Your Info</a>\n          </div>\n\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <div *ngIf=\"errorFlag\" class=\"alert alert-danger\">\n      {{errorMsg}}\n    </div>\n    <div class=\"container\">\n      <div class=\"row colrow user-info\">\n        <div class=\"col-sm-4 d-none d-sm-block user-main\">\n          <div class=\"media d-done d-sm-block\">\n            <div class=\"card\">\n              <img  class=\"card-img-top\" [src]=\"getUserImg()\" alt=\"Card image cap\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{user.username}}</span></h5>\n              </div>\n              <div class=\"card-footer\">\n                <p *ngIf=\"isAdmin\"><a routerLink=\"/user/user-list\" class=\"card-link\">Manage User</a></p>\n                <p><a routerLink=\"/user/follower-list\" class=\"card-link\">Followers</a>\n                  <!--<span class=\"user-follow\">{{user.follower.length}}</span>-->\n                </p>\n                <p><a routerLink=\"/user/following-list\" class=\"card-link\">Following</a>\n                  <!--<span class=\"user-follow\">{{user.following.length}}</span>-->\n                </p>\n                <p><a routerLink=\"/user/review-list\" class=\"card-link\">Review History</a></p>\n                <p><a routerLink=\"/user/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"col-sm-8 right-form edit-form\">\n          <h2>Edit Your Profile</h2>\n          <div class=\"form-group\">\n            <label for=\"username\">Username</label>\n            <input type=\"text\" class=\"form-control\" [(ngModel)]=\"user.username\" id=\"username\" placeholder=\"{{user.username}}\"/>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"password\">Password</label>\n            <input type=\"password\" class=\"form-control\" [(ngModel)]=\"user.password\" id=\"password\" placeholder=\"{{user.password}}\"/>\n          </div>\n          <div class=\"form-group\">\n            <label for=\"image-URL\">URL</label>\n            <input type=\"text\" class=\"form-control\" id=\"image-URL\" [(ngModel)]=\"user.img\" placeholder=\"{{user.img}}\">\n          </div>\n          <div class=\"form-group large-input-bottom-margin\">\n            <label for=\"FormControlSelect\"><small><b>Select account type</b></small></label>\n            <select class = \"form-control\" (change)=\"filterChanged($event.target.value)\" id=\"FormControlSelect\">\n              <option *ngFor=\"let type of filterTypes\" [value]=\"type.value\">{{type.display}}\n              </option>\n            </select>\n          </div>\n          <div class=\"form-group\">\n            <a (click)=\"updateUser()\" class=\"update btn btn-block btn-primary\">Update Your Info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n"
 
 /***/ }),
 
@@ -1497,10 +1581,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfileComponent", function() { return ProfileComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _models_user_client_model__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../models/user.client.model */ "./src/app/models/user.client.model.ts");
+
+
+
+
 
 
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent() {
+    function ProfileComponent(userService, route, router, sharedService) {
+        this.userService = userService;
+        this.route = route;
+        this.router = router;
+        this.sharedService = sharedService;
+        this.user = new _models_user_client_model__WEBPACK_IMPORTED_MODULE_5__["User"]('', '', '', '', '');
         this.errorMsg = '';
         this.filterTypes = [
             { value: 'Admin', display: 'Admin' },
@@ -1509,16 +1606,13 @@ var ProfileComponent = /** @class */ (function () {
         ];
     }
     ProfileComponent.prototype.ngOnInit = function () {
-        this.user = new Object();
-        this.user.username = 'test';
-        this.user.password = 'password';
-        this.user.follower = [];
-        this.user.following = [];
-        // this.user.reviews = [];
-        // this.user.favorite = [];
-        this.user.img = '../../../../assets/images/default-heads.jpg';
-        this.user.type = 'Admin';
-        this.isAdmin = true;
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.userService.findUserById(_this.sharedService.user._id).subscribe(function (user) {
+                _this.user = new _models_user_client_model__WEBPACK_IMPORTED_MODULE_5__["User"](user._id, user.username, user.password, user.img, user.type);
+                console.log(_this.user);
+            });
+        });
     };
     ProfileComponent.prototype.getUserImg = function () {
         if (this.user.img === '') {
@@ -1529,13 +1623,13 @@ var ProfileComponent = /** @class */ (function () {
         }
     };
     ProfileComponent.prototype.updateUser = function () {
-        // this.userService.updateUser(this.user.uid, this.user).subscribe(
-        //   (user: any) => {
-        //     this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-        //     this.router.navigate(['/profile/']);
-        //   }
-        // );
-        // alert('Update successfully!');
+        var _this = this;
+        this.user.type = this.selectedValue;
+        this.userService.updateUser(this.user.uid, this.user).subscribe(function (user) {
+            _this.user = new _models_user_client_model__WEBPACK_IMPORTED_MODULE_5__["User"](user._id, user.username, user.password, user.img, user.type);
+            _this.router.navigate(['/profile/']);
+        });
+        alert('Update successfully!');
     };
     ProfileComponent.prototype.filterChanged = function (selectedValue) {
         this.selectedValue = selectedValue;
@@ -1547,7 +1641,8 @@ var ProfileComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./profile.component.html */ "./src/app/views/user/profile/profile.component.html"),
             styles: [__webpack_require__(/*! ./profile.component.css */ "./src/app/views/user/profile/profile.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_user_client_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
     ], ProfileComponent);
     return ProfileComponent;
 }());
@@ -1617,26 +1712,31 @@ var RegisterComponent = /** @class */ (function () {
         this.selectedValue = selectedValue;
     };
     RegisterComponent.prototype.register = function () {
+        var _this = this;
         this.username = this.registerForm.value.username;
         this.password = this.registerForm.value.password;
         this.v_password = this.registerForm.value.v_password;
         this.img = this.registerForm.value.img;
         if (this.v_password === this.password) {
-            // const user: User = new User(Math.random() + '', this.username, this.password, this.firstName, this.lastName, this.email);
-            //   this.userService.register(user).subscribe(
-            //     (data: any) => {
-            //       if (data.message === 'User is already exist!') {
-            //         this.errorFlag = true;
-            //         this.errorMsg = 'User is already exist! Please use a new username!';
-            //       } else {
-            //         // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-            //         this.router.navigate(['/profile']);
-            //       }
-            //     }
-            //   );
-            // } else {
-            //   this.errorFlag = true;
-            //   this.errorMsg = 'Password needs to be verified!';
+            this.user = new Object();
+            this.user.username = this.username;
+            this.user.password = this.password;
+            this.user.img = this.img;
+            this.user.type = this.selectedValue;
+            this.userService.register(this.user).subscribe(function (data) {
+                if (data.message === 'User is already exist!') {
+                    _this.errorFlag = true;
+                    _this.errorMsg = 'User is already exist! Please use a new username!';
+                }
+                else {
+                    // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
+                    _this.router.navigate(['/profile/']);
+                }
+            });
+        }
+        else {
+            this.errorFlag = true;
+            this.errorMsg = 'Password needs to be verified!';
         }
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1778,7 +1878,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
 
 
 /***/ })

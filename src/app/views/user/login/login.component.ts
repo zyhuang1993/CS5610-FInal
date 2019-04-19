@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {UserService} from '../../../service/user.client.service';
-// import {User} from '../../../models/user.model.client';
 
 @Component({
   selector: 'app-login',
@@ -23,20 +22,19 @@ export class LoginComponent implements OnInit {
     this.username = this.loginForm.value.username;
     this.password = this.loginForm.value.password;
 
-    // this.userService.login(this.username, this.password).subscribe(
-    //   (user: any) => {
-    //     if (user === null || user.message === 'User not found or Wrong password!') {
-    //       this.errorFlag = true;
-    //       this.errorMsg = 'User does not exist or Wrong Password';
-    //     } else {
-    //       this.router.navigate(['/profile/']);
-    //     }
-    //   }
-    // );
+    this.userService.login(this.username, this.password).subscribe(
+      (user: any) => {
+        if (user === null || user.message === 'User not found or Wrong password!') {
+          this.errorFlag = true;
+          this.errorMsg = 'User does not exist or Wrong Password';
+        } else {
+          this.router.navigate(['/profile/']);
+        }
+      }
+    );
   }
 
   ngOnInit() {
-    console.log('login page!' + this.username);
   }
 
 }

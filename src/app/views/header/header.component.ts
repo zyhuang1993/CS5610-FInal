@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SharedService} from '../../service/shared.client.service';
+import {UserService} from '../../service/user.client.service';
+
 import {MovieService} from '../../service/movie.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -13,10 +15,11 @@ export class HeaderComponent implements OnInit {
   status: string;
   loginOrProfile: string;
   topReviews: string;
-  logout: string;
+  logoutMsg: string;
   loggedIn: boolean;
   logoutPath: string;
-  constructor(private sharedService: SharedService, private router: Router) { }
+  constructor(private sharedService: SharedService, private userService: UserService, private router: Router) { }
+
 
   ngOnInit() {
     if (this.sharedService.user === null) {
@@ -24,17 +27,24 @@ export class HeaderComponent implements OnInit {
       this.loginOrProfile = 'Login';
       this.topReviews = '/login';
       this.loggedIn = false;
-
     } else {
       this.status = '/profile';
       this.loginOrProfile = 'Profile';
       this.topReviews = '/topReviews';
       this.loggedIn = true;
       this.logoutPath = '';
-      this.logout = 'Log Out';
+      this.logoutMsg = 'Log Out';
     }
   }
 
+  logout() {
+    this.sharedService.user = null;
+    this.userService.logout()
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/login']);
+        }
+      );
   navigateToSearch() {
 
   }

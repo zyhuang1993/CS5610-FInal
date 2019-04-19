@@ -12,16 +12,61 @@ import { map } from 'rxjs/operators';
 export class UserService {
   apiKey = 'd2d9450a243aa2b04c0ce3439b094b25';
   moviedbUrl = 'https://api.themoviedb.org/3';
+  constructor(private http: HttpClient, private sharedService: SharedService, private router: Router) {}
+
+  baseUrl = environment.baseUrl;
+
   headers = new HttpHeaders({
     'Content-Type': 'application/json'
   });
+
   options = {
     headers: this.headers,
     withCredentials: true
   };
-  baseUrl = environment.baseUrl;
 
-  constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) {
+  api = {
+    'createUser' : this.createUser,
+    'findUserById' : this.findUserById,
+    'findUserByUsername' : this.findUserByUserName,
+    'findUserByCredentials' : this.findUserByCredentials,
+    'updateUser': this.updateUser,
+    'deleteUser': this.deleteUser
+  };
+
+  createUser(user: any) {
+    return this.http.post(this.baseUrl + '/api/user', user);
+  }
+
+  findUserById(userId: string) {
+    return this.http.get(this.baseUrl + '/api/user/' + userId);
+  }
+
+  findUserByUserName(username: string) {
+    return this.http.get(this.baseUrl + '/api/user?' + 'username=' + username);
+  }
+
+  findUserByCredentials(username: string, password: string) {
+    return this.http.get(this.baseUrl + '/api/user?' + 'username=' + username + '&' + 'password=' + password);
+  }
+
+  updateUser(userId: string, user: any) {
+    return this.http.put(this.baseUrl + '/api/user/' + userId, user);
+  }
+
+  deleteUser(userId: string) {
+    return this.http.delete(this.baseUrl + '/api/user/' + userId);
+  }
+
+  login(username: String, password: String) {
+    this.options.withCredentials = true;
+    const body = {username: username, password: password};
+    return this.http.post(this.baseUrl + '/api/login', body, this.options);
+  }
+
+  logout() {
+    this.options.withCredentials = true;
+    return this.http.post(this.baseUrl + '/api/logout', '', this.options);
   }
 
   findNowPlayingMovies(page) {
@@ -60,5 +105,10 @@ export class UserService {
           return false; }
       })
     );
+  }
+
+  register(user: any) {
+    this.options.withCredentials = true;
+    return this.http.post(this.baseUrl + '/api/register', user, this.options);
   }
 }
