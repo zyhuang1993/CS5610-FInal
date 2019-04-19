@@ -46,8 +46,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./views/movie/favorite-movie/favorite-movie.component */ "./src/app/views/movie/favorite-movie/favorite-movie.component.ts");
 /* harmony import */ var _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./views/user/follower-list/follower-list.component */ "./src/app/views/user/follower-list/follower-list.component.ts");
 /* harmony import */ var _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./views/user/following-list/following-list.component */ "./src/app/views/user/following-list/following-list.component.ts");
-/* harmony import */ var _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/user/other-user/other-user.component */ "./src/app/views/user/other-user/other-user.component.ts");
-/* harmony import */ var _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/review/review-list/review-list.component */ "./src/app/views/review/review-list/review-list.component.ts");
+/* harmony import */ var _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/review/review-new/review-new.component */ "./src/app/views/review/review-new/review-new.component.ts");
+/* harmony import */ var _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/user/other-user/other-user.component */ "./src/app/views/user/other-user/other-user.component.ts");
+/* harmony import */ var _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/review/review-list/review-list.component */ "./src/app/views/review/review-list/review-list.component.ts");
+
 
 
 
@@ -64,6 +66,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var routes = [
+    // guest
     { path: '', component: _views_home_home_component__WEBPACK_IMPORTED_MODULE_4__["HomeComponent"] },
     { path: 'movie', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
     { path: 'register', component: _views_user_register_register_component__WEBPACK_IMPORTED_MODULE_5__["RegisterComponent"] },
@@ -71,13 +74,18 @@ var routes = [
     { path: 'login', component: _views_user_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"] },
     { path: 'movie/:dbId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
     { path: 'topMovies', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
-    { path: 'movie/:movieId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
+    // user
+    { path: 'movie/:dbId/review-new', component: _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__["ReviewNewComponent"] },
+    { path: 'user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"] },
+    { path: 'favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"] },
+    { path: 'follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"] },
+    { path: 'following-list', component: _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__["FollowingListComponent"] },
     { path: 'user/user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"] },
-    { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_13__["OtherUserComponent"] },
+    { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"] },
     { path: 'user/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"] },
     { path: 'user/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"] },
     { path: 'user/following-list', component: _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__["FollowingListComponent"] },
-    { path: 'user/review-list', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_14__["ReviewListComponent"] }
+    { path: 'user/review-list', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -347,9 +355,6 @@ var PaginationService = /** @class */ (function () {
             startPage = currentPage - 5;
             endPage = currentPage + 4;
         }
-        console.log('startpage:' + startPage);
-        console.log('current:' + currentPage);
-        console.log('end:' + endPage);
         var pages = Array.from(Array((endPage + 1) - startPage).keys()).map(function (i) { return startPage + i; });
         // return object with all pager properties required by the view
         return {
@@ -674,7 +679,7 @@ module.exports = "\nbody {\n  margin-top: -10px;\n  background-image: linear-gra
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"movieInMongo&&movieInMongo.rate\">\n              User Score: {{movieInMongo.rate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"movieInMongo&&movieInMongo.rate\">\n              User Score: {{movieInMongo.rate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <a *ngIf=\"loggedIn\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -699,10 +704,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var MovieDetailComponent = /** @class */ (function () {
-    function MovieDetailComponent(movieService, activatedRoute, sharedService) {
+    function MovieDetailComponent(movieService, activatedRoute, sharedService, router) {
         this.movieService = movieService;
         this.activatedRoute = activatedRoute;
         this.sharedService = sharedService;
+        this.router = router;
         this.loggedIn = true;
         this.movie = '';
         this.trails = '';
@@ -729,14 +735,28 @@ var MovieDetailComponent = /** @class */ (function () {
         if (url) {
             return 'https://image.tmdb.org/t/p/original' + url;
         }
-        else {
-            return '../../../../assets/images/coming-soon.jpg';
-        }
-    };
-    MovieDetailComponent.prototype.getRateForAMovie = function (dbId) {
     };
     MovieDetailComponent.prototype.getTrailUrl = function (key) {
         return 'https://www.youtube.com/embed/' + key;
+    };
+    MovieDetailComponent.prototype.navigateToReview = function () {
+        var _this = this;
+        if (this.movieInMongo) {
+            this.router.navigate(['/movie/:dbID/review-new']);
+        }
+        else {
+            var newMovie = {
+                title: this.movie.original_title,
+                rate: undefined,
+                db_id: this.dbId,
+                reviews: []
+            };
+            console.log(newMovie);
+            this.movieService.createMovie(newMovie).subscribe(function (data) {
+                _this.movieInMongo = data;
+                _this.router.navigate(['/movie/:dbID/review-new']);
+            });
+        }
     };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -744,7 +764,7 @@ var MovieDetailComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./movie-detail.component.html */ "./src/app/views/movie/movie-detail/movie-detail.component.html"),
             styles: [__webpack_require__(/*! ./movie-detail.component.css */ "./src/app/views/movie/movie-detail/movie-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], MovieDetailComponent);
     return MovieDetailComponent;
 }());
@@ -888,7 +908,7 @@ var ReviewListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3ZpZXdzL3Jldmlldy9yZXZpZXctbmV3L3Jldmlldy1uZXcuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "body {\n  background-image: url('login-background.jpg');\n  background-repeat: no-repeat;\n  position: relative;\n  background-size: 100% 100%;\n}\n\n.container {\n  margin-top: 70px;\n\n  padding-top: 100px;\n  padding-bottom: 100px;\n  width:100%;\n\n  text-align:center;\n}\n\nh1 {\n  margin-bottom: 30px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvcmV2aWV3L3Jldmlldy1uZXcvcmV2aWV3LW5ldy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsNkNBQXVFO0VBQ3ZFLDRCQUE0QjtFQUM1QixrQkFBa0I7RUFDbEIsMEJBQTBCO0FBQzVCOztBQUVBO0VBQ0UsZ0JBQWdCOztFQUVoQixrQkFBa0I7RUFDbEIscUJBQXFCO0VBQ3JCLFVBQVU7O0VBRVYsaUJBQWlCO0FBQ25COztBQUVBO0VBQ0UsbUJBQW1CO0FBQ3JCIiwiZmlsZSI6InNyYy9hcHAvdmlld3MvcmV2aWV3L3Jldmlldy1uZXcvcmV2aWV3LW5ldy5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiYm9keSB7XG4gIGJhY2tncm91bmQtaW1hZ2U6IHVybChcIi4uLy4uLy4uLy4uL2Fzc2V0cy9pbWFnZXMvbG9naW4tYmFja2dyb3VuZC5qcGdcIik7XG4gIGJhY2tncm91bmQtcmVwZWF0OiBuby1yZXBlYXQ7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgYmFja2dyb3VuZC1zaXplOiAxMDAlIDEwMCU7XG59XG5cbi5jb250YWluZXIge1xuICBtYXJnaW4tdG9wOiA3MHB4O1xuXG4gIHBhZGRpbmctdG9wOiAxMDBweDtcbiAgcGFkZGluZy1ib3R0b206IDEwMHB4O1xuICB3aWR0aDoxMDAlO1xuXG4gIHRleHQtYWxpZ246Y2VudGVyO1xufVxuXG5oMSB7XG4gIG1hcmdpbi1ib3R0b206IDMwcHg7XG59XG4iXX0= */"
 
 /***/ }),
 
@@ -899,7 +919,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  review-new works!\n</p>\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n\n  </div>\n</main>\n</body>\n</html>\n"
 
 /***/ }),
 
@@ -915,10 +935,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReviewNewComponent", function() { return ReviewNewComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
 
 
 var ReviewNewComponent = /** @class */ (function () {
-    function ReviewNewComponent() {
+    function ReviewNewComponent(sharedService, activatedRoute) {
+        this.sharedService = sharedService;
+        this.activatedRoute = activatedRoute;
     }
     ReviewNewComponent.prototype.ngOnInit = function () {
     };
@@ -928,7 +954,7 @@ var ReviewNewComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./review-new.component.html */ "./src/app/views/review/review-new/review-new.component.html"),
             styles: [__webpack_require__(/*! ./review-new.component.css */ "./src/app/views/review/review-new/review-new.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], ReviewNewComponent);
     return ReviewNewComponent;
 }());
@@ -1557,7 +1583,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })

@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm">
-          <img class="poster movie-poster" [src]="getImageUrlForAMovie(movie.poster_path)" alt="movie poster">
+          <img *ngIf="movie.poster_path" class="poster movie-poster" [src]="getImageUrlForAMovie(movie.poster_path)" alt="movie poster">
         </div>
         <div class="col-md movie-description">
           <div class="movie-title">
@@ -24,6 +24,7 @@
             <a *ngIf="loggedIn" class=" far fa-heart icon-item"></a>
             <a *ngIf="loggedIn" class="far fa-star icon-item"></a>
             <a *ngIf="loggedIn" class="fas fa-list icon-item"></a>
+            <a *ngIf="loggedIn" (click)="navigateToReview()" class="fas fa-pen icon-item"></a>
             <!--<a href="#" class="fas fa-play icon-item"><span class="icon-text"> Play Traileir</span></a>-->
           </div>
           <div class="description-title">
