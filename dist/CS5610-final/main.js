@@ -379,6 +379,54 @@ var PaginationService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/service/review.client.service.ts":
+/*!**************************************************!*\
+  !*** ./src/app/service/review.client.service.ts ***!
+  \**************************************************/
+/*! exports provided: ReviewService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReviewService", function() { return ReviewService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+
+
+
+
+var ReviewService = /** @class */ (function () {
+    function ReviewService(http) {
+        this.http = http;
+        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl;
+    }
+    ReviewService.prototype.createReview = function (dbId, review) {
+        var url = this.baseUrl + '/api/' + dbId + '/review';
+        return this.http.post(url, review);
+    };
+    ReviewService.prototype.deleteReview = function (reviewId) {
+        var url = this.baseUrl + '/api/review/' + reviewId;
+        return this.http.delete(url);
+    };
+    ReviewService.prototype.updateReview = function (review) {
+        var url = this.baseUrl = '/api/review/' + review._id;
+        return this.http.put(url, '');
+    };
+    ReviewService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"]])
+    ], ReviewService);
+    return ReviewService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/service/shared.client.service.ts":
 /*!**************************************************!*\
   !*** ./src/app/service/shared.client.service.ts ***!
@@ -937,24 +985,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/review.client.service */ "./src/app/service/review.client.service.ts");
+
+
 
 
 
 
 var ReviewNewComponent = /** @class */ (function () {
-    function ReviewNewComponent(sharedService, activatedRoute) {
+    function ReviewNewComponent(sharedService, activatedRoute, reviewService) {
         this.sharedService = sharedService;
         this.activatedRoute = activatedRoute;
+        this.reviewService = reviewService;
+        this.errorMsg = '';
+        this.userId = this.sharedService.user._id;
+        this.errorFlag = false;
     }
     ReviewNewComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.activatedRoute.params.subscribe(function (params) {
+            _this.movieDBId = params.dbId;
+        });
     };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('f'),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _angular_forms__WEBPACK_IMPORTED_MODULE_4__["NgForm"])
+    ], ReviewNewComponent.prototype, "reviewForm", void 0);
     ReviewNewComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-review-new',
             template: __webpack_require__(/*! ./review-new.component.html */ "./src/app/views/review/review-new/review-new.component.html"),
             styles: [__webpack_require__(/*! ./review-new.component.css */ "./src/app/views/review/review-new/review-new.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"]])
     ], ReviewNewComponent);
     return ReviewNewComponent;
 }());

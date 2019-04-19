@@ -9,8 +9,8 @@ export class ReviewService {
   baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) {}
 
-  createReview(review) {
-    const url = this.baseUrl + '/api/review';
+  createReview(dbId, review) {
+    const url = this.baseUrl + '/api/' + dbId + '/review';
     return this.http.post(url, review);
   }
 
@@ -19,4 +19,8 @@ export class ReviewService {
     return this.http.delete(url);
   }
 
+  updateReview(review) {
+    const url = this.baseUrl = '/api/review/' + review._id;
+    return this.http.put(url, '');
+  }
 }
