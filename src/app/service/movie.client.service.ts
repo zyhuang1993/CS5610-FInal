@@ -29,7 +29,7 @@ export class MovieService {
   }
 
   searchMovies(keyword) {
-    const url = this.moviedbUrl + `/search/movie?query=${keyword}&page=1&language=en-US$api_key=${this.apiKey}`;
+    const url = this.moviedbUrl + `/search/movie?query=${keyword}&page=1&language=en-US&api_key=${this.apiKey}`;
     return this.http.get(url);
   }
 
