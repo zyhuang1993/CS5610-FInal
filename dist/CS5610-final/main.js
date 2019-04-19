@@ -1692,7 +1692,12 @@ var ProfileComponent = /** @class */ (function () {
         this.route.params.subscribe(function (params) {
             _this.userService.findUserById(_this.sharedService.user._id).subscribe(function (user) {
                 _this.user = new _models_user_client_model__WEBPACK_IMPORTED_MODULE_5__["User"](user._id, user.username, user.password, user.img, user.type);
-                console.log(_this.user);
+                if (_this.user.type === 'Admin') {
+                    _this.isAdmin = true;
+                }
+                else {
+                    _this.isAdmin = false;
+                }
             });
         });
     };
@@ -1715,7 +1720,6 @@ var ProfileComponent = /** @class */ (function () {
     };
     ProfileComponent.prototype.filterChanged = function (selectedValue) {
         this.selectedValue = selectedValue;
-        this.isAdmin = this.selectedValue === 'Admin';
     };
     ProfileComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1789,6 +1793,7 @@ var RegisterComponent = /** @class */ (function () {
     }
     RegisterComponent.prototype.ngOnInit = function () {
         this.errorFlag = false;
+        this.selectedValue = 'Unpaid';
     };
     RegisterComponent.prototype.filterChanged = function (selectedValue) {
         this.selectedValue = selectedValue;

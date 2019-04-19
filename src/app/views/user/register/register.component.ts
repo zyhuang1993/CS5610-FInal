@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.errorFlag = false;
+    this.selectedValue = 'Unpaid';
   }
 
   filterChanged(selectedValue: string){
