@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SharedService} from '../../service/shared.client.service';
+import {UserService} from '../../service/user.client.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,10 +12,10 @@ export class HeaderComponent implements OnInit {
   status: string;
   loginOrProfile: string;
   topReviews: string;
-  logout: string;
+  logoutMsg: string;
   loggedIn: boolean;
   logoutPath: string;
-  constructor(private sharedService: SharedService) { }
+  constructor(private sharedService: SharedService, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     if (this.sharedService.user === null) {
@@ -27,8 +29,18 @@ export class HeaderComponent implements OnInit {
       this.topReviews = '/topReviews';
       this.loggedIn = true;
       this.logoutPath = '';
-      this.logout = 'Log Out';
+      this.logoutMsg = 'Log Out';
     }
+  }
+
+  logout() {
+    this.sharedService.user = null;
+    this.userService.logout()
+      .subscribe(
+        (data: any) => {
+          this.router.navigate(['/login']);
+        }
+      );
   }
 
 }

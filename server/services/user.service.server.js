@@ -69,8 +69,7 @@ module.exports = function (app) {
           } else {
             var names = profile.displayName.split(" ");
             var newFacebookUser = {
-              lastName: names[1],
-              firstName: names[0],
+              username: names[0] + " " + names[1],
               img: "",
               facebook: { id: profile.id, token: token },
               type: "Unpaid"};

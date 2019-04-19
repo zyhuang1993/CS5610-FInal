@@ -6,6 +6,8 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const app = express();
+var mongoose = require('mongoose');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -21,6 +23,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+app.use(cookieParser());
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'webfinal'
+}));
+
 var passport = require('passport');
 app.use(passport.initialize());
 app.use(passport.session());
@@ -29,7 +38,6 @@ const port = process.env.PORT || '4200';
 app.set('port', port);
 
 
-var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var connectionString = 'mongodb://localhost:27017/webfinal';
 // var connectionString = 'mongodb://heroku_p1dr3dp9:3kpum3ptca8ab0l1braf1dh5l7@ds135456.mlab.com:35456/heroku_p1dr3dp9';

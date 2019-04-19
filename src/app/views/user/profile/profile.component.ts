@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {UserService} from '../../../service/user.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
+import {User} from '../../../models/user.client.model';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,7 @@ import {SharedService} from '../../../service/shared.client.service';
 })
 export class ProfileComponent implements OnInit {
 
-  user: any;
+  user: User = new User('', '', '', '', '');
   selectedValue: string;
   isAdmin: boolean;
   errorFlag: boolean;
@@ -21,13 +22,15 @@ export class ProfileComponent implements OnInit {
     {value: 'Paid', display: 'Vip'}
   ];
   constructor(private userService: UserService, private route: ActivatedRoute, private router: Router,
-              private sharedService: SharedService) { }
+              private sharedService: SharedService) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userService.findUserById(this.sharedService.user._id).subscribe(
         (user: any) => {
-          this.user = user;
+          this.user = new User(user._id, user.username, user.password, user.img, user.type);
+          console.log(this.user);
         }
       );
     });
@@ -42,10 +45,11 @@ export class ProfileComponent implements OnInit {
   }
 
   updateUser() {
+    this.user.type = this.selectedValue;
     this.userService.updateUser(this.user.uid, this.user).subscribe(
       (user: any) => {
-        this.user = user;
-        this.router.navigate(['/profile']);
+        this.user = new User(user._id, user.username, user.password, user.img, user.type);
+        this.router.navigate(['/profile/']);
       }
     );
     alert('Update successfully!');
@@ -55,5 +59,7 @@ export class ProfileComponent implements OnInit {
     this.selectedValue = selectedValue;
     this.isAdmin = this.selectedValue === 'Admin';
   }
+
+
 
 }

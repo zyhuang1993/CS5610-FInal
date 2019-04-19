@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
             this.errorMsg = 'User is already exist! Please use a new username!';
           } else {
             // this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-            this.router.navigate(['/profile']);
+            this.router.navigate(['/profile/']);
           }
         }
       );
@@ -64,5 +64,7 @@ export class RegisterComponent implements OnInit {
       this.errorMsg = 'Password needs to be verified!';
     }
   }
+
+
 
 }
