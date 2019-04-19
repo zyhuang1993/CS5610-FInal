@@ -6,7 +6,7 @@ module.exports = function (app) {
   var FacebookStrategy = require('passport-facebook').Strategy;
   var facebookConfig = {
     clientID : process.env.FACEBOOK_CLIENT_ID || 384989495419774,
-    clientSecret : process.env.FACEBOOK_CLIENT_SECRET || 'b630207de3fa0044dc9a33e24eed528f',
+    clientSecret : process.env.FACEBOOK_CLIENT_SECRET || '2a4b389fb0be50876d0b038616845c26',
     callbackURL : process.env.FACEBOOK_CALLBACK_URL || '/auth/facebook/callback'
   };
 
