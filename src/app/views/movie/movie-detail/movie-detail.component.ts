@@ -14,7 +14,9 @@ export class MovieDetailComponent implements OnInit {
   movieInMongo: any;
   loggedIn: boolean;
   trails: any;
-  constructor(private movieService: MovieService, private activatedRoute: ActivatedRoute, private sharedService: SharedService, private router: Router) {
+  averageRate: number;
+  constructor(private movieService: MovieService, private activatedRoute: ActivatedRoute,
+              private sharedService: SharedService, private router: Router) {
     this.loggedIn = true;
     this.movie = '';
     this.trails = '';
@@ -31,6 +33,9 @@ export class MovieDetailComponent implements OnInit {
       });
       this.movieService.findMovieByDbId(this.dbId).subscribe((movie: any) => {
         this.movieInMongo = movie;
+        if (this.movieInMongo.totalScore && this.movieInMongo.totalRates) {
+          this.averageRate = this.movieInMongo.totalScore / this.movieInMongo.totalRates;
+        }
       });
       this.movieService.findMovieDetailsById(this.dbId).subscribe((movie) => {
         this.movie = movie;

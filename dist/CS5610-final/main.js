@@ -49,6 +49,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./views/review/review-new/review-new.component */ "./src/app/views/review/review-new/review-new.component.ts");
 /* harmony import */ var _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./views/user/other-user/other-user.component */ "./src/app/views/user/other-user/other-user.component.ts");
 /* harmony import */ var _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/review/review-list/review-list.component */ "./src/app/views/review/review-list/review-list.component.ts");
+/* harmony import */ var _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./service/authguard-user.client.service */ "./src/app/service/authguard-user.client.service.ts");
+/* harmony import */ var _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./service/authguard-admin.client.service */ "./src/app/service/authguard-admin.client.service.ts");
+
+
 
 
 
@@ -68,24 +72,19 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [
     // guest
     { path: '', component: _views_home_home_component__WEBPACK_IMPORTED_MODULE_4__["HomeComponent"] },
-    { path: 'movie', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
-    { path: 'register', component: _views_user_register_register_component__WEBPACK_IMPORTED_MODULE_5__["RegisterComponent"] },
-    { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"] },
     { path: 'login', component: _views_user_login_login_component__WEBPACK_IMPORTED_MODULE_6__["LoginComponent"] },
+    { path: 'register', component: _views_user_register_register_component__WEBPACK_IMPORTED_MODULE_5__["RegisterComponent"] },
+    { path: 'movie', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
     { path: 'movie/:dbId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
     { path: 'topMovies', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
-    // user
-    { path: 'movie/:dbId/review-new', component: _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__["ReviewNewComponent"] },
-    { path: 'user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"] },
-    { path: 'favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"] },
-    { path: 'follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"] },
-    { path: 'following-list', component: _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__["FollowingListComponent"] },
-    { path: 'user/user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"] },
-    { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"] },
-    { path: 'user/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"] },
-    { path: 'user/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"] },
-    { path: 'user/following-list', component: _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__["FollowingListComponent"] },
-    { path: 'user/review-list', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"] }
+    { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'user/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'user/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'user/following-list', component: _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_12__["FollowingListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'user/review-list', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'movie/:dbId/review-new', component: _views_review_review_new_review_new_component__WEBPACK_IMPORTED_MODULE_13__["ReviewNewComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'user/user-list', component: _views_user_user_list_user_list_component__WEBPACK_IMPORTED_MODULE_7__["UserListComponent"], canActivate: [_service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_17__["AuthGuardAdmin"]] }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -255,6 +254,74 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/service/authguard-admin.client.service.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/service/authguard-admin.client.service.ts ***!
+  \***********************************************************/
+/*! exports provided: AuthGuardAdmin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuardAdmin", function() { return AuthGuardAdmin; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _user_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user.client.service */ "./src/app/service/user.client.service.ts");
+
+
+
+var AuthGuardAdmin = /** @class */ (function () {
+    function AuthGuardAdmin(userService) {
+        this.userService = userService;
+    }
+    AuthGuardAdmin.prototype.canActivate = function () {
+        return this.userService.loggedInAsAdmin();
+    };
+    AuthGuardAdmin = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_user_client_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+    ], AuthGuardAdmin);
+    return AuthGuardAdmin;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/service/authguard-user.client.service.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/service/authguard-user.client.service.ts ***!
+  \**********************************************************/
+/*! exports provided: AuthGuardUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuardUser", function() { return AuthGuardUser; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _user_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user.client.service */ "./src/app/service/user.client.service.ts");
+
+
+
+var AuthGuardUser = /** @class */ (function () {
+    function AuthGuardUser(userService) {
+        this.userService = userService;
+    }
+    AuthGuardUser.prototype.canActivate = function () {
+        return this.userService.loggedIn();
+    };
+    AuthGuardUser = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_user_client_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+    ], AuthGuardUser);
+    return AuthGuardUser;
 }());
 
 
@@ -467,15 +534,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+
+
+
+
 
 
 
 var UserService = /** @class */ (function () {
-    function UserService(http) {
+    function UserService(http, router, sharedService) {
         this.http = http;
+        this.router = router;
+        this.sharedService = sharedService;
         this.apiKey = 'd2d9450a243aa2b04c0ce3439b094b25';
         this.moviedbUrl = 'https://api.themoviedb.org/3';
+        this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
+            'Content-Type': 'application/json'
+        });
+        this.options = {
+            headers: this.headers,
+            withCredentials: true
+        };
+        this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl;
     }
     UserService.prototype.findNowPlayingMovies = function (page) {
         var url = this.moviedbUrl + ("/movie/now_playing?page=" + page + "&language=en-US&api_key=" + this.apiKey);
@@ -485,11 +570,39 @@ var UserService = /** @class */ (function () {
         var url = this.moviedbUrl + ("/movie/" + movieId + "/images?api_key=" + this.apiKey + "&language=en-US");
         return this.http.get(url);
     };
+    UserService.prototype.loggedIn = function () {
+        var _this = this;
+        this.options.withCredentials = true;
+        return this.http.post(this.baseUrl + '/api/loggedIn', '', this.options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(function (user) {
+            if (user !== '0') {
+                _this.sharedService.user = user;
+                return true;
+            }
+            else {
+                _this.router.navigate(['/login']);
+                return false;
+            }
+        }));
+    };
+    UserService.prototype.loggedInAsAdmin = function () {
+        var _this = this;
+        this.options.withCredentials = true;
+        return this.http.post(this.baseUrl + '/api/loggedIn', '', this.options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_6__["map"])(function (user) {
+            if (user !== '0' && user.type === 'Admin') {
+                _this.sharedService.user = user;
+                return true;
+            }
+            else {
+                _this.router.navigate(['']);
+                return false;
+            }
+        }));
+    };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], _shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
     ], UserService);
     return UserService;
 }());
@@ -727,7 +840,7 @@ module.exports = "\nbody {\n  margin-top: -10px;\n  background-image: linear-gra
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"movieInMongo&&movieInMongo.rate\">\n              User Score: {{movieInMongo.rate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <a *ngIf=\"loggedIn\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>\n            <a *ngIf=\"loggedIn\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -773,6 +886,9 @@ var MovieDetailComponent = /** @class */ (function () {
             });
             _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (movie) {
                 _this.movieInMongo = movie;
+                if (_this.movieInMongo.totalScore && _this.movieInMongo.totalRates) {
+                    _this.averageRate = _this.movieInMongo.totalScore / _this.movieInMongo.totalRates;
+                }
             });
             _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
                 _this.movie = movie;
@@ -812,7 +928,8 @@ var MovieDetailComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./movie-detail.component.html */ "./src/app/views/movie/movie-detail/movie-detail.component.html"),
             styles: [__webpack_require__(/*! ./movie-detail.component.css */ "./src/app/views/movie/movie-detail/movie-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], MovieDetailComponent);
     return MovieDetailComponent;
 }());
@@ -967,7 +1084,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n\n  </div>\n</main>\n</body>\n</html>\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h1>Write your review</h1>\n    <form (ngSubmit)=\"submit()\" #f=\"ngForm\">\n      <div class=\"form-group\">\n        <input type=\"text\" class=\"form-control\" name=\"title\" placeholder=\"title\" ngModel required #title=\"ngModel\"/>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!title.valid && title.touched\">\n      Please Enter Review Title!\n      </span>\n      <div class=\"form-group\">\n        <textarea type=\"text\" class=\"form-control\" rows=\"5\" placeholder=\"description\" ngModel required #description=\"ngModel\"></textarea>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!description.valid && description.touched\">\n        Please Enter your description!\n      </span>\n      <div class=\"form-group\">\n        <button [disabled]=\"!f.valid\" class=\"btn btn-block btn-primary\" type=\"submit\">Submit</button>\n      </div>\n      <div class=\"form-group\">\n        <a routerLink=\"/movie/{{movieDBId}}\" class=\"btn btn-block btn-success\">Cancel</a>\n      </div>\n\n    </form>\n\n  </div>\n</main>\n</body>\n</html>\n"
 
 /***/ }),
 
@@ -994,18 +1111,31 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ReviewNewComponent = /** @class */ (function () {
-    function ReviewNewComponent(sharedService, activatedRoute, reviewService) {
+    function ReviewNewComponent(sharedService, activatedRoute, reviewService, router) {
         this.sharedService = sharedService;
         this.activatedRoute = activatedRoute;
         this.reviewService = reviewService;
-        this.errorMsg = '';
+        this.router = router;
         this.userId = this.sharedService.user._id;
-        this.errorFlag = false;
     }
     ReviewNewComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.activatedRoute.params.subscribe(function (params) {
             _this.movieDBId = params.dbId;
+        });
+    };
+    ReviewNewComponent.prototype.submit = function () {
+        var _this = this;
+        this.title = this.reviewForm.value.title;
+        this.description = this.reviewForm.value.description;
+        var review = {
+            title: this.title,
+            description: this.description,
+            reviewer: this.userId,
+            likes: 0,
+        };
+        this.reviewService.createReview(this.movieDBId, review).subscribe(function (data) {
+            _this.router.navigate(['/movie/' + _this.movieDBId]);
         });
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1018,7 +1148,8 @@ var ReviewNewComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./review-new.component.html */ "./src/app/views/review/review-new/review-new.component.html"),
             styles: [__webpack_require__(/*! ./review-new.component.css */ "./src/app/views/review/review-new/review-new.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], ReviewNewComponent);
     return ReviewNewComponent;
 }());

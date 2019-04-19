@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SharedService} from '../../../service/shared.client.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {ReviewService} from '../../../service/review.client.service';
 
@@ -12,23 +12,34 @@ import {ReviewService} from '../../../service/review.client.service';
 export class ReviewNewComponent implements OnInit {
   @ViewChild('f') reviewForm: NgForm;
   title: string;
-  rate: number;
   description: string;
   likes: number;
   userId: string;
   movieDBId: string;
 
-  errorFlag: boolean;
-  errorMsg = '';
-  constructor(private sharedService: SharedService, private activatedRoute: ActivatedRoute, private reviewService: ReviewService) {
+  constructor(private sharedService: SharedService, private activatedRoute: ActivatedRoute,
+              private reviewService: ReviewService, private router: Router) {
     this.userId = this.sharedService.user._id;
-    this.errorFlag = false;
   }
 
   ngOnInit() {
    this.activatedRoute.params.subscribe((params) => {
      this.movieDBId = params.dbId;
    });
+  }
+
+  submit() {
+    this.title = this.reviewForm.value.title;
+    this.description = this.reviewForm.value.description;
+    const review = {
+      title: this.title,
+      description: this.description,
+      reviewer: this.userId,
+      likes: 0,
+    };
+    this.reviewService.createReview(this.movieDBId, review).subscribe((data) => {
+      this.router.navigate(['/movie/' + this.movieDBId]);
+    });
   }
 
 }
