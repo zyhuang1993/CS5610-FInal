@@ -31,7 +31,7 @@ const routes: Routes = [
   {path: 'user/follower-list', component: FollowerListComponent, canActivate: [AuthGuardUser]},
   {path: 'user/following-list', component: FollowingListComponent, canActivate: [AuthGuardUser]},
   {path: 'user/review-list', component: ReviewListComponent, canActivate: [AuthGuardUser]},
-  {path: 'movie/:dbId/review-new', component: ReviewNewComponent},
+  {path: 'movie/:dbId/review-new', component: ReviewNewComponent, canActivate: [AuthGuardUser]},
 
   {path: 'user/user-list', component: UserListComponent, canActivate: [AuthGuardAdmin]}
 ];
