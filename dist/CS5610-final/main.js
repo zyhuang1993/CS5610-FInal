@@ -51,6 +51,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./views/review/review-list/review-list.component */ "./src/app/views/review/review-list/review-list.component.ts");
 /* harmony import */ var _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./service/authguard-user.client.service */ "./src/app/service/authguard-user.client.service.ts");
 /* harmony import */ var _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./service/authguard-admin.client.service */ "./src/app/service/authguard-admin.client.service.ts");
+/* harmony import */ var _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./views/movie/movie-search/movie-search.component */ "./src/app/views/movie/movie-search/movie-search.component.ts");
+
 
 
 
@@ -77,6 +79,7 @@ var routes = [
     { path: 'movie', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
     { path: 'movie/:dbId', component: _views_movie_movie_detail_movie_detail_component__WEBPACK_IMPORTED_MODULE_8__["MovieDetailComponent"] },
     { path: 'topMovies', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
+    { path: 'search/movie/query?=:keyword', component: _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_18__["MovieSearchComponent"] },
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
@@ -195,6 +198,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./views/user/following-list/following-list.component */ "./src/app/views/user/following-list/following-list.component.ts");
 /* harmony import */ var _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./service/authguard-user.client.service */ "./src/app/service/authguard-user.client.service.ts");
 /* harmony import */ var _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./service/authguard-admin.client.service */ "./src/app/service/authguard-admin.client.service.ts");
+/* harmony import */ var _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./views/movie/movie-search/movie-search.component */ "./src/app/views/movie/movie-search/movie-search.component.ts");
+/* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./service/review.client.service */ "./src/app/service/review.client.service.ts");
+
+
 
 
 
@@ -244,7 +251,8 @@ var AppModule = /** @class */ (function () {
                 _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_23__["FavoriteMovieComponent"],
                 _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_24__["OtherUserComponent"],
                 _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_25__["FollowerListComponent"],
-                _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_26__["FollowingListComponent"]
+                _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_26__["FollowingListComponent"],
+                _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_29__["MovieSearchComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -253,7 +261,7 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_15__["FormsModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_19__["BrowserAnimationsModule"],
             ],
-            providers: [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_14__["UserService"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_17__["SharedService"], _service_pagination_client_service__WEBPACK_IMPORTED_MODULE_21__["PaginationService"], _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_27__["AuthGuardUser"], _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_28__["AuthGuardAdmin"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_20__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_20__["HashLocationStrategy"] }],
+            providers: [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_13__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_14__["UserService"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_17__["SharedService"], _service_pagination_client_service__WEBPACK_IMPORTED_MODULE_21__["PaginationService"], _service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_27__["AuthGuardUser"], _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_28__["AuthGuardAdmin"], _service_review_client_service__WEBPACK_IMPORTED_MODULE_30__["ReviewService"], { provide: _angular_common__WEBPACK_IMPORTED_MODULE_20__["LocationStrategy"], useClass: _angular_common__WEBPACK_IMPORTED_MODULE_20__["HashLocationStrategy"] }],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
@@ -263,7 +271,6 @@ var AppModule = /** @class */ (function () {
 
 
 /***/ }),
-
 
 /***/ "./src/app/models/user.client.model.ts":
 /*!*********************************************!*\
@@ -289,6 +296,7 @@ var User = /** @class */ (function () {
 
 
 /***/ }),
+
 /***/ "./src/app/service/authguard-admin.client.service.ts":
 /*!***********************************************************!*\
   !*** ./src/app/service/authguard-admin.client.service.ts ***!
@@ -393,6 +401,10 @@ var MovieService = /** @class */ (function () {
     };
     MovieService.prototype.findTrailsById = function (movieId) {
         var url = this.moviedbUrl + ("/movie/" + movieId + "?api_key=" + this.apiKey + "&language=en-US");
+        return this.http.get(url);
+    };
+    MovieService.prototype.searchMovies = function (keyword) {
+        var url = this.moviedbUrl + ("/search/movie?query=" + keyword + "&page=1&language=en-US$api_key=" + this.apiKey);
         return this.http.get(url);
     };
     // own db
@@ -583,7 +595,6 @@ var UserService = /** @class */ (function () {
         this.apiKey = 'd2d9450a243aa2b04c0ce3439b094b25';
         this.moviedbUrl = 'https://api.themoviedb.org/3';
         this.baseUrl = _environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].baseUrl;
-
         this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]({
             'Content-Type': 'application/json'
         });
@@ -599,7 +610,6 @@ var UserService = /** @class */ (function () {
             'updateUser': this.updateUser,
             'deleteUser': this.deleteUser
         };
-
     }
     UserService.prototype.createUser = function (user) {
         return this.http.post(this.baseUrl + '/api/user', user);
@@ -668,13 +678,11 @@ var UserService = /** @class */ (function () {
         this.options.withCredentials = true;
         return this.http.post(this.baseUrl + '/api/register', user, this.options);
     };
-
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]])
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"], _shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
     ], UserService);
     return UserService;
 }());
@@ -755,6 +763,8 @@ var HeaderComponent = /** @class */ (function () {
             _this.router.navigate(['/login']);
         });
     };
+    HeaderComponent.prototype.navigateToSearch = function () {
+    };
     HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-header',
@@ -824,7 +834,7 @@ var HomeComponent = /** @class */ (function () {
     };
     HomeComponent.prototype.findNowPlayingMoviesByPages = function (page) {
         var _this = this;
-        return this.movieService.findNowPlayingMovies(page).subscribe(function (data) {
+        this.movieService.findNowPlayingMovies(page).subscribe(function (data) {
             _this.movies = data.results;
         });
     };
@@ -1076,6 +1086,78 @@ var MovieListComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
     ], MovieListComponent);
     return MovieListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/views/movie/movie-search/movie-search.component.css":
+/*!*********************************************************************!*\
+  !*** ./src/app/views/movie/movie-search/movie-search.component.css ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n}\n\n.navbar-profile {\n  font-size: 20px;\n  font-weight: bold;\n}\n\n.media-item {\n  margin-top: 20px;\n}\n\nh1 {\n  padding-top: 180px;\n  margin-left: 22%;\n  width: 56%;\n}\n\nh2 {\n  margin-left: 22%;\n  width: 56%;\n}\n\n.container {\n  margin-top: 30px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtc2VhcmNoL21vdmllLXNlYXJjaC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsaURBQWlEO0FBQ25EOztBQUVBO0VBQ0UsZUFBZTtFQUNmLGlCQUFpQjtBQUNuQjs7QUFFQTtFQUNFLGdCQUFnQjtBQUNsQjs7QUFHQTtFQUNFLGtCQUFrQjtFQUNsQixnQkFBZ0I7RUFDaEIsVUFBVTtBQUNaOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLFVBQVU7QUFDWjs7QUFFQTtFQUNFLGdCQUFnQjtBQUNsQiIsImZpbGUiOiJzcmMvYXBwL3ZpZXdzL21vdmllL21vdmllLXNlYXJjaC9tb3ZpZS1zZWFyY2guY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbImJvZHkge1xuICBmb250LWZhbWlseTogJ1NvdXJjZSBTYW5zIFBybycsIEFyaWFsLCBzYW5zLXNlcmlmO1xufVxuXG4ubmF2YmFyLXByb2ZpbGUge1xuICBmb250LXNpemU6IDIwcHg7XG4gIGZvbnQtd2VpZ2h0OiBib2xkO1xufVxuXG4ubWVkaWEtaXRlbSB7XG4gIG1hcmdpbi10b3A6IDIwcHg7XG59XG5cblxuaDEge1xuICBwYWRkaW5nLXRvcDogMTgwcHg7XG4gIG1hcmdpbi1sZWZ0OiAyMiU7XG4gIHdpZHRoOiA1NiU7XG59XG5cbmgyIHtcbiAgbWFyZ2luLWxlZnQ6IDIyJTtcbiAgd2lkdGg6IDU2JTtcbn1cblxuLmNvbnRhaW5lciB7XG4gIG1hcmdpbi10b3A6IDMwcHg7XG59XG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/views/movie/movie-search/movie-search.component.html":
+/*!**********************************************************************!*\
+  !*** ./src/app/views/movie/movie-search/movie-search.component.html ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-header></app-header>\n<main>\n <!-- <div class=\"home-background\">\n    <h1>Welcome to Movie Reivew!</h1>\n    <h2>It's movie time!</h2>\n  </div>-->\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\">\n          <img  class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">{{movie.title}}</h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a routerLink=\"/movie/{{movie.id}}\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n<footer>\n</footer>\n"
+
+/***/ }),
+
+/***/ "./src/app/views/movie/movie-search/movie-search.component.ts":
+/*!********************************************************************!*\
+  !*** ./src/app/views/movie/movie-search/movie-search.component.ts ***!
+  \********************************************************************/
+/*! exports provided: MovieSearchComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MovieSearchComponent", function() { return MovieSearchComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
+
+
+var MovieSearchComponent = /** @class */ (function () {
+    function MovieSearchComponent(movieService, activatedRoute) {
+        this.movieService = movieService;
+        this.activatedRoute = activatedRoute;
+    }
+    MovieSearchComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.activatedRoute.params.subscribe(function (params) {
+            _this.keyword = params.keyword;
+            _this.movieService.searchMovies(_this.keyword).subscribe(function (data) {
+                _this.movies = data.results;
+            });
+        });
+    };
+    MovieSearchComponent.prototype.getImageUrlForAMovie = function (url) {
+        return 'https://image.tmdb.org/t/p/original' + url;
+    };
+    MovieSearchComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-movie-search',
+            template: __webpack_require__(/*! ./movie-search.component.html */ "./src/app/views/movie/movie-search/movie-search.component.html"),
+            styles: [__webpack_require__(/*! ./movie-search.component.css */ "./src/app/views/movie/movie-search/movie-search.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+    ], MovieSearchComponent);
+    return MovieSearchComponent;
 }());
 
 
