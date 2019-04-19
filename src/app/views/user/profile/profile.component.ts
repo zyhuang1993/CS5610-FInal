@@ -30,7 +30,11 @@ export class ProfileComponent implements OnInit {
       this.userService.findUserById(this.sharedService.user._id).subscribe(
         (user: any) => {
           this.user = new User(user._id, user.username, user.password, user.img, user.type);
-          console.log(this.user);
+          if (this.user.type === 'Admin') {
+            this.isAdmin = true;
+          } else {
+            this.isAdmin = false;
+          }
         }
       );
     });
@@ -57,7 +61,6 @@ export class ProfileComponent implements OnInit {
 
   filterChanged(selectedValue: string){
     this.selectedValue = selectedValue;
-    this.isAdmin = this.selectedValue === 'Admin';
   }
 
 
