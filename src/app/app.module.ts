@@ -26,6 +26,8 @@ import { FavoriteMovieComponent } from './views/movie/favorite-movie/favorite-mo
 import { OtherUserComponent } from './views/user/other-user/other-user.component';
 import { FollowerListComponent } from './views/user/follower-list/follower-list.component';
 import { FollowingListComponent } from './views/user/following-list/following-list.component';
+import { MovieSearchComponent } from './views/movie/movie-search/movie-search.component';
+import {ReviewService} from './service/review.client.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { FollowingListComponent } from './views/user/following-list/following-li
     FavoriteMovieComponent,
     OtherUserComponent,
     FollowerListComponent,
-    FollowingListComponent
+    FollowingListComponent,
+    MovieSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,7 @@ import { FollowingListComponent } from './views/user/following-list/following-li
     FormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [MovieService, UserService, SharedService, PaginationService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [MovieService, UserService, SharedService, PaginationService, ReviewService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 

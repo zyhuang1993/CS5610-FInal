@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {SharedService} from '../../service/shared.client.service';
+import {MovieService} from '../../service/movie.client.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,13 +9,14 @@ import {SharedService} from '../../service/shared.client.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  keyword: string;
   status: string;
   loginOrProfile: string;
   topReviews: string;
   logout: string;
   loggedIn: boolean;
   logoutPath: string;
-  constructor(private sharedService: SharedService) { }
+  constructor(private sharedService: SharedService, private router: Router) { }
 
   ngOnInit() {
     if (this.sharedService.user === null) {
@@ -30,6 +33,10 @@ export class HeaderComponent implements OnInit {
       this.logoutPath = '';
       this.logout = 'Log Out';
     }
+  }
+
+  navigateToSearch() {
+
   }
 
 }

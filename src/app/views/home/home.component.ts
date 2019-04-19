@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   findNowPlayingMoviesByPages(page) {
-    return this.movieService.findNowPlayingMovies(page).subscribe((data: any) => {
+    this.movieService.findNowPlayingMovies(page).subscribe((data: any) => {
       this.movies = data.results;
     });
   }
