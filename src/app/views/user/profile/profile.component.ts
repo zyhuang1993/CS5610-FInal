@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {UserService} from '../../../service/user.client.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from '../../../service/shared.client.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,19 +20,17 @@ export class ProfileComponent implements OnInit {
     {value: 'Unpaid', display: 'User'},
     {value: 'Paid', display: 'Vip'}
   ];
-  constructor() { }
+  constructor(private userService: UserService, private route: ActivatedRoute, private router: Router,
+              private sharedService: SharedService) { }
 
   ngOnInit() {
-    this.user = new Object();
-    this.user.username = 'test';
-    this.user.password = 'password';
-    this.user.follower = [];
-    this.user.following = [];
-    // this.user.reviews = [];
-    // this.user.favorite = [];
-    this.user.img = '../../../../assets/images/default-heads.jpg';
-    this.user.type = 'Admin';
-    this.isAdmin = true;
+    this.route.params.subscribe(params => {
+      this.userService.findUserById(this.sharedService.user._id).subscribe(
+        (user: any) => {
+          this.user = user;
+        }
+      );
+    });
   }
 
   getUserImg() {
@@ -41,13 +42,13 @@ export class ProfileComponent implements OnInit {
   }
 
   updateUser() {
-    // this.userService.updateUser(this.user.uid, this.user).subscribe(
-    //   (user: any) => {
-    //     this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-    //     this.router.navigate(['/profile/']);
-    //   }
-    // );
-    // alert('Update successfully!');
+    this.userService.updateUser(this.user.uid, this.user).subscribe(
+      (user: any) => {
+        this.user = user;
+        this.router.navigate(['/profile']);
+      }
+    );
+    alert('Update successfully!');
   }
 
   filterChanged(selectedValue: string){

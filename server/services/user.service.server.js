@@ -71,7 +71,7 @@ module.exports = function (app) {
             var newFacebookUser = {
               lastName: names[1],
               firstName: names[0],
-              img: "../../src/app/assets/images/default-heads.jpg",
+              img: "",
               facebook: { id: profile.id, token: token },
               type: "Unpaid"};
             return userModel.createUser(newFacebookUser); } },

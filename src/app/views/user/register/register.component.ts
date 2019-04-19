@@ -17,6 +17,7 @@ export class RegisterComponent implements OnInit {
   selectedValue: string;
   errorFlag: boolean;
   errorMsg = '';
+  user: any;
   public filterTypes = [
     {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
@@ -42,12 +43,12 @@ export class RegisterComponent implements OnInit {
     this.v_password = this.registerForm.value.v_password;
     this.img = this.registerForm.value.img;
     if (this.v_password === this.password) {
-      var user = new Object();
-      user.username = this.username;
-      user.password = this.password;
-      user.img = this.img;
-      user.type = this.selectedValue;
-      this.userService.register(user).subscribe(
+      this.user = new Object();
+      this.user.username = this.username;
+      this.user.password = this.password;
+      this.user.img = this.img;
+      this.user.type = this.selectedValue;
+      this.userService.register(this.user).subscribe(
         (data: any) => {
           if (data.message === 'User is already exist!') {
             this.errorFlag = true;
