@@ -3,6 +3,28 @@
 <app-header></app-header>
 <main>
   <div class="container">
+    <h1>Write your review</h1>
+    <form (ngSubmit)="submit()" #f="ngForm">
+      <div class="form-group">
+        <input type="text" class="form-control" name="title" placeholder="title" ngModel required #title="ngModel"/>
+      </div>
+      <span class="help-block" *ngIf="!title.valid && title.touched">
+      Please Enter Review Title!
+      </span>
+      <div class="form-group">
+        <textarea type="text" class="form-control" rows="5" placeholder="description" ngModel required #description="ngModel"></textarea>
+      </div>
+      <span class="help-block" *ngIf="!description.valid && description.touched">
+        Please Enter your description!
+      </span>
+      <div class="form-group">
+        <button [disabled]="!f.valid" class="btn btn-block btn-primary" type="submit">Submit</button>
+      </div>
+      <div class="form-group">
+        <a routerLink="/movie/{{movieDBId}}" class="btn btn-block btn-success">Cancel</a>
+      </div>
+
+    </form>
 
   </div>
 </main>

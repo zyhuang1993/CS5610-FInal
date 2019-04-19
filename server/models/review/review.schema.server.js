@@ -4,7 +4,7 @@ var reviewSchema = new mongoose.Schema({
     title: String,
     description: String,
     reviewer: {type: mongoose.Schema.ObjectId, ref: "User"},
-    movie: {type: mongoose.Schema.ObjectId, ref: "Movie"},
+    db_id: String,
     likes: Number,
     dateCreated: {type:Date, default: Date.now()}
   },

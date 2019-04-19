@@ -3,7 +3,8 @@ var reviewSchema = require('../review/review.schema.server');
 
 var movieSchema = new mongoose.Schema({
     title: String,
-    rate: Number,
+    totalScore: Number,
+    totalRates: Number,
     db_id: String,
     reviews: [reviewSchema],
     dateCreated: {type:Date, default: Date.now()},

@@ -18,8 +18,8 @@
             <span *ngIf="!movieInMongo ||!movieInMongo.rate">
               Waiting for review
             </span>
-            <span *ngIf="movieInMongo&&movieInMongo.rate">
-              User Score: {{movieInMongo.rate}}/100
+            <span *ngIf="averageRate">
+              User Score: {{averageRate}}/100
             </span>
             <a *ngIf="loggedIn" class=" far fa-heart icon-item"></a>
             <a *ngIf="loggedIn" class="far fa-star icon-item"></a>

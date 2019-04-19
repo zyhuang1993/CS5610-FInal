@@ -28,6 +28,8 @@ import { FollowerListComponent } from './views/user/follower-list/follower-list.
 import { FollowingListComponent } from './views/user/following-list/following-list.component';
 import {AuthGuardUser} from './service/authguard-user.client.service';
 import {AuthGuardAdmin} from './service/authguard-admin.client.service';
+import { MovieSearchComponent } from './views/movie/movie-search/movie-search.component';
+import {ReviewService} from './service/review.client.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import {AuthGuardAdmin} from './service/authguard-admin.client.service';
     FavoriteMovieComponent,
     OtherUserComponent,
     FollowerListComponent,
-    FollowingListComponent
+    FollowingListComponent,
+    MovieSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,7 @@ import {AuthGuardAdmin} from './service/authguard-admin.client.service';
     FormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [MovieService, UserService, SharedService, PaginationService, AuthGuardUser, AuthGuardAdmin, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [MovieService, UserService, SharedService, PaginationService, AuthGuardUser, AuthGuardAdmin, ReviewService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 
