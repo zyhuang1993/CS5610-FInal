@@ -11,7 +11,7 @@ import {User} from '../../../models/user.client.model';
 })
 export class ProfileComponent implements OnInit {
 
-  user: User = new User('', '', '', '', '');
+  user = null;
   selectedValue: string;
   isAdmin: boolean;
   errorFlag: boolean;
@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.userService.findUserById(this.sharedService.user._id).subscribe(
         (user: any) => {
-          this.user = new User(user._id, user.username, user.password, user.img, user.type);
+          this.user = user;
           if (this.user.type === 'Admin') {
             this.isAdmin = true;
           } else {
@@ -50,9 +50,9 @@ export class ProfileComponent implements OnInit {
 
   updateUser() {
     this.user.type = this.selectedValue;
-    this.userService.updateUser(this.user.uid, this.user).subscribe(
+    this.userService.updateUser(this.user._id, this.user).subscribe(
       (user: any) => {
-        this.user = new User(user._id, user.username, user.password, user.img, user.type);
+        this.user = user;
         this.router.navigate(['/profile/']);
       }
     );
