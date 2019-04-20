@@ -11,9 +11,11 @@ export class ReviewListComponent implements OnInit {
   movie: any;
   dbId: string;
   reviews: [any];
-  averageRate: string;
-  reviewBetweenScores: number[];
-  constructor(private movieService: MovieService, private activateRoute: ActivatedRoute) { }
+  averageRate: number;
+  reviewBetweenScores: number[] = [0, 0, 0, 0, 0];
+  constructor(private movieService: MovieService, private activateRoute: ActivatedRoute) {
+
+  }
 
   ngOnInit() {
     this.activateRoute.params.subscribe((params) => {
@@ -41,25 +43,25 @@ export class ReviewListComponent implements OnInit {
       sum += review.rate;
     }
     const rate: number = sum / reviews.length;
-    return rate.toFixed(1);
+    return Number(rate.toFixed(1));
   }
 
     reviewCountsBetween(reviews): number[] {
     const stats = [0, 0, 0, 0, 0];
     for (const review of reviews) {
       const rate = review.rate;
-      if (rate >= 0 && rate < 1) {
+      if (rate > 0 && rate <= 1) {
         stats[0]++;
-      } else if (rate >= 1 && rate < 2) {
+      } else if (rate > 1 && rate <= 2) {
         stats[1]++;
-      } else if (rate >= 2 && rate < 3) {
+      } else if (rate > 2 && rate <= 3) {
         stats[2]++;
-      } else if (rate >= 3 && rate < 4) {
+      } else if (rate > 3 && rate <= 4) {
         stats[3]++;
-      } else {
+      } else if (rate > 4 && rate <= 5) {
         stats[4]++;
       }
-    }
+      }
     return stats;
     }
 }
