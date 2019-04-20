@@ -21,9 +21,10 @@
             <span *ngIf="averageRate">
               User Score: {{averageRate}}/100
             </span>
-            <a *ngIf="loggedIn && movieInMongo" (click)="addToFavorite()" ) class=" far fa-heart icon-item"></a>
+            <a *ngIf="loggedIn && movieInMongo" (click)="addToFavorite()" class=" far fa-heart icon-item"></a>
            <!-- <a *ngIf="loggedIn" class="far fa-star icon-item"></a>
             <a *ngIf="loggedIn" class="fas fa-list icon-item"></a>-->
+            <a *ngIf="movieInMongo" routerLink="/movie/{{dbId}}/reviews" class="icon-item">Reviews</a>
             <a *ngIf="loggedIn && movieInMongo" (click)="navigateToReview()" class="fas fa-pen icon-item"></a>
             <!--<a href="#" class="fas fa-play icon-item"><span class="icon-text"> Play Traileir</span></a>-->
           </div>
@@ -35,12 +36,6 @@
           </div>
         </div>
       </div>
-      <div class="trails">
-        <span *ngFor="let trail of trails">
-          <iframe width="640" height="360" frameborder="0" allowfullscreen [src]="getTrailUrl(trail.key)"></iframe>
-        </span>
-      </div>
     </div>
 </main>
 </body>
-<footer></footer>

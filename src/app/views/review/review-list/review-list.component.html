@@ -2,23 +2,7 @@
 <body>
 <app-header></app-header>
 <main>
-  <div class="container">
-    <h3>All Reviews</h3>
-    <div class="card-columns">
-      <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let review of reviews">
-        <div class="card">
-          <img  class="card-img-top" [src]="getMovieImg()" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title"><span class="badge badge-secondary">{{review.title}}</span></h5>
-            <h5 class="card-title"><button (click) = "likeReview()"class="btn btn-block btn-primary">{{like}}</button></h5>
-          </div>
-          <div class="card-footer">
-            <p>This is written by <a routerLink="{{reviewerLink}}" class="card-link">{{getReviewer()}}</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </main>
 </body>
 </html>

@@ -48,7 +48,7 @@ import {ReviewService} from './service/review.client.service';
     OtherUserComponent,
     FollowerListComponent,
     FollowingListComponent,
-    MovieSearchComponent
+    MovieSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +57,8 @@ import {ReviewService} from './service/review.client.service';
     FormsModule,
     BrowserAnimationsModule,
   ],
-  providers: [MovieService, UserService, SharedService, PaginationService, AuthGuardUser, AuthGuardAdmin, ReviewService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [MovieService, UserService, SharedService, PaginationService, AuthGuardUser, AuthGuardAdmin, ReviewService,
+    {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 
