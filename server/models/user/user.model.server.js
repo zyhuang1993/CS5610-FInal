@@ -12,6 +12,7 @@ userModel.deleteUser = deleteUser;
 userModel.findUserByFacebookId = findUserByFacebookId;
 userModel.followUser = followUser;
 userModel.unfollowUser = unfollowUser;
+userModel.findAllUsers = findAllUsers;
 
 function createUser(user) {
   return userModel.create(user);
@@ -75,6 +76,10 @@ function unfollowUser(curr, target) {
           }
         })
     });
+}
+
+function findAllUsers() {
+  return userModel.find();
 }
 
 module.exports = userModel;

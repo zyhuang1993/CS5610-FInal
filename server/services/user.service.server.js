@@ -61,6 +61,7 @@ module.exports = function (app) {
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/#/profile', failureRedirect: '/#/login' }));
   app.get('/api/follower/:currUser/following/:target', follow);
   app.delete('/api/follower/:currUser/following/:target', unfollow);
+  app.get('/api/allUsers', findAllUsers);
 
   function follow(req, res) {
     var currUser = req.params['currUser'];
@@ -104,7 +105,7 @@ module.exports = function (app) {
             var names = profile.displayName.split(" ");
             var newFacebookUser = {
               username: names[0] + " " + names[1],
-              img: "",
+              img: "https://images.unsplash.com/photo-1483691278019-cb7253bee49f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80",
               facebook: { id: profile.id, token: token },
               type: "Unpaid"};
             return userModel.createUser(newFacebookUser); } },
@@ -265,5 +266,18 @@ module.exports = function (app) {
         console.log('delete user by Id error: ' + error);
         res.status(200).send({message: 'User not found!'});
       });
+  }
+
+  function findAllUsers(req, res) {
+    userModel.findAllUsers()
+      .then(
+        function(users) {
+          res.json(users);
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err)
+        }
+      )
   }
 }

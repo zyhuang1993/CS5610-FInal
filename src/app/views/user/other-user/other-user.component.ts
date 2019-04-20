@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../../service/user.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
-import {User} from '../../../models/user.client.model';
 
 @Component({
   selector: 'app-other-user',
