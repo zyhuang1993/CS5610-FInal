@@ -8,6 +8,7 @@ var movieSchema = new mongoose.Schema({
     release_date: String,
     poster_path: String,
     overview: String,
+    favoriteStatus: String,
     dateCreated: {type:Date, default: Date.now()},
   },
   {collection:'Movies'}
