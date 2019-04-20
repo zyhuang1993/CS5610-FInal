@@ -43,7 +43,7 @@ export class UserService {
   }
 
   findUserByUserName(username: string) {
-    return this.http.get(this.baseUrl + '/api/user?' + 'username=' + username);
+    return this.http.get(this.baseUrl + '/api/user/username/' + username);
   }
 
   findUserByCredentials(username: string, password: string) {
@@ -122,5 +122,13 @@ export class UserService {
 
   findAllUsers() {
     return this.http.get(this.baseUrl + '/api/allUsers');
+  }
+
+  findFollowersByUserName(username: string) {
+    return this.http.get(this.baseUrl + '/api/allFollowers/' + username);
+  }
+
+  findFollowingsByUserName(username: string) {
+    return this.http.get(this.baseUrl + '/api/allFollowings/' + username);
   }
 }

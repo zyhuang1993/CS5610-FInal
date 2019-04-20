@@ -9,8 +9,8 @@ var userSchema = new mongoose.Schema({
     type: {type: String, enum: ['Admin', 'Unpaid', 'Paid']},
     reviews : [reviewSchema],
     favorite: [movieSchema],
-    follower: [mongoose.Schema.ObjectId],
-    following: [mongoose.Schema.ObjectId],
+    follower: [{type: mongoose.Schema.ObjectId, ref: 'Users'}],
+    following: [{type: mongoose.Schema.ObjectId, ref: 'Users'}],
     dateCreated: {type:Date, default: Date.now()},
     facebook: {id: String, token: String}
   },
