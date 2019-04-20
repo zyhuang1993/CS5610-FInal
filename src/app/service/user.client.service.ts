@@ -113,10 +113,10 @@ export class UserService {
   }
 
   follow(user: string, target: string) {
-
+    return this.http.get(this.baseUrl + '/api/follower/' + user + '/following/' + target);
   }
 
   unfollow(user: string, target: string) {
-
+    return this.http.delete(this.baseUrl + '/api/follower/' + user + '/following/' + target);
   }
 }

@@ -42,11 +42,39 @@ function deleteUser(userId){
 }
 
 function followUser(curr, target) {
-
+  return userModel.findOne({username:curr})
+    .then(function (currUser) {
+      userModel.findOne({username:target})
+        .then(function (target) {
+          currUser.following.push(target);
+          target.follower.push(currUser);
+          currUser.save();
+          target.save();
+        })
+    })
 }
 
 function unfollowUser(curr, target) {
-
+  return userModel.findOne({username:curr})
+    .then(function (currUser) {
+      userModel.findOne({username:target})
+        .then(function (target) {
+          for (var i = 0; i < target.follower.length; i++) {
+            if (target.follower[i].username === curr) {
+              target.follower.splice(i, 1);
+              target.save();
+              break;
+            }
+          }
+          for (var i = 0; i < currUser.following.length; i++) {
+            if (currUser.following[i].username === target) {
+              currUser.following.splice(i, 1);
+              currUser.save();
+              break;
+            }
+          }
+        })
+    });
 }
 
 module.exports = userModel;

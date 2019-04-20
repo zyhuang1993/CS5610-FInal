@@ -30,11 +30,11 @@ const routes: Routes = [
   {path: 'movie/:dbId/reviews', component: ReviewListComponent},
 
   {path: 'users/:username', component: OtherUserComponent, canActivate: [AuthGuardUser]},
-  {path: 'user/favorite-movie', component: FavoriteMovieComponent, canActivate: [AuthGuardUser]},
-  {path: 'user/follower-list', component: FollowerListComponent, canActivate: [AuthGuardUser]},
-  {path: 'user/following-list', component: FollowingListComponent, canActivate: [AuthGuardUser]},
+  {path: 'user/:username/favorite-movie', component: FavoriteMovieComponent, canActivate: [AuthGuardUser]},
+  {path: 'user/:username/follower-list', component: FollowerListComponent, canActivate: [AuthGuardUser]},
+  {path: 'user/:username/following-list', component: FollowingListComponent, canActivate: [AuthGuardUser]},
+  {path: 'user/:username/review-list', component: ReviewListComponent, canActivate: [AuthGuardUser]},
   {path: 'movie/:dbId/review-new', component: ReviewNewComponent, canActivate: [AuthGuardUser]},
-
   {path: 'user/user-list', component: UserListComponent, canActivate: [AuthGuardAdmin]}
 ];
 

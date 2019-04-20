@@ -13,10 +13,10 @@
             <h5 class="card-title"><button (click) = "followUser(user.username)"class="btn btn-block btn-danger">{{follow}}</button></h5>
           </div>
           <div class="card-footer">
-            <p><a routerLink="/user/follower-list" class="card-link">Followers</a></p>
-            <p><a routerLink="/user/following-list" class="card-link">Following</a></p>
-            <p><a routerLink="/user/review-list" class="card-link">Review History</a></p>
-            <p><a routerLink="/user/favorite-movie" class="card-link">Favorite Movies</a></p>
+            <p><a routerLink="/user/{{user.username}}/follower-list" class="card-link">Followers</a></p>
+            <p><a routerLink="/user/{{user.username}}/following-list" class="card-link">Following</a></p>
+            <p><a routerLink="/user/{{user.username}}/review-list" class="card-link">Review History</a></p>
+            <p><a routerLink="/user/{{user.username}}/favorite-movie" class="card-link">Favorite Movies</a></p>
           </div>
         </div>
       </div>

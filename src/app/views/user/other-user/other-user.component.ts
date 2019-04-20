@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {UserService} from '../../../service/user.client.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from '../../../service/shared.client.service';
+import {User} from '../../../models/user.client.model';
 
 @Component({
   selector: 'app-other-user',
@@ -7,47 +11,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OtherUserComponent implements OnInit {
 
-  user: any;
-  follow: string;
+  currUser: any;
+  otherUser: any;
+  follow = 'Follow';
+  followings: [any];
   errorFlag: boolean;
   errorMsg = '';
-  constructor() { }
+  constructor(private userService: UserService, private router: Router, private sharedService: SharedService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.user = new Object();
-    this.user.username = 'test';
-    this.user.password = 'password';
-    this.user.follower = [];
-    this.user.following = [];
-    this.user.reviews = [];
-    this.user.favorite = [];
-    this.user.img = '../../../../assets/images/default-heads.jpg';
-    this.follow = 'Follow';
+    this.route.params.subscribe(params => {
+      this.userService.findUserById(this.sharedService.user._id).subscribe(
+        (user: any) => {
+          this.currUser = user;
+          this.followings = user.following;
+
+        }
+      );
+      this.userService.findUserByUserName(params['username']).subscribe(
+        (user: any) => {
+          this.otherUser = user;
+          for (let i = 0; i < this.followings.length; i++) {
+            if (this.followings[i].username === this.otherUser.username) {
+              this.follow = 'Unfollow';
+            }
+          }
+        }
+      );
+    });
   }
 
   getUserImg() {
-    if (this.user.img === '') {
+    if (this.currUser.img === '') {
       return '../../../../assets/images/default-heads.jpg';
     } else {
-      return this.user.img;
+      return this.currUser.img;
     }
   }
 
-  updateUser() {
-    // this.userService.updateUser(this.user.uid, this.user).subscribe(
-    //   (user: any) => {
-    //     this.user = new User(user._id, user.username, user.password, user.firstName, user.lastName, user.email);
-    //     this.router.navigate(['/profile/']);
-    //   }
-    // );
-    // alert('Update successfully!');
-  }
 
-  followUser() {
+  followUser(curr: string, target: string) {
     if (this.follow === 'Follow') {
-      this.follow = 'Unfollow'
+      this.follow = 'Unfollow';
+      this.userService.follow(curr, target).subscribe(
+        (user: any) => {
+          this.router.navigate(['/user/' + this.currUser.username + '/follower-list']);
+        }
+      );
     } else if (this.follow === 'Unfollow') {
-      this.follow = 'Follow'
+      this.follow = 'Follow';
+      this.userService.unfollow(curr, target).subscribe(
+        (user: any) => {
+          this.router.navigate(['/user/' + this.currUser.username + '/follower-list']);
+        }
+      );
     }
   }
 

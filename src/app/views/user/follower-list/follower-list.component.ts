@@ -27,21 +27,21 @@ export class FollowerListComponent implements OnInit {
     });
   }
 
-  followUser(target: string) {
+  followUser(curr: string, target: string) {
     if (this.follow === 'Follow') {
       this.follow = 'Unfollow';
-      this.userService.follow(this.currUser.username, target).subscribe(
+      this.userService.follow(curr, target).subscribe(
         (user: any) => {
-
+          this.router.navigate(['/user/' + this.currUser.username + '/follower-list']);
         }
-      )
+      );
     } else if (this.follow === 'Unfollow') {
       this.follow = 'Follow';
-      this.userService.unfollow(this.currUser.username, target).subscribe(
+      this.userService.unfollow(curr, target).subscribe(
         (user: any) => {
-
+          this.router.navigate(['/user/' + this.currUser.username + '/follower-list']);
         }
-      )
+      );
     }
   }
 
