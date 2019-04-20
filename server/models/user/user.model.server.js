@@ -17,7 +17,6 @@ userModel.findAllUsers = findAllUsers;
 userModel.addToFavorite = addToFavorite;
 userModel.deleteFavorite = deleteFavorite;
 
-
 function createUser(user) {
   return userModel.create(user);
 }

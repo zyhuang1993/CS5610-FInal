@@ -11,7 +11,7 @@ import {UserService} from '../../../service/user.client.service';
 })
 export class MovieDetailComponent implements OnInit {
   currUser: any = null;
-  movie: any;
+  movie: any = null;
   dbId: number;
   movieInMongo: any;
   averageRate: string;
@@ -33,37 +33,27 @@ export class MovieDetailComponent implements OnInit {
       if (this.sharedService.user !== null) {
         this.currUser = this.sharedService.user;
         for (let i = 0; i < this.currUser.favorite.length; i++) {
-          if (this.currUser.favorite[i].db_id === this.dbId) {
+          if (this.currUser.favorite[i].db_id === this.dbId.toString()) {
             this.favoriteStatus = 'Unfavorite';
             break;
           }
         }
       }
 
-      this.movieService.findMovieByDbId(this.dbId).subscribe((movie: any) => {
-        this.movieInMongo = movie;
-        if (this.movieInMongo === null) {
-           this.addToDatabase(movie);
-        } else  {
-          this.reviews = this.movieInMongo.reviews;
-          this.averageRate = this.getAverageScore(this.reviews);
-          if (this.sharedService.user !== null) {
-            for (let i = 0; i < this.currUser.favorite.length; i++) {
-            if (this.currUser.favorite[i]._id.equals(this.movieInMongo._id)) {
-              this.favoriteStatus = 'Unfavorite';
-              break;
-            }
-          }
-          }
-
-        }
-      });
-
       this.movieService.findMovieDetailsById(this.dbId).subscribe((movie) => {
         this.movie = movie;
-        // if (this.movieInMongo === null || this.movieInMongo === undefined) {
-        //   this.addToDatabase(this.movie);
-        // }
+        this.movieService.findMovieByDbId(this.dbId).subscribe((res: any) => {
+          this.movieInMongo = res;
+          console.log(res);
+          if (this.movieInMongo === null) {
+            if (this.movie !== null) {
+              this.addToDatabase();
+            }
+          } else  {
+            this.reviews = this.movieInMongo.reviews;
+            this.averageRate = this.getAverageScore(this.reviews);
+          }
+        });
       });
     });
   }
@@ -78,9 +68,6 @@ export class MovieDetailComponent implements OnInit {
     this.userService.addToFavorite(this.currUser._id, this.movieInMongo._id).subscribe(
       (data) => {
         this.favoriteStatus = 'Unfavorite';
-        // this.router.navigate(['/movie/' + this.dbId.toString()], {
-        //   queryParams: {refresh: new Date().getTime()}
-        // });
       }
     );
     alert('Add to favorite list successfully');
@@ -90,15 +77,12 @@ export class MovieDetailComponent implements OnInit {
     this.userService.deleteFavorite(this.currUser._id, this.movieInMongo._id).subscribe(
       (data) => {
         this.favoriteStatus = 'Favorite';
-        // this.router.navigate(['/movie/' + this.dbId.toString()], {
-        //   queryParams: {refresh: new Date().getTime()}
-        // });
       }
     );
     alert('Remove movie from favorite list successfully');
   }
 
-  addToDatabase(movie) {
+  addToDatabase() {
     const newMovie = {
         title: this.movie.original_title,
         rate: undefined,
