@@ -10,17 +10,17 @@ module.exports=function (app) {
       .then((movie) => {
         res.json(movie);
       }, (err) => {
-        res.status(404).send(err);
+        res.status(500).send(err);
       });
   }
 
   function createMovie(req, res) {
-    const movie =req.body;
+    const movie = req.body;
     movieModel.createMovie(movie)
       .then((movie) => {
         res.json(movie);
       }, (err) => {
-        res.status(404).send(err);
+        res.status(500).send(err);
       });
   }
 
