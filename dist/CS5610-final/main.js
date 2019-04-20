@@ -1699,6 +1699,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var OtherUserComponent = /** @class */ (function () {
     function OtherUserComponent(userService, router, sharedService, route) {
+        var _this = this;
         this.userService = userService;
         this.router = router;
         this.sharedService = sharedService;
@@ -1711,6 +1712,11 @@ var OtherUserComponent = /** @class */ (function () {
                 'format&fit=crop&w=1000&q=80', type: 'Unpaid' };
         this.follow = 'Follow';
         this.errorMsg = '';
+        this.route.queryParamMap.subscribe(function (params) {
+            if (params.get('refresh')) {
+                _this.ngOnInit();
+            }
+        });
     }
     OtherUserComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1742,13 +1748,17 @@ var OtherUserComponent = /** @class */ (function () {
         if (this.follow === 'Follow') {
             this.follow = 'Unfollow';
             this.userService.follow(curr, target).subscribe(function (user) {
-                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
+                _this.router.navigate(['/users/' + target], {
+                    queryParams: { refresh: new Date().getTime() }
+                });
             });
         }
         else if (this.follow === 'Unfollow') {
             this.follow = 'Follow';
             this.userService.unfollow(curr, target).subscribe(function (user) {
-                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
+                _this.router.navigate(['/users/' + target], {
+                    queryParams: { refresh: new Date().getTime() }
+                });
             });
         }
     };
@@ -2028,10 +2038,16 @@ __webpack_require__.r(__webpack_exports__);
 
 var UserListComponent = /** @class */ (function () {
     function UserListComponent(userService, router, sharedService, route) {
+        var _this = this;
         this.userService = userService;
         this.router = router;
         this.sharedService = sharedService;
         this.route = route;
+        this.route.queryParamMap.subscribe(function (params) {
+            if (params.get('refresh')) {
+                _this.ngOnInit();
+            }
+        });
     }
     UserListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -2069,13 +2085,19 @@ var UserListComponent = /** @class */ (function () {
         var _this = this;
         if (follow === 'Follow') {
             this.userService.follow(curr, target).subscribe(function (user) {
-                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
+                _this.router.navigate(['/user/user-list'], {
+                    queryParams: { refresh: new Date().getTime() }
+                });
+                // this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
             });
-            alert('UnFollow successfully!');
+            alert('Follow successfully!');
         }
         else if (follow === 'Unfollow') {
             this.userService.unfollow(curr, target).subscribe(function (user) {
-                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
+                _this.router.navigate(['/user/user-list'], {
+                    queryParams: { refresh: new Date().getTime() }
+                });
+                // this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
             });
             alert('UnFollow successfully!');
         }
