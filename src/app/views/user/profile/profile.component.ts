@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import {UserService} from '../../../service/user.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
-import {User} from '../../../models/user.client.model';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +10,9 @@ import {User} from '../../../models/user.client.model';
 })
 export class ProfileComponent implements OnInit {
 
-  user = null;
+  user = {_id: '', username: 'username', password: 'password',
+    img: 'https://images.unsplash.com/photo-1483691278019-cb7253bee49f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=' +
+      'format&fit=crop&w=1000&q=80', type: 'Unpaid'};
   selectedValue: string;
   isAdmin: boolean;
   errorFlag: boolean;
