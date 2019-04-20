@@ -36,6 +36,10 @@ export class UserListComponent implements OnInit {
           }
         }
         for (let i = 0; i < this.users.length; i++) {
+          if(this.users[i]._id === this.currUser._id) {
+            this.users[i].followStatus = 'Self';
+            continue;
+          }
           for (let j = 0; j < this.users[i].follower.length; j++) {
             if (this.users[i].follower[j] === this.currUser._id) {
               this.users[i].followStatus = 'Unfollow';
@@ -83,6 +87,14 @@ export class UserListComponent implements OnInit {
       );
       alert('UnFollow successfully!');
 
+    }
+  }
+
+  judge(status: string) {
+    if (status === 'Self') {
+      return false;
+    } else {
+      return true;
     }
   }
 
