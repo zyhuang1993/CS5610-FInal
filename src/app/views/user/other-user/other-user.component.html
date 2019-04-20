@@ -14,7 +14,7 @@
               <img  class="card-img-top" [src]="getUserImg()" alt="Card image cap">
               <div class="card-body">
                 <h5 class="card-title"><span class="badge badge-secondary">{{otherUser.username}}</span></h5>
-                <h5 class="card-title"><button (click) = "followUser(currUser.username, otherUser.username)"class="btn btn-block btn-primary">{{follow}}</button></h5>
+                <h5 class="card-title"><button *ngIf="currUser.username!==otherUser.username" (click) = "followUser(currUser.username, otherUser.username)"class="btn btn-block btn-primary">{{follow}}</button></h5>
               </div>
               <div class="card-footer">
                 <p><a routerLink="/user/{{otherUser.username}}/follower-list" class="card-link">Followers</a></p>
