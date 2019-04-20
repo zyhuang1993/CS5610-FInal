@@ -891,7 +891,7 @@ module.exports = ".container {\n  margin-top: 70px;\n\n  padding-top: 100px;\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>Favorite List</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\">\n          <img  class=\"card-img-top\" [src]=\"movie.poster_path\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">{{movie.title}}</h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a routerLink=\"/movie/{{movie.id}}\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n\n\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>Favorite List</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\">\n          <img  class=\"card-img-top\" *ngIf=\"movie.poster_path\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">{{movie.title}}</h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a routerLink=\"/movie/{{movie.db_id}}\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n\n\n\n"
 
 /***/ }),
 
@@ -910,19 +910,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
 /* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 
 
 
 var FavoriteMovieComponent = /** @class */ (function () {
-    function FavoriteMovieComponent(movieService, userService, sharedService) {
+    function FavoriteMovieComponent(movieService, userService, sharedService, route) {
         this.movieService = movieService;
         this.userService = userService;
         this.sharedService = sharedService;
+        this.route = route;
     }
     FavoriteMovieComponent.prototype.ngOnInit = function () {
-        this.movies = this.sharedService.user.favorite;
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.userService.findUserById(_this.sharedService.user._id).subscribe(function (user) {
+                _this.currUser = user;
+            });
+            _this.userService.findUserByUserName(params['username']).subscribe(function (user) {
+                _this.otherUser = user;
+                _this.movies = _this.otherUser.favorite;
+            });
+        });
+    };
+    FavoriteMovieComponent.prototype.getImageUrlForAMovie = function (url) {
+        if (url) {
+            return 'https://image.tmdb.org/t/p/original' + url;
+        }
     };
     FavoriteMovieComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -930,7 +947,8 @@ var FavoriteMovieComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./favorite-movie.component.html */ "./src/app/views/movie/favorite-movie/favorite-movie.component.html"),
             styles: [__webpack_require__(/*! ./favorite-movie.component.css */ "./src/app/views/movie/favorite-movie/favorite-movie.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_3__["UserService"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"]])
     ], FavoriteMovieComponent);
     return FavoriteMovieComponent;
 }());
@@ -992,6 +1010,7 @@ var MovieDetailComponent = /** @class */ (function () {
         this.sharedService = sharedService;
         this.router = router;
         this.currUser = null;
+        this.movie = null;
         this.favoriteStatus = 'Favorite';
         this.movie = '';
         this.activatedRoute.queryParamMap.subscribe(function (params) {
@@ -1007,35 +1026,27 @@ var MovieDetailComponent = /** @class */ (function () {
             if (_this.sharedService.user !== null) {
                 _this.currUser = _this.sharedService.user;
                 for (var i = 0; i < _this.currUser.favorite.length; i++) {
-                    if (_this.currUser.favorite[i].db_id === _this.dbId) {
+                    if (_this.currUser.favorite[i].db_id === _this.dbId.toString()) {
                         _this.favoriteStatus = 'Unfavorite';
                         break;
                     }
                 }
             }
-            _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (movie) {
-                _this.movieInMongo = movie;
-                if (_this.movieInMongo === null) {
-                    _this.addToDatabase(movie);
-                }
-                else {
-                    _this.reviews = _this.movieInMongo.reviews;
-                    _this.averageRate = _this.getAverageScore(_this.reviews);
-                    if (_this.sharedService.user !== null) {
-                        for (var i = 0; i < _this.currUser.favorite.length; i++) {
-                            if (_this.currUser.favorite[i]._id.equals(_this.movieInMongo._id)) {
-                                _this.favoriteStatus = 'Unfavorite';
-                                break;
-                            }
-                        }
-                    }
-                }
-            });
             _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
                 _this.movie = movie;
-                // if (this.movieInMongo === null || this.movieInMongo === undefined) {
-                //   this.addToDatabase(this.movie);
-                // }
+                _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (res) {
+                    _this.movieInMongo = res;
+                    console.log(res);
+                    if (_this.movieInMongo === null) {
+                        if (_this.movie !== null) {
+                            _this.addToDatabase();
+                        }
+                    }
+                    else {
+                        _this.reviews = _this.movieInMongo.reviews;
+                        _this.averageRate = _this.getAverageScore(_this.reviews);
+                    }
+                });
             });
         });
     };
@@ -1048,9 +1059,6 @@ var MovieDetailComponent = /** @class */ (function () {
         var _this = this;
         this.userService.addToFavorite(this.currUser._id, this.movieInMongo._id).subscribe(function (data) {
             _this.favoriteStatus = 'Unfavorite';
-            // this.router.navigate(['/movie/' + this.dbId.toString()], {
-            //   queryParams: {refresh: new Date().getTime()}
-            // });
         });
         alert('Add to favorite list successfully');
     };
@@ -1058,13 +1066,10 @@ var MovieDetailComponent = /** @class */ (function () {
         var _this = this;
         this.userService.deleteFavorite(this.currUser._id, this.movieInMongo._id).subscribe(function (data) {
             _this.favoriteStatus = 'Favorite';
-            // this.router.navigate(['/movie/' + this.dbId.toString()], {
-            //   queryParams: {refresh: new Date().getTime()}
-            // });
         });
         alert('Remove movie from favorite list successfully');
     };
-    MovieDetailComponent.prototype.addToDatabase = function (movie) {
+    MovieDetailComponent.prototype.addToDatabase = function () {
         var _this = this;
         var newMovie = {
             title: this.movie.original_title,
