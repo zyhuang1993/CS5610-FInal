@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../../service/user.client.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
 
 @Component({
@@ -12,7 +12,9 @@ export class UserListComponent implements OnInit {
   currUser: any;
   users: [any];
   constructor(private userService: UserService, private router: Router, private sharedService: SharedService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+
+  }
 
   ngOnInit() {
     this.userService.findUserById(this.sharedService.user._id).subscribe(
@@ -29,14 +31,13 @@ export class UserListComponent implements OnInit {
             this.users.splice(i, 1);
           }
         }
-        // for (let i = 0; i < this.users.length; i++) {
-        //   for (let j = 0; j < this.users[i].follower.length; j++) {
-        //     if (this.users[i].follower[j].equals(this.currUser._id)) {
-        //       this.users[i].followStatus = 'Unfollow';
-        //       break;
-        //     }
-        //   }
-        // }
+        for (let i = 0; i < this.users.length; i++) {
+          for (let j = 0; j < this.users[i].follower.length; j++) {
+            if (this.users[i].follower[j] === this.currUser._id) {
+              this.users[i].followStatus = 'Unfollow';
+            }
+          }
+        }
       }
     );
   }
@@ -54,22 +55,23 @@ export class UserListComponent implements OnInit {
     alert('Delete successfully!');
   }
 
-  // followUser(curr: string, target: string, follow: string) {
-  //   if (follow === 'Follow') {
-  //     this.userService.follow(curr, target).subscribe(
-  //       (user: any) => {
-  //         this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
-  //       }
-  //     );
-  //     alert('Follow successfully!');
-  //   } else if (follow === 'Unfollow') {
-  //     this.userService.unfollow(curr, target).subscribe(
-  //       (user: any) => {
-  //         this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
-  //       }
-  //     );
-  //     alert('UnFollow successfully!');
-  //   }
-  // }
+  followUser(curr: string, target: string, follow: string) {
+    if (follow === 'Follow') {
+      this.userService.follow(curr, target).subscribe(
+        (user: any) => {
+          this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
+        }
+      );
+      alert('UnFollow successfully!');
+    } else if (follow === 'Unfollow') {
+      this.userService.unfollow(curr, target).subscribe(
+        (user: any) => {
+          this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
+        }
+      );
+      alert('UnFollow successfully!');
+
+    }
+  }
 
 }

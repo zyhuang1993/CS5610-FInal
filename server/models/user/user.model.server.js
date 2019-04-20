@@ -62,14 +62,14 @@ function unfollowUser(curr, target) {
       userModel.findOne({username:target})
         .then(function (target) {
           for (var i = 0; i < target.follower.length; i++) {
-            if (target.follower[i].username === curr) {
+            if (target.follower[i].equals(currUser._id)) {
               target.follower.splice(i, 1);
               target.save();
               break;
             }
           }
           for (var i = 0; i < currUser.following.length; i++) {
-            if (currUser.following[i].username === target) {
+            if (currUser.following[i].equals(target._id)) {
               currUser.following.splice(i, 1);
               currUser.save();
               break;
