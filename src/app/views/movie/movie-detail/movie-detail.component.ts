@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MovieService} from '../../../service/movie.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
+import {UserService} from '../../../service/user.client.service';
 
 @Component({
   selector: 'app-movie-detail',
@@ -9,24 +10,36 @@ import {SharedService} from '../../../service/shared.client.service';
   styleUrls: ['./movie-detail.component.css']
 })
 export class MovieDetailComponent implements OnInit {
+  currUser: any = null;
   movie: any;
   dbId: number;
   movieInMongo: any;
-  loggedIn: boolean;
   averageRate: string;
   reviews: [any];
-  constructor(private movieService: MovieService, private activatedRoute: ActivatedRoute,
+  favoriteStatus = 'Favorite';
+  constructor(private movieService: MovieService, private userService: UserService, private activatedRoute: ActivatedRoute,
               private sharedService: SharedService, private router: Router) {
-    this.loggedIn = true;
     this.movie = '';
+    this.activatedRoute.queryParamMap.subscribe(params => {
+      if (params.get('refresh')) {
+        this.ngOnInit();
+      }
+    });
   }
 
   ngOnInit() {
-    if (this.sharedService.user !== null) {
-      this.loggedIn = true;
-    }
     this.activatedRoute.params.subscribe((params) => {
       this.dbId = params.dbId;
+      if (this.sharedService.user !== null) {
+        this.currUser = this.sharedService.user;
+        for (let i = 0; i < this.currUser.favorite.length; i++) {
+          if (this.currUser.favorite[i].db_id === this.dbId) {
+            this.favoriteStatus = 'Unfavorite';
+            break;
+          }
+        }
+      }
+
       this.movieService.findMovieByDbId(this.dbId).subscribe((movie: any) => {
         this.movieInMongo = movie;
         if (this.movieInMongo === null) {
@@ -34,13 +47,23 @@ export class MovieDetailComponent implements OnInit {
         } else  {
           this.reviews = this.movieInMongo.reviews;
           this.averageRate = this.getAverageScore(this.reviews);
+          if (this.sharedService.user !== null) {
+            for (let i = 0; i < this.currUser.favorite.length; i++) {
+            if (this.currUser.favorite[i]._id.equals(this.movieInMongo._id)) {
+              this.favoriteStatus = 'Unfavorite';
+              break;
+            }
+          }
+          }
+
         }
       });
+
       this.movieService.findMovieDetailsById(this.dbId).subscribe((movie) => {
         this.movie = movie;
-        if (this.movieInMongo === null || this.movieInMongo === undefined) {
-          this.addToDatabase(this.movie);
-        }
+        // if (this.movieInMongo === null || this.movieInMongo === undefined) {
+        //   this.addToDatabase(this.movie);
+        // }
       });
     });
   }
@@ -52,7 +75,27 @@ export class MovieDetailComponent implements OnInit {
   }
 
   addToFavorite() {
-  // add this.movieInMongo as favorite;
+    this.userService.addToFavorite(this.currUser._id, this.movieInMongo._id).subscribe(
+      (data) => {
+        this.favoriteStatus = 'Unfavorite';
+        // this.router.navigate(['/movie/' + this.dbId.toString()], {
+        //   queryParams: {refresh: new Date().getTime()}
+        // });
+      }
+    );
+    alert('Add to favorite list successfully');
+  }
+
+  deleteFavorite() {
+    this.userService.deleteFavorite(this.currUser._id, this.movieInMongo._id).subscribe(
+      (data) => {
+        this.favoriteStatus = 'Favorite';
+        // this.router.navigate(['/movie/' + this.dbId.toString()], {
+        //   queryParams: {refresh: new Date().getTime()}
+        // });
+      }
+    );
+    alert('Remove movie from favorite list successfully');
   }
 
   addToDatabase(movie) {
@@ -86,5 +129,13 @@ export class MovieDetailComponent implements OnInit {
     }
     const rate: number = sum / reviews.length;
     return rate.toFixed(1);
+  }
+
+  judge() {
+    if (this.favoriteStatus === 'Favorite') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
