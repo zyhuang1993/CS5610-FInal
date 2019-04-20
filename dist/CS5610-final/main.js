@@ -98,7 +98,7 @@ var AppRoutingModule = /** @class */ (function () {
     AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(routes, { useHash: true })],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]],
         })
     ], AppRoutingModule);
     return AppRoutingModule;
@@ -1673,7 +1673,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <div *ngIf=\"errorFlag\" class=\"alert alert-danger\">\n      {{errorMsg}}\n    </div>\n    <div class=\"container\">\n      <div class=\"row colrow user-info\">\n        <div class=\"col-sm-4 d-none d-sm-block user-main\">\n          <div class=\"media d-done d-sm-block\">\n            <div class=\"card\">\n              <img  class=\"card-img-top\" [src]=\"getUserImg()\" alt=\"Card image cap\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{otherUser.username}}</span></h5>\n                <h5 class=\"card-title\"><button (click) = \"followUser(currUser.username,otherUser.username)\"class=\"btn btn-block btn-primary\">{{follow}}</button></h5>\n              </div>\n              <div class=\"card-footer\">\n                <p><a routerLink=\"/user/{{otherUser.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n                <p><a routerLink=\"/user/{{otherUser.username}}/following-list\" class=\"card-link\">Following</a></p>\n                <p><a routerLink=\"/user/{{otherUser.username}}/review-list\" class=\"card-link\">Review History</a></p>\n                <p><a routerLink=\"/user/{{otherUser.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"col-sm-8 right-form edit-form\">\n          <h1>About {{otherUser.username}}</h1>\n          <h3>{{otherUser.username}} has <span class=\"badge badge-secondary\">{{otherUser.follower.length}}</span> followers</h3>\n          <h3>{{otherUser.username}} has written <span class=\"badge badge-secondary\">{{otherUser.reviews.length}}</span> reviews</h3>\n          <h3>There are <span class=\"badge badge-secondary\">{{otherUser.favorite.length}}</span> movies in his favorite list</h3>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <div *ngIf=\"errorFlag\" class=\"alert alert-danger\">\n      {{errorMsg}}\n    </div>\n    <div class=\"container\">\n      <div class=\"row colrow user-info\">\n        <div class=\"col-sm-4 d-none d-sm-block user-main\">\n          <div class=\"media d-done d-sm-block\">\n            <div class=\"card\">\n              <img  class=\"card-img-top\" [src]=\"getUserImg()\" alt=\"Card image cap\">\n              <div class=\"card-body\">\n                <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{otherUser.username}}</span></h5>\n                <h5 class=\"card-title\"><button (click) = \"followUser(currUser.username, otherUser.username)\"class=\"btn btn-block btn-primary\">{{follow}}</button></h5>\n              </div>\n              <div class=\"card-footer\">\n                <p><a routerLink=\"/user/{{otherUser.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n                <p><a routerLink=\"/user/{{otherUser.username}}/following-list\" class=\"card-link\">Following</a></p>\n                <p><a routerLink=\"/user/{{otherUser.username}}/review-list\" class=\"card-link\">Review History</a></p>\n                <p><a routerLink=\"/user/{{otherUser.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n              </div>\n            </div>\n          </div>\n        </div>\n        <div class=\"col-sm-8 right-form edit-form\">\n          <h1>About {{otherUser.username}}</h1>\n          <h3>{{otherUser.username}} has <span class=\"badge badge-secondary\">{{otherUser.follower.length}}</span> followers</h3>\n          <h3>{{otherUser.username}} has written <span class=\"badge badge-secondary\">{{otherUser.reviews.length}}</span> reviews</h3>\n          <h3>There are <span class=\"badge badge-secondary\">{{otherUser.favorite.length}}</span> movies in his favorite list</h3>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n"
 
 /***/ }),
 
@@ -1722,7 +1722,7 @@ var OtherUserComponent = /** @class */ (function () {
             _this.userService.findUserByUserName(params['username']).subscribe(function (user) {
                 _this.otherUser = user;
                 for (var i = 0; i < _this.followings.length; i++) {
-                    if (_this.followings[i].username === _this.otherUser.username) {
+                    if (_this.followings[i] === _this.otherUser._id) {
                         _this.follow = 'Unfollow';
                     }
                 }
@@ -2002,7 +2002,7 @@ module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>All Users</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n            <!--<h5 class=\"card-title\"><button (click) = \"followUser(currUser.username, user.username, user.followStatus)\"class=\"btn btn-block btn-danger\">{{user.followStatus}}</button></h5>-->\n            <h5 class=\"card-title\"><button (click) = \"deleteUser(user._id)\"class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n      </div>\n    </div>\n  </div>\n  </div>\n</main>\n"
+module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>All Users</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n            <h5 class=\"card-title\"><button (click) = \"followUser(currUser.username, user.username, user.followStatus); false\" class=\"btn btn-block btn-primary\">{{user.followStatus}}</button></h5>\n            <h5 class=\"card-title\"><button (click) = \"deleteUser(user._id)\" class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n      </div>\n    </div>\n  </div>\n  </div>\n</main>\n"
 
 /***/ }),
 
@@ -2045,14 +2045,13 @@ var UserListComponent = /** @class */ (function () {
                     _this.users.splice(i, 1);
                 }
             }
-            // for (let i = 0; i < this.users.length; i++) {
-            //   for (let j = 0; j < this.users[i].follower.length; j++) {
-            //     if (this.users[i].follower[j].equals(this.currUser._id)) {
-            //       this.users[i].followStatus = 'Unfollow';
-            //       break;
-            //     }
-            //   }
-            // }
+            for (var i = 0; i < _this.users.length; i++) {
+                for (var j = 0; j < _this.users[i].follower.length; j++) {
+                    if (_this.users[i].follower[j] === _this.currUser._id) {
+                        _this.users[i].followStatus = 'Unfollow';
+                    }
+                }
+            }
         });
     };
     UserListComponent.prototype.deleteUser = function (userId) {
@@ -2065,6 +2064,21 @@ var UserListComponent = /** @class */ (function () {
             }
         });
         alert('Delete successfully!');
+    };
+    UserListComponent.prototype.followUser = function (curr, target, follow) {
+        var _this = this;
+        if (follow === 'Follow') {
+            this.userService.follow(curr, target).subscribe(function (user) {
+                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
+            });
+            alert('UnFollow successfully!');
+        }
+        else if (follow === 'Unfollow') {
+            this.userService.unfollow(curr, target).subscribe(function (user) {
+                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
+            });
+            alert('UnFollow successfully!');
+        }
     };
     UserListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({

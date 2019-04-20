@@ -36,7 +36,7 @@ export class OtherUserComponent implements OnInit {
         (user: any) => {
           this.otherUser = user;
           for (let i = 0; i < this.followings.length; i++) {
-            if (this.followings[i].username === this.otherUser.username) {
+            if (this.followings[i] === this.otherUser._id) {
               this.follow = 'Unfollow';
             }
           }

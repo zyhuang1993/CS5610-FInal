@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, RouteReuseStrategy} from '@angular/router';
 import {MovieListComponent} from './views/movie/movie-list/movie-list.component';
 import {HomeComponent} from './views/home/home.component';
 import {RegisterComponent} from './views/user/register/register.component';
@@ -41,6 +41,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
