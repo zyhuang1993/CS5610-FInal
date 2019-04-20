@@ -502,6 +502,11 @@ var ReviewService = /** @class */ (function () {
     };
     ReviewService.prototype.incrementReviewLikes = function (review) {
         var url = this.baseUrl = '/api/review/increaseLike' + review._id;
+        var url = this.baseUrl + ("/api/review/" + review._id + "/increaseLike");
+        return this.http.put(url, '');
+    };
+    ReviewService.prototype.decrementReviewLikes = function (review) {
+        var url = this.baseUrl + ("/api/review/" + review._id + "/decreaseLike");
         return this.http.put(url, '');
     };
     ReviewService.prototype.decrementReviewLikes = function (review) {
@@ -949,7 +954,7 @@ module.exports = "html, body {\n  margin-top: -10px;\n  background-image: linear
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/100\n            </span>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"addToFavorite()\" class=\" far fa-heart icon-item\"></a>\n           <!-- <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>-->\n            <a *ngIf=\"movieInMongo\" routerLink=\"/movie/{{dbId}}/reviews\" class=\"icon-item\">Reviews</a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n</main>\n</body>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!averageRate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/5\n            </span>\n            <a *ngIf=\"movieInMongo\" routerLink=\"/movie/{{dbId}}/reviews\" class=\"icon-item\">Reviews</a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"addToFavorite()\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n</main>\n</body>\n"
 
 /***/ }),
 
@@ -981,7 +986,6 @@ var MovieDetailComponent = /** @class */ (function () {
         this.router = router;
         this.loggedIn = true;
         this.movie = '';
-        this.trails = '';
     }
     MovieDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -995,8 +999,9 @@ var MovieDetailComponent = /** @class */ (function () {
                 if (_this.movieInMongo === null) {
                     _this.addToDatabase(movie);
                 }
-                else if (_this.movieInMongo.totalScore && _this.movieInMongo.totalRates) {
-                    _this.averageRate = _this.movieInMongo.totalScore / _this.movieInMongo.totalRates;
+                else {
+                    _this.reviews = _this.movieInMongo.reviews;
+                    _this.averageRate = _this.getAverageScore(_this.reviews);
                 }
             });
             _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
@@ -1028,10 +1033,24 @@ var MovieDetailComponent = /** @class */ (function () {
         };
         this.movieService.createMovie(newMovie).subscribe(function (data) {
             _this.movieInMongo = data;
+            _this.reviews = _this.movieInMongo.reviews;
+            _this.averageRate = _this.getAverageScore(_this.reviews);
         });
     };
     MovieDetailComponent.prototype.navigateToReview = function () {
         this.router.navigate(['/movie/:dbID/review-new']);
+    };
+    MovieDetailComponent.prototype.getAverageScore = function (reviews) {
+        if (reviews === null || reviews.length === 0) {
+            return null;
+        }
+        var sum = 0;
+        for (var _i = 0, reviews_1 = reviews; _i < reviews_1.length; _i++) {
+            var review = reviews_1[_i];
+            sum += review.rate;
+        }
+        var rate = sum / reviews.length;
+        return rate.toFixed(1);
     };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1186,7 +1205,7 @@ var MovieSearchComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "body {\n  background-image: url('login-background.jpg');\n  background-repeat: no-repeat;\n  position: relative;\n  background-size: 100% 100%;\n}\n\n.container {\n  margin-top: 70px;\n\n  padding-top: 100px;\n  padding-bottom: 100px;\n  width:100%;\n\n  text-align:center;\n}\n\nh1 {\n  margin-bottom: 30px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvcmV2aWV3L3Jldmlldy1saXN0L3Jldmlldy1saXN0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSw2Q0FBdUU7RUFDdkUsNEJBQTRCO0VBQzVCLGtCQUFrQjtFQUNsQiwwQkFBMEI7QUFDNUI7O0FBRUE7RUFDRSxnQkFBZ0I7O0VBRWhCLGtCQUFrQjtFQUNsQixxQkFBcUI7RUFDckIsVUFBVTs7RUFFVixpQkFBaUI7QUFDbkI7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC92aWV3cy9yZXZpZXcvcmV2aWV3LWxpc3QvcmV2aWV3LWxpc3QuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbImJvZHkge1xuICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCIuLi8uLi8uLi8uLi9hc3NldHMvaW1hZ2VzL2xvZ2luLWJhY2tncm91bmQuanBnXCIpO1xuICBiYWNrZ3JvdW5kLXJlcGVhdDogbm8tcmVwZWF0O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIGJhY2tncm91bmQtc2l6ZTogMTAwJSAxMDAlO1xufVxuXG4uY29udGFpbmVyIHtcbiAgbWFyZ2luLXRvcDogNzBweDtcblxuICBwYWRkaW5nLXRvcDogMTAwcHg7XG4gIHBhZGRpbmctYm90dG9tOiAxMDBweDtcbiAgd2lkdGg6MTAwJTtcblxuICB0ZXh0LWFsaWduOmNlbnRlcjtcbn1cblxuaDEge1xuICBtYXJnaW4tYm90dG9tOiAzMHB4O1xufVxuIl19 */"
+module.exports = ".container {\n  margin-top: 70px;\n\n  padding-top: 100px;\n  padding-bottom: 100px;\n  width:100%;\n\n  text-align:center;\n}\n\nh1 {\n  margin-bottom: 30px;\n}\n\nbody {\n  padding-top: 70px;\n}\n\n.btn-grey{\n  background-color:#D8D8D8;\n  color:#FFF;\n}\n\n.rating-block{\n  background-color:#FAFAFA;\n  border:1px solid #EFEFEF;\n  padding:15px 15px 20px 15px;\n  border-radius:3px;\n}\n\n.bold{\n  font-weight:700;\n}\n\n.padding-bottom-7{\n  padding-bottom:7px;\n}\n\n.review-block{\n  background-color:#FAFAFA;\n  border:1px solid #EFEFEF;\n  padding:15px;\n  border-radius:3px;\n  margin-bottom:15px;\n}\n\n.review-block-name{\n  font-size:12px;\n  margin:10px 0;\n}\n\n.review-block-date{\n  font-size:12px;\n}\n\n.review-block-rate{\n  font-size:13px;\n  margin-bottom:15px;\n}\n\n.review-block-title{\n  font-size:15px;\n  font-weight:700;\n  margin-bottom:10px;\n}\n\n.review-block-description{\n  font-size:13px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvcmV2aWV3L3Jldmlldy1saXN0L3Jldmlldy1saXN0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxnQkFBZ0I7O0VBRWhCLGtCQUFrQjtFQUNsQixxQkFBcUI7RUFDckIsVUFBVTs7RUFFVixpQkFBaUI7QUFDbkI7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckI7O0FBR0E7RUFDRSxpQkFBaUI7QUFDbkI7O0FBQ0E7RUFDRSx3QkFBd0I7RUFDeEIsVUFBVTtBQUNaOztBQUNBO0VBQ0Usd0JBQXdCO0VBQ3hCLHdCQUF3QjtFQUN4QiwyQkFBMkI7RUFDM0IsaUJBQWlCO0FBQ25COztBQUNBO0VBQ0UsZUFBZTtBQUNqQjs7QUFDQTtFQUNFLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLHdCQUF3QjtFQUN4Qix3QkFBd0I7RUFDeEIsWUFBWTtFQUNaLGlCQUFpQjtFQUNqQixrQkFBa0I7QUFDcEI7O0FBQ0E7RUFDRSxjQUFjO0VBQ2QsYUFBYTtBQUNmOztBQUNBO0VBQ0UsY0FBYztBQUNoQjs7QUFDQTtFQUNFLGNBQWM7RUFDZCxrQkFBa0I7QUFDcEI7O0FBQ0E7RUFDRSxjQUFjO0VBQ2QsZUFBZTtFQUNmLGtCQUFrQjtBQUNwQjs7QUFDQTtFQUNFLGNBQWM7QUFDaEIiLCJmaWxlIjoic3JjL2FwcC92aWV3cy9yZXZpZXcvcmV2aWV3LWxpc3QvcmV2aWV3LWxpc3QuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXIge1xuICBtYXJnaW4tdG9wOiA3MHB4O1xuXG4gIHBhZGRpbmctdG9wOiAxMDBweDtcbiAgcGFkZGluZy1ib3R0b206IDEwMHB4O1xuICB3aWR0aDoxMDAlO1xuXG4gIHRleHQtYWxpZ246Y2VudGVyO1xufVxuXG5oMSB7XG4gIG1hcmdpbi1ib3R0b206IDMwcHg7XG59XG5cblxuYm9keSB7XG4gIHBhZGRpbmctdG9wOiA3MHB4O1xufVxuLmJ0bi1ncmV5e1xuICBiYWNrZ3JvdW5kLWNvbG9yOiNEOEQ4RDg7XG4gIGNvbG9yOiNGRkY7XG59XG4ucmF0aW5nLWJsb2Nre1xuICBiYWNrZ3JvdW5kLWNvbG9yOiNGQUZBRkE7XG4gIGJvcmRlcjoxcHggc29saWQgI0VGRUZFRjtcbiAgcGFkZGluZzoxNXB4IDE1cHggMjBweCAxNXB4O1xuICBib3JkZXItcmFkaXVzOjNweDtcbn1cbi5ib2xke1xuICBmb250LXdlaWdodDo3MDA7XG59XG4ucGFkZGluZy1ib3R0b20tN3tcbiAgcGFkZGluZy1ib3R0b206N3B4O1xufVxuXG4ucmV2aWV3LWJsb2Nre1xuICBiYWNrZ3JvdW5kLWNvbG9yOiNGQUZBRkE7XG4gIGJvcmRlcjoxcHggc29saWQgI0VGRUZFRjtcbiAgcGFkZGluZzoxNXB4O1xuICBib3JkZXItcmFkaXVzOjNweDtcbiAgbWFyZ2luLWJvdHRvbToxNXB4O1xufVxuLnJldmlldy1ibG9jay1uYW1le1xuICBmb250LXNpemU6MTJweDtcbiAgbWFyZ2luOjEwcHggMDtcbn1cbi5yZXZpZXctYmxvY2stZGF0ZXtcbiAgZm9udC1zaXplOjEycHg7XG59XG4ucmV2aWV3LWJsb2NrLXJhdGV7XG4gIGZvbnQtc2l6ZToxM3B4O1xuICBtYXJnaW4tYm90dG9tOjE1cHg7XG59XG4ucmV2aWV3LWJsb2NrLXRpdGxle1xuICBmb250LXNpemU6MTVweDtcbiAgZm9udC13ZWlnaHQ6NzAwO1xuICBtYXJnaW4tYm90dG9tOjEwcHg7XG59XG4ucmV2aWV3LWJsb2NrLWRlc2NyaXB0aW9ue1xuICBmb250LXNpemU6MTNweDtcbn1cbiJdfQ== */"
 
 /***/ }),
 
@@ -1197,7 +1216,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n\n</main>\n</body>\n</html>\n\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n\n</body>\n</html>\n\n\n"
 
 /***/ }),
 
@@ -1223,7 +1242,6 @@ var ReviewListComponent = /** @class */ (function () {
     function ReviewListComponent(movieService, activateRoute) {
         this.movieService = movieService;
         this.activateRoute = activateRoute;
-        this.reviewerLink = '';
     }
     ReviewListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1232,18 +1250,47 @@ var ReviewListComponent = /** @class */ (function () {
             _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (data) {
                 _this.movie = data;
                 _this.reviews = _this.movie.reviews;
+                _this.averageRate = _this.getAverageScore(_this.reviews);
+                _this.reviewBetweenScores = _this.reviewCountsBetween(_this.reviews);
             });
         });
     };
-    ReviewListComponent.prototype.likeReview = function () {
-        if (this.like === 'Like') {
-            this.like = 'Unlike';
-        }
-        else if (this.like === 'Unlike') {
-            this.like = 'Like';
-        }
-    };
     ReviewListComponent.prototype.getReviewer = function () {
+    };
+    ReviewListComponent.prototype.getAverageScore = function (reviews) {
+        if (reviews === null || reviews.length === 0) {
+            return null;
+        }
+        var sum = 0;
+        for (var _i = 0, reviews_1 = reviews; _i < reviews_1.length; _i++) {
+            var review = reviews_1[_i];
+            sum += review.rate;
+        }
+        var rate = sum / reviews.length;
+        return rate.toFixed(1);
+    };
+    ReviewListComponent.prototype.reviewCountsBetween = function (reviews) {
+        var stats = [0, 0, 0, 0, 0];
+        for (var _i = 0, reviews_2 = reviews; _i < reviews_2.length; _i++) {
+            var review = reviews_2[_i];
+            var rate = review.rate;
+            if (rate >= 0 && rate < 1) {
+                stats[0]++;
+            }
+            else if (rate >= 1 && rate < 2) {
+                stats[1]++;
+            }
+            else if (rate >= 2 && rate < 3) {
+                stats[2]++;
+            }
+            else if (rate >= 3 && rate < 4) {
+                stats[3]++;
+            }
+            else {
+                stats[4]++;
+            }
+        }
+        return stats;
     };
     ReviewListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1278,7 +1325,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h1>Write your review</h1>\n    <form (ngSubmit)=\"submit()\" #f=\"ngForm\">\n      <div class=\"form-group\">\n        <input type=\"text\" class=\"form-control\" name=\"title\" placeholder=\"title\" ngModel required #title=\"ngModel\"/>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!title.valid && title.touched\">\n      Please Enter Review Title!\n      </span>\n      <div class=\"form-group\">\n        <textarea type=\"text\" class=\"form-control\" rows=\"5\" placeholder=\"description\" ngModel required #description=\"ngModel\"></textarea>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!description.valid && description.touched\">\n        Please Enter your description!\n      </span>\n      <div class=\"form-group\">\n        <button [disabled]=\"!f.valid\" class=\"btn btn-block btn-primary\" type=\"submit\">Submit</button>\n      </div>\n      <div class=\"form-group\">\n        <a routerLink=\"/movie/{{movieDBId}}\" class=\"btn btn-block btn-success\">Cancel</a>\n      </div>\n\n    </form>\n\n  </div>\n</main>\n</body>\n</html>\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h1>Write your review</h1>\n    <form (ngSubmit)=\"submit()\" #f=\"ngForm\">\n      <div class=\"form-group\">\n        <input type=\"text\" class=\"form-control\" name=\"title\" placeholder=\"title\" ngModel required #title=\"ngModel\"/>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!title.valid && title.touched\">\n      Please Enter Review Title!\n      </span>\n      <div class=\"form-group\">\n        <input type=\"number\" min=\"0\" max=\"5\" class=\"form-control\" name=\"rate\" placeholder=\"rate\" ngModel required #rate=\"ngModel\"/>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!rate.valid && rate.touched\">\n      Please Enter Review Rate!\n      </span>\n      <div class=\"form-group\">\n        <textarea type=\"text\" class=\"form-control\" rows=\"5\" placeholder=\"description\" ngModel required #description=\"ngModel\"></textarea>\n      </div>\n      <span class=\"help-block\" *ngIf=\"!description.valid && description.touched\">\n        Please Enter your description!\n      </span>\n      <div class=\"form-group\">\n        <button [disabled]=\"!f.valid\" class=\"btn btn-block btn-primary\" type=\"submit\">Submit</button>\n      </div>\n      <div class=\"form-group\">\n        <a routerLink=\"/movie/{{movieDBId}}\" class=\"btn btn-block btn-success\">Cancel</a>\n      </div>\n\n    </form>\n\n  </div>\n</main>\n</body>\n</html>\n"
 
 /***/ }),
 
@@ -1322,9 +1369,11 @@ var ReviewNewComponent = /** @class */ (function () {
         var _this = this;
         this.title = this.reviewForm.value.title;
         this.description = this.reviewForm.value.description;
+        this.rate = this.reviewForm.value.rate;
         var review = {
             title: this.title,
             description: this.description,
+            rate: this.rate,
             reviewer: this.userId,
             likes: 0,
         };
@@ -2044,6 +2093,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /***/ (function(module, exports) {
 
 module.exports = "<html>\n<app-header></app-header>\n<body>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\"><span class=\"badge badge-secondary\"></span></h5>\n            <h5 class=\"card-title\"><button class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</body>\n</html>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{}}</span></h5>\n            <h5 class=\"card-title\"><button class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</body>\n</html>\n"
 
 /***/ }),
 
@@ -2066,6 +2116,15 @@ var UserReviewComponent = /** @class */ (function () {
         this.reviewerLink = '';
     }
     UserReviewComponent.prototype.ngOnInit = function () {
+    };
+
+    UserReviewComponent.prototype.likeReview = function () {
+        if (this.like === 'Like') {
+            this.like = 'Unlike';
+        }
+        else if (this.like === 'Unlike') {
+            this.like = 'Like';
+        }
     };
     UserReviewComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -2144,7 +2203,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })

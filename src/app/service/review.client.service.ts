@@ -20,14 +20,14 @@ export class ReviewService {
   }
 
   incrementReviewLikes(review) {
-    const url = this.baseUrl = '/api/review/increaseLike' + review._id;
+    const url = this.baseUrl + `/api/review/${review._id}/increaseLike`;
     return this.http.put(url, '');
   }
 
   decrementReviewLikes(review) {
-
+    const url = this.baseUrl + `/api/review/${review._id}/decreaseLike`;
+    return this.http.put(url, '');
   }
-
 
 
 
