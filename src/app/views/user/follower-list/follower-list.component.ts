@@ -32,16 +32,16 @@ export class FollowerListComponent implements OnInit {
       this.follow = 'Unfollow';
       this.userService.follow(this.currUser.username, target).subscribe(
         (user: any) => {
-
+          this.router.navigate(['/user/follower-list']);
         }
-      )
+      );
     } else if (this.follow === 'Unfollow') {
       this.follow = 'Follow';
       this.userService.unfollow(this.currUser.username, target).subscribe(
         (user: any) => {
-
+          this.router.navigate(['/user/follower-list']);
         }
-      )
+      );
     }
   }
 
