@@ -51,7 +51,7 @@ module.exports = function (app) {
   app.post('/api/login', login);
   app.post('/api/logout', logout);
   app.post ('/api/register', register);
-  // app.get('/api/user?username=username', findUserByUserName);
+  app.get('/api/user/username/:username', findUserByUserName);
   app.get('/api/user', findUserByCredentials);
   app.get('/api/user/:uid', findUserById);
   app.put('/api/user/:uid', updateUserById);
@@ -62,6 +62,9 @@ module.exports = function (app) {
   app.get('/api/follower/:currUser/following/:target', follow);
   app.delete('/api/follower/:currUser/following/:target', unfollow);
   app.get('/api/allUsers', findAllUsers);
+  app.get('/api/allFollowers/:username', findAllFollowers);
+  app.get('/api/allFollowings/:username', findAllFollowings);
+
 
   function follow(req, res) {
     var currUser = req.params['currUser'];
@@ -204,7 +207,7 @@ module.exports = function (app) {
   }
 
   function findUserByUserName(req, res) {
-    let username = req.query.username;
+    let username = req.params['username'];
     userModel
       .findUserByUsername(username)
       .then(function(user) {
@@ -239,8 +242,6 @@ module.exports = function (app) {
         res.status(200).send({message: 'User does exist!'});
       });
   }
-
-
 
   function updateUserById(req, res) {
     var userId = req.params['uid'];
@@ -279,5 +280,67 @@ module.exports = function (app) {
           res.status(500).send(err)
         }
       )
+  }
+
+  function findAllFollowers(req, res) {
+    var username = req.params['username'];
+    userModel
+      .findUserByUsername(username)
+      .then(function (target) {
+          let followers = [];
+          let index = 0;
+          let now = userModel.findUserById(target.follower[index]);
+          for (var i = 1; i < target.follower.length; i++) {
+            now = now
+              .then((user) => {
+              followers.push(user);
+              index++;
+              return userModel.findUserById(target.follower[index]);
+            })
+          }
+          return now
+            .then((user) => {
+              if (user) {
+                followers.push(user);
+              }
+              res.json(followers);
+            }
+          )
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        });
+  }
+
+  function findAllFollowings(req, res) {
+    var username = req.params['username'];
+    userModel
+      .findUserByUsername(username)
+      .then(function (target) {
+          let followings = [];
+          let index = 0;
+          let now = userModel.findUserById(target.following[index]);
+          for (var i = 1; i < target.following.length; i++) {
+            now = now
+              .then((user) => {
+              followings.push(user);
+              index++;
+              return userModel.findUserById(target.following[index]);
+            })
+          }
+          return now
+            .then((user) => {
+              if (user) {
+                followings.push(user);
+              }
+              res.json(followings);
+            }
+          )
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        });
   }
 }

@@ -9,8 +9,13 @@
         <div class="card">
           <img  class="card-img-top" [src]="user.img" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title"><span class="badge badge-secondary">{{user.username}}</span></h5>
-            <h5 class="card-title"><button (click) = "followUser()"class="btn btn-block btn-danger">{{follow}}</button></h5>
+            <h5 class="card-title">
+              <a routerLink="/users/{{user.username}}">
+                <span class="badge badge-secondary">
+                  {{user.username}}
+                </span>
+              </a>
+            </h5>
           </div>
           <div class="card-footer">
             <p><a routerLink="/user/{{user.username}}/follower-list" class="card-link">Followers</a></p>

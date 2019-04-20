@@ -12,6 +12,7 @@ export class FollowerListComponent implements OnInit {
   users: [any];
   follow: string;
   currUser: any;
+  otherUser: any;
   constructor(private userService: UserService, private router: Router, private sharedService: SharedService,
               private route: ActivatedRoute) { }
 
@@ -20,9 +21,22 @@ export class FollowerListComponent implements OnInit {
       this.userService.findUserById(this.sharedService.user._id).subscribe(
         (user: any) => {
           this.currUser = user;
-          this.users = user.follower;
         }
       );
+
+      this.userService.findUserByUserName(params['username']).subscribe(
+        (user: any) => {
+          this.otherUser = user;
+        }
+      );
+
+      this.userService.findFollowersByUserName(params['username']).subscribe(
+        (users: any) => {
+          this.users = users;
+        }
+      );
+
+
     });
   }
 
