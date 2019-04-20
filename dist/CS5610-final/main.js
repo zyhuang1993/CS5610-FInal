@@ -950,7 +950,7 @@ module.exports = "\nbody {\n  margin-top: -10px;\n  background-image: linear-gra
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/100\n            </span>\n            <a *ngIf=\"loggedIn\" class=\" far fa-heart icon-item\"></a>\n           <!-- <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>-->\n            <a *ngIf=\"loggedIn\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!movieInMongo ||!movieInMongo.rate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/100\n            </span>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"addToFavorite()\" ) class=\" far fa-heart icon-item\"></a>\n           <!-- <a *ngIf=\"loggedIn\" class=\"far fa-star icon-item\"></a>\n            <a *ngIf=\"loggedIn\" class=\"fas fa-list icon-item\"></a>-->\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n      <div class=\"trails\">\n        <span *ngFor=\"let trail of trails\">\n          <iframe width=\"640\" height=\"360\" frameborder=\"0\" allowfullscreen [src]=\"getTrailUrl(trail.key)\"></iframe>\n        </span>\n      </div>\n    </div>\n</main>\n</body>\n<footer></footer>\n"
 
 /***/ }),
 
@@ -991,17 +991,20 @@ var MovieDetailComponent = /** @class */ (function () {
         }
         this.activatedRoute.params.subscribe(function (params) {
             _this.dbId = params.dbId;
-            _this.movieService.findTrailsById(_this.dbId).subscribe(function (trails) {
-                _this.trails = trails.results;
-            });
             _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (movie) {
                 _this.movieInMongo = movie;
-                if (_this.movieInMongo.totalScore && _this.movieInMongo.totalRates) {
+                if (_this.movieInMongo === null) {
+                    _this.addToDatabase(movie);
+                }
+                else if (_this.movieInMongo.totalScore && _this.movieInMongo.totalRates) {
                     _this.averageRate = _this.movieInMongo.totalScore / _this.movieInMongo.totalRates;
                 }
             });
             _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
                 _this.movie = movie;
+                if (_this.movieInMongo === null || _this.movieInMongo === undefined) {
+                    _this.addToDatabase(_this.movie);
+                }
             });
         });
     };
@@ -1011,28 +1014,25 @@ var MovieDetailComponent = /** @class */ (function () {
         }
     };
     MovieDetailComponent.prototype.addToFavorite = function () {
+        // add this.movieInMongo as favorite;
+    };
+    MovieDetailComponent.prototype.addToDatabase = function (movie) {
+        var _this = this;
+        var newMovie = {
+            title: this.movie.original_title,
+            rate: undefined,
+            db_id: this.dbId,
+            reviews: [],
+            release_date: this.movie.release_date,
+            overview: this.movie.overview,
+            poster_path: this.movie.poster_path
+        };
+        this.movieService.createMovie(newMovie).subscribe(function (data) {
+            _this.movieInMongo = data;
+        });
     };
     MovieDetailComponent.prototype.navigateToReview = function () {
-        var _this = this;
-        if (this.movieInMongo) {
-            this.router.navigate(['/movie/:dbID/review-new']);
-        }
-        else {
-            var newMovie = {
-                title: this.movie.original_title,
-                rate: undefined,
-                db_id: this.dbId,
-                reviews: [],
-                release_date: this.movie.release_date,
-                overview: this.movie.overview,
-                poster_path: this.movie.poster_path
-            };
-            console.log(newMovie);
-            this.movieService.createMovie(newMovie).subscribe(function (data) {
-                _this.movieInMongo = data;
-                _this.router.navigate(['/movie/:dbID/review-new']);
-            });
-        }
+        this.router.navigate(['/movie/:dbID/review-new']);
     };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
