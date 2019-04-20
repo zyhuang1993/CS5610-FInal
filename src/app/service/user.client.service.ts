@@ -119,4 +119,8 @@ export class UserService {
   unfollow(user: string, target: string) {
     return this.http.delete(this.baseUrl + '/api/follower/' + user + '/following/' + target);
   }
+
+  findAllUsers() {
+    return this.http.get(this.baseUrl + '/api/allUsers');
+  }
 }

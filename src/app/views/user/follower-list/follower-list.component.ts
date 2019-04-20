@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from '../../../models/user.client.model';
 import {UserService} from '../../../service/user.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
@@ -20,7 +19,7 @@ export class FollowerListComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.userService.findUserById(this.sharedService.user._id).subscribe(
         (user: any) => {
-          this.currUser = new User(user._id, user.username, user.password, user.img, user.type);
+          this.currUser = user;
           this.users = user.follower;
         }
       );
