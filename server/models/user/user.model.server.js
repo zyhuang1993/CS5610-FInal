@@ -10,6 +10,8 @@ userModel.findUserByCredentials = findUserByCredentials;
 userModel.updateUser = updateUser;
 userModel.deleteUser = deleteUser;
 userModel.findUserByFacebookId = findUserByFacebookId;
+userModel.followUser = followUser;
+userModel.unfollowUser = unfollowUser;
 
 function createUser(user) {
   return userModel.create(user);
@@ -37,6 +39,14 @@ function updateUser(userId,user) {
 
 function deleteUser(userId){
   return userModel.findByIdAndRemove(userId);
+}
+
+function followUser(curr, target) {
+  
+}
+
+function unfollowUser(curr, target) {
+
 }
 
 module.exports = userModel;
