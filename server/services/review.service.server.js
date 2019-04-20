@@ -2,6 +2,8 @@ module.exports=function (app) {
   app.post('/api/:dbId/review', createReview);
   app.delete('/api/review/:reviewId', deleteReview);
   app.put('/api/review/:reviewId', updateReview);
+  app.put('/api/review/:reviewId/increaseLikes', increaseLike);
+  app.put('/api/review/:reviewId/decreaseLikes', decreaseLike);
 
   var reviewModel = require('../models/review/review.model.server');
 
@@ -27,7 +29,7 @@ module.exports=function (app) {
   }
 
   //only update likes in review
-  function updateReview(req, res) {
+  function increaseLike(req, res) {
     const reviewId = req.reviewId;
     reviewModel.updateReview(reviewId)
       .then((review) => {
@@ -36,4 +38,15 @@ module.exports=function (app) {
         res.status(400).send(err);
       });
   }
+
+  function decreaseLike(req, res) {
+    const reviewId = req.reviewId;
+    reviewModel.updateReview(reviewId)
+      .then((review) => {
+        res.json(review);
+      }, (err) => {
+        res.status(400).send(err);
+      });
+  }
+
 };

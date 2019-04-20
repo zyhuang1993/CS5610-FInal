@@ -13,13 +13,12 @@ export class MovieDetailComponent implements OnInit {
   dbId: number;
   movieInMongo: any;
   loggedIn: boolean;
-  trails: any;
-  averageRate: number;
+  averageRate: string;
+  reviews: [any];
   constructor(private movieService: MovieService, private activatedRoute: ActivatedRoute,
               private sharedService: SharedService, private router: Router) {
     this.loggedIn = true;
     this.movie = '';
-    this.trails = '';
   }
 
   ngOnInit() {
@@ -32,8 +31,9 @@ export class MovieDetailComponent implements OnInit {
         this.movieInMongo = movie;
         if (this.movieInMongo === null) {
            this.addToDatabase(movie);
-        } else if (this.movieInMongo.totalScore && this.movieInMongo.totalRates) {
-          this.averageRate = this.movieInMongo.totalScore / this.movieInMongo.totalRates;
+        } else  {
+          this.reviews = this.movieInMongo.reviews;
+          this.averageRate = this.getAverageScore(this.reviews);
         }
       });
       this.movieService.findMovieDetailsById(this.dbId).subscribe((movie) => {
@@ -67,10 +67,24 @@ export class MovieDetailComponent implements OnInit {
       };
     this.movieService.createMovie(newMovie).subscribe((data) => {
       this.movieInMongo = data;
+      this.reviews = this.movieInMongo.reviews;
+      this.averageRate = this.getAverageScore(this.reviews);
     });
   }
 
   navigateToReview() {
       this.router.navigate(['/movie/:dbID/review-new']);
+  }
+
+  getAverageScore(reviews) {
+    if (reviews === null || reviews.length === 0) {
+      return null;
+    }
+    let sum = 0;
+    for (const review of reviews) {
+      sum += review.rate;
+    }
+    const rate: number = sum / reviews.length;
+    return rate.toFixed(1);
   }
 }
