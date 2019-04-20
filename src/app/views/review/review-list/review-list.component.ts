@@ -88,10 +88,14 @@ export class ReviewListComponent implements OnInit {
 
     // need user back-end
     like(review) {
-      this.reviewService.incrementReviewLikes(review);
+      this.reviewService.incrementReviewLikes(review).subscribe((data) => {
+        review.likeStatus = 'like';
+      });
     }
 
     unlike(review) {
-      this.reviewService.decrementReviewLikes(review);
+      this.reviewService.decrementReviewLikes(review).subscribe((data) => {
+        review.likeStatus = 'unlike';
+      });
     }
 }
