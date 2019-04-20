@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MovieService} from '../../../service/movie.client.service';
 import {ActivatedRoute} from '@angular/router';
+import {SharedService} from '../../../service/shared.client.service';
+import {ReviewService} from '../../../service/review.client.service';
 
 @Component({
   selector: 'app-review-list',
@@ -12,9 +14,13 @@ export class ReviewListComponent implements OnInit {
   dbId: string;
   reviews: [any];
   averageRate: number;
+  likedReviews: [any];
+  curUser: any;
   reviewBetweenScores: number[] = [0, 0, 0, 0, 0];
-  constructor(private movieService: MovieService, private activateRoute: ActivatedRoute) {
-
+  constructor(private movieService: MovieService, private activateRoute: ActivatedRoute, private sharedService: SharedService,
+              private reviewService: ReviewService) {
+   this.curUser = this.sharedService.user;
+   this.likedReviews = this.curUser.likedReviews;
   }
 
   ngOnInit() {
@@ -25,6 +31,13 @@ export class ReviewListComponent implements OnInit {
         this.reviews = this.movie.reviews;
         this.averageRate = this.getAverageScore(this.reviews);
         this.reviewBetweenScores = this.reviewCountsBetween(this.reviews);
+        for (let i = 0; i < this.reviews.length; i++) {
+          for (let j = 0; j < this.likedReviews.length; j++) {
+            if (this.likedReviews[i].equals(this.reviews[i]._id)) {
+              this.reviews[i].likeStatus = 'Unlike';
+            }
+          }
+        }
       });
     });
   }
@@ -63,5 +76,21 @@ export class ReviewListComponent implements OnInit {
       }
       }
     return stats;
+    }
+
+    getWidth(reviews, stats, i) {
+    if (reviews === null || reviews.length === 0) {
+      return '0';
+    } else {
+      return stats[i] / reviews.length + '%';
+    }
+    }
+
+    like(review) {
+      this.reviewService.incrementReviewLikes(review);
+    }
+
+    unlike(review) {
+      this.reviewService.decrementReviewLikes(review);
     }
 }

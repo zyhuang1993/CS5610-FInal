@@ -5,7 +5,7 @@
 <div class="container">
   <span class="heading">User Rating</span>
   <span *ngIf="averageRate && averageRate > 0" class="fa fa-star checked"></span>
-  <span *ngIf="!averageRate || averageRate == 0" class="fa fa-star"></span>
+  <span *ngIf="!averageRate || averageRate <= 0" class="fa fa-star"></span>
   <span *ngIf="averageRate && averageRate > 1" class="fa fa-star checked"></span>
   <span *ngIf="!averageRate || averageRate <= 1" class="fa fa-star"></span>
   <span *ngIf="averageRate && averageRate > 2" class="fa fa-star checked"></span>
@@ -24,7 +24,7 @@
     </div>
     <div class="middle">
       <div class="bar-container">
-        <div class="bar-5"></div>
+        <div class="bar-5" [style.width]="getWidth(reviews, reviewBetweenScores, 4)"></div>
       </div>
     </div>
     <div class="side right">
@@ -35,7 +35,7 @@
     </div>
     <div class="middle">
       <div class="bar-container">
-        <div class="bar-4"></div>
+        <div class="bar-4" [style.width]="getWidth(reviews, reviewBetweenScores, 3)"></div>
       </div>
     </div>
     <div class="side right">
@@ -46,7 +46,7 @@
     </div>
     <div class="middle">
       <div class="bar-container">
-        <div class="bar-3"></div>
+        <div class="bar-3" [style.width]="getWidth(reviews, reviewBetweenScores, 2)"></div>
       </div>
     </div>
     <div class="side right">
@@ -57,7 +57,7 @@
     </div>
     <div class="middle">
       <div class="bar-container">
-        <div class="bar-2"></div>
+        <div class="bar-2" [style.width]="getWidth(reviews, reviewBetweenScores, 1)"></div>
       </div>
     </div>
     <div class="side right">
@@ -68,72 +68,72 @@
     </div>
     <div class="middle">
       <div class="bar-container">
-        <div class="bar-1"></div>
+        <div class="bar-1" [style.width]="getWidth(reviews, reviewBetweenScores, 0)"></div>
       </div>
     </div>
     <div class="side right">
       <div>{{reviewBetweenScores[0]}}</div>
     </div>
   </div>
-        <hr>
+
+
+  <!-- reviews -->
+
         <div class="row">
+          <div *ngFor="let review of reviews">
+            <hr>
           <div class="col-sm-3">
-            <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
-            <div class="review-block-name"><a href="#">nktailor</a></div>
-            <div class="review-block-date">January 29, 2016<br/>1 day ago</div>
+            <!-- user-->
+            <div class="review-block-name"><a href="#">username</a></div>
+            <div class="review-block-date">
+              <button (click)="like(review)" *ngIf="review.likedStatus === 'like'" class="far fa-thumbs-up"></button>
+              <button (click)="unlike(review)" *ngIf="review.likedStatus === 'unlike'" class="far fa-thumbs-down"></button>
+              <span></span>
+            </div>
           </div>
           <div class="col-sm-9">
             <div class="review-block-rate">
-              <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+              <button *ngIf="review.rate > 0" type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
               </button>
-              <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+              <button *ngIf="review.rate <= 0" type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
               </button>
-              <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+
+              <button *ngIf="review.rate > 1" type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
               </button>
-              <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+              <button *ngIf="review.rate <= 1" type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
               </button>
-              <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+
+              <button *ngIf="review.rate > 2" type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
               </button>
+              <button *ngIf="review.rate <= 2" type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+              </button>
+
+              <button *ngIf="review.rate > 3" type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+              </button>
+              <button *ngIf="review.rate <= 3" type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+              </button>
+
+              <button *ngIf="review.rate > 4" type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+              </button>
+              <button *ngIf="review.rate <= 4" type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+              </button>
+
             </div>
-            <div class="review-block-title">this was nice in buy</div>
-            <div class="review-block-description">this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</div>
+            <div class="review-block-title">{{review.title}}</div>
+            <div class="review-block-description">{{review.description}}</div>
           </div>
         </div>
-        <hr/>
-        <div class="row">
-          <div class="col-sm-3">
-            <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
-            <div class="review-block-name"><a href="#">nktailor</a></div>
-            <div class="review-block-date">January 29, 2016<br/>1 day ago</div>
-          </div>
-          <div class="col-sm-9">
-            <div class="review-block-rate">
-              <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-              </button>
-            </div>
-            <div class="review-block-title">this was nice in buy</div>
-            <div class="review-block-description">this was nice in buy. this was nice in buy. this was nice in buy. this was nice in buy this was nice in buy this was nice in buy this was nice in buy this was nice in buy</div>
-          </div>
-        </div>
-      </div>
+
 </main>> <!-- /container -->
 </body>
 </html>
