@@ -501,15 +501,12 @@ var ReviewService = /** @class */ (function () {
         return this.http.delete(url);
     };
     ReviewService.prototype.incrementReviewLikes = function (review) {
-        var url = this.baseUrl = '/api/review/increaseLike' + review._id;
         var url = this.baseUrl + ("/api/review/" + review._id + "/increaseLike");
         return this.http.put(url, '');
     };
     ReviewService.prototype.decrementReviewLikes = function (review) {
         var url = this.baseUrl + ("/api/review/" + review._id + "/decreaseLike");
         return this.http.put(url, '');
-    };
-    ReviewService.prototype.decrementReviewLikes = function (review) {
     };
     ReviewService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1419,7 +1416,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All Your Followers</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All {{otherUser.username}}'s Followers</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n"
 
 /***/ }),
 
@@ -1513,7 +1510,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All Users You're Following</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All Users {{otherUser.username}} is Following</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n"
 
 /***/ }),
 
@@ -1745,13 +1742,13 @@ var OtherUserComponent = /** @class */ (function () {
         if (this.follow === 'Follow') {
             this.follow = 'Unfollow';
             this.userService.follow(curr, target).subscribe(function (user) {
-                _this.router.navigate(['/user/' + _this.currUser.username + '/follower-list']);
+                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
             });
         }
         else if (this.follow === 'Unfollow') {
             this.follow = 'Follow';
             this.userService.unfollow(curr, target).subscribe(function (user) {
-                _this.router.navigate(['/user/' + _this.currUser.username + '/follower-list']);
+                _this.router.navigate(['/user/' + _this.currUser.username + '/following-list']);
             });
         }
     };
@@ -2005,7 +2002,7 @@ module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>All Users</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n            <h5 class=\"card-title\"><button (click) = \"deleteUser(user._id)\"class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n      </div>\n    </div>\n  </div>\n  </div>\n</main>\n"
+module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>All Users</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let user of users\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"user.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">\n              <a routerLink=\"/users/{{user.username}}\">\n                <span class=\"badge badge-secondary\">\n                  {{user.username}}\n                </span>\n              </a>\n            </h5>\n            <!--<h5 class=\"card-title\"><button (click) = \"followUser(currUser.username, user.username, user.followStatus)\"class=\"btn btn-block btn-danger\">{{user.followStatus}}</button></h5>-->\n            <h5 class=\"card-title\"><button (click) = \"deleteUser(user._id)\"class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n            <p><a routerLink=\"/user/{{user.username}}/follower-list\" class=\"card-link\">Followers</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/following-list\" class=\"card-link\">Following</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/review-list\" class=\"card-link\">Review History</a></p>\n            <p><a routerLink=\"/user/{{user.username}}/favorite-movie\" class=\"card-link\">Favorite Movies</a></p>\n          </div>\n      </div>\n    </div>\n  </div>\n  </div>\n</main>\n"
 
 /***/ }),
 
@@ -2038,6 +2035,9 @@ var UserListComponent = /** @class */ (function () {
     }
     UserListComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.userService.findUserById(this.sharedService.user._id).subscribe(function (user) {
+            _this.currUser = user;
+        });
         this.userService.findAllUsers().subscribe(function (users) {
             _this.users = users;
             for (var i = 0; i < _this.users.length; i++) {
@@ -2045,6 +2045,14 @@ var UserListComponent = /** @class */ (function () {
                     _this.users.splice(i, 1);
                 }
             }
+            // for (let i = 0; i < this.users.length; i++) {
+            //   for (let j = 0; j < this.users[i].follower.length; j++) {
+            //     if (this.users[i].follower[j].equals(this.currUser._id)) {
+            //       this.users[i].followStatus = 'Unfollow';
+            //       break;
+            //     }
+            //   }
+            // }
         });
     };
     UserListComponent.prototype.deleteUser = function (userId) {
@@ -2092,8 +2100,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\"><span class=\"badge badge-secondary\"></span></h5>\n            <h5 class=\"card-title\"><button class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</body>\n</html>\n"
-module.exports = "<html>\n<app-header></app-header>\n<body>\n  <div class=\"home-background\">\n    <h1>Welcome to User Management!</h1>\n    <h2>Be careful!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{}}</span></h5>\n            <h5 class=\"card-title\"><button class=\"btn btn-block btn-danger\">Delete</button></h5>\n          </div>\n          <div class=\"card-footer\">\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</body>\n</html>\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All {{otherUser.username}}'s Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let review of reviews\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"review.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h3>{{review.title}}</h3>\n            <p>{{review.description}}</p>>\n          </div>\n          <div class=\"card-footer\">\n            <p>The Rate: <span class=\"badge badge-secondary\">{{review.rate}}</span></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n"
 
 /***/ }),
 
@@ -2109,22 +2116,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserReviewComponent", function() { return UserReviewComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+
+
+
 
 
 var UserReviewComponent = /** @class */ (function () {
-    function UserReviewComponent() {
+    function UserReviewComponent(userService, router, sharedService, route) {
+        this.userService = userService;
+        this.router = router;
+        this.sharedService = sharedService;
+        this.route = route;
         this.reviewerLink = '';
     }
     UserReviewComponent.prototype.ngOnInit = function () {
-    };
-
-    UserReviewComponent.prototype.likeReview = function () {
-        if (this.like === 'Like') {
-            this.like = 'Unlike';
-        }
-        else if (this.like === 'Unlike') {
-            this.like = 'Like';
-        }
+        var _this = this;
+        this.route.params.subscribe(function (params) {
+            _this.userService.findUserById(_this.sharedService.user._id).subscribe(function (user) {
+                _this.currUser = user;
+            });
+            _this.userService.findUserByUserName(params['username']).subscribe(function (user) {
+                _this.otherUser = user;
+                _this.reviews = user.reviews;
+                _this.reviewsLiked = user.likedReview;
+                for (var i = 0; i < _this.reviews.length; i++) {
+                    for (var j = 0; j < _this.reviewsLiked.length; j++) {
+                        if (_this.reviewsLiked[i].equals(_this.reviews[i]._id)) {
+                            _this.reviews[i].likeStatus = 'Unlike';
+                        }
+                    }
+                }
+            });
+        });
     };
     UserReviewComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -2132,7 +2158,8 @@ var UserReviewComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./user-review.component.html */ "./src/app/views/user/user-review/user-review.component.html"),
             styles: [__webpack_require__(/*! ./user-review.component.css */ "./src/app/views/user/user-review/user-review.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_user_client_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], UserReviewComponent);
     return UserReviewComponent;
 }());
@@ -2203,7 +2230,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
 
 
 /***/ })

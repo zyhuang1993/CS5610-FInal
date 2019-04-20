@@ -1,25 +1,24 @@
 <html>
-<app-header></app-header>
 <body>
-  <div class="home-background">
-    <h1>Welcome to User Management!</h1>
-    <h2>Be careful!</h2>
-  </div>
+<app-header></app-header>
+<main>
   <div class="container">
-    <h3>Reviews</h3>
+    <h3>All {{otherUser.username}}'s Reviews</h3>
     <div class="card-columns">
-      <div class="media movie-list-group-item d-done d-sm-block">
+      <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let review of reviews">
         <div class="card">
-          <img  class="card-img-top" [src]="" alt="Card image cap">
+          <img  class="card-img-top" [src]="review.img" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title"><span class="badge badge-secondary"></span></h5>
-            <h5 class="card-title"><button class="btn btn-block btn-danger">Delete</button></h5>
+            <h3>{{review.title}}</h3>
+            <p>{{review.description}}</p>>
           </div>
           <div class="card-footer">
+            <p>The Rate: <span class="badge badge-secondary">{{review.rate}}</span></p>
           </div>
         </div>
       </div>
     </div>
   </div>
+</main>
 </body>
 </html>

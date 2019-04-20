@@ -98,6 +98,68 @@ module.exports = function (app) {
       );
   }
 
+  function findAllFollowers(req, res) {
+    var username = req.params['username'];
+    userModel
+      .findUserByUsername(username)
+      .then(function (target) {
+          let followers = [];
+          let index = 0;
+          let now = userModel.findUserById(target.follower[index]);
+          for (var i = 1; i < target.follower.length; i++) {
+            now = now
+              .then((user) => {
+                followers.push(user);
+                index++;
+                return userModel.findUserById(target.follower[index]);
+              })
+          }
+          return now
+            .then((user) => {
+                if (user) {
+                  followers.push(user);
+                }
+                res.json(followers);
+              }
+            )
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        });
+  }
+
+  function findAllFollowings(req, res) {
+    var username = req.params['username'];
+    userModel
+      .findUserByUsername(username)
+      .then(function (target) {
+          let followings = [];
+          let index = 0;
+          let now = userModel.findUserById(target.following[index]);
+          for (var i = 1; i < target.following.length; i++) {
+            now = now
+              .then((user) => {
+                followings.push(user);
+                index++;
+                return userModel.findUserById(target.following[index]);
+              })
+          }
+          return now
+            .then((user) => {
+                if (user) {
+                  followings.push(user);
+                }
+                res.json(followings);
+              }
+            )
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        });
+  }
+
   function facebookStrategy(token, refreshToken, profile, done) {
     userModel.findUserByFacebookId(profile.id)
       .then(
@@ -280,67 +342,5 @@ module.exports = function (app) {
           res.status(500).send(err)
         }
       )
-  }
-
-  function findAllFollowers(req, res) {
-    var username = req.params['username'];
-    userModel
-      .findUserByUsername(username)
-      .then(function (target) {
-          let followers = [];
-          let index = 0;
-          let now = userModel.findUserById(target.follower[index]);
-          for (var i = 1; i < target.follower.length; i++) {
-            now = now
-              .then((user) => {
-              followers.push(user);
-              index++;
-              return userModel.findUserById(target.follower[index]);
-            })
-          }
-          return now
-            .then((user) => {
-              if (user) {
-                followers.push(user);
-              }
-              res.json(followers);
-            }
-          )
-        },
-        function (err) {
-          console.log(err);
-          res.status(500).send(err);
-        });
-  }
-
-  function findAllFollowings(req, res) {
-    var username = req.params['username'];
-    userModel
-      .findUserByUsername(username)
-      .then(function (target) {
-          let followings = [];
-          let index = 0;
-          let now = userModel.findUserById(target.following[index]);
-          for (var i = 1; i < target.following.length; i++) {
-            now = now
-              .then((user) => {
-              followings.push(user);
-              index++;
-              return userModel.findUserById(target.following[index]);
-            })
-          }
-          return now
-            .then((user) => {
-              if (user) {
-                followings.push(user);
-              }
-              res.json(followings);
-            }
-          )
-        },
-        function (err) {
-          console.log(err);
-          res.status(500).send(err);
-        });
   }
 }
