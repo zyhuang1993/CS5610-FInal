@@ -7,6 +7,7 @@ var reviewSchema = new mongoose.Schema({
     reviewer: {type: mongoose.Schema.ObjectId, ref: "User"},
     db_id: String,
     likes: Number,
+    likeStatus: {type:String, default: 'Like'},
     dateCreated: {type:Date, default: Date.now()}
   },
   {collection:'Reviews'}

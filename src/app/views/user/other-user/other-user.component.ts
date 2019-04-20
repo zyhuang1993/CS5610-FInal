@@ -60,14 +60,14 @@ export class OtherUserComponent implements OnInit {
       this.follow = 'Unfollow';
       this.userService.follow(curr, target).subscribe(
         (user: any) => {
-          this.router.navigate(['/user/' + this.currUser.username + '/follower-list']);
+          this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
         }
       );
     } else if (this.follow === 'Unfollow') {
       this.follow = 'Follow';
       this.userService.unfollow(curr, target).subscribe(
         (user: any) => {
-          this.router.navigate(['/user/' + this.currUser.username + '/follower-list']);
+          this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
         }
       );
     }

@@ -11,7 +11,7 @@ import {SharedService} from '../../../service/shared.client.service';
 export class UserReviewComponent implements OnInit {
   reviews: [any];
   reviewerLink = '';
-  like: string;
+  reviewsLiked: [any];
   currUser: any;
   otherUser: any;
   constructor(private userService: UserService, private router: Router, private sharedService: SharedService,
@@ -29,6 +29,14 @@ export class UserReviewComponent implements OnInit {
         (user: any) => {
           this.otherUser = user;
           this.reviews = user.reviews;
+          this.reviewsLiked = user.likedReview;
+          for (let i = 0; i < this.reviews.length; i++) {
+            for (let j = 0; j < this.reviewsLiked.length; j++) {
+              if (this.reviewsLiked[i].equals(this.reviews[i]._id)) {
+                this.reviews[i].likeStatus = 'Unlike';
+              }
+            }
+          }
         }
       );
     });
