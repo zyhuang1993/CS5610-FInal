@@ -42,7 +42,7 @@ function deleteUser(userId){
 }
 
 function followUser(curr, target) {
-  
+
 }
 
 function unfollowUser(curr, target) {
