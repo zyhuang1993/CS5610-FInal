@@ -16,6 +16,7 @@
                 </span>
               </a>
             </h5>
+            <h5 class="card-title"><button *ngIf="currUser.username!==user.username" (click) = "followUser(currUser.username, user.username, user.followStatus)"class="btn btn-block btn-primary">{{user.followStatus}}</button></h5>
           </div>
           <div class="card-footer">
             <p><a routerLink="/user/{{user.username}}/follower-list" class="card-link">Followers</a></p>
