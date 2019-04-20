@@ -28,17 +28,19 @@ export class MovieDetailComponent implements OnInit {
     }
     this.activatedRoute.params.subscribe((params) => {
       this.dbId = params.dbId;
-      this.movieService.findTrailsById(this.dbId).subscribe((trails: any) => {
-        this.trails = trails.results;
-      });
       this.movieService.findMovieByDbId(this.dbId).subscribe((movie: any) => {
         this.movieInMongo = movie;
-        if (this.movieInMongo.totalScore && this.movieInMongo.totalRates) {
+        if (this.movieInMongo === null) {
+           this.addToDatabase(movie);
+        } else if (this.movieInMongo.totalScore && this.movieInMongo.totalRates) {
           this.averageRate = this.movieInMongo.totalScore / this.movieInMongo.totalRates;
         }
       });
       this.movieService.findMovieDetailsById(this.dbId).subscribe((movie) => {
         this.movie = movie;
+        if (this.movieInMongo === null || this.movieInMongo === undefined) {
+          this.addToDatabase(this.movie);
+        }
       });
     });
   }
@@ -49,26 +51,26 @@ export class MovieDetailComponent implements OnInit {
     }
   }
 
-
-  getTrailUrl(key) {
-    return 'https://www.youtube.com/embed/' + key;
+  addToFavorite() {
+  // add this.movieInMongo as favorite;
   }
 
-  navigateToReview() {
-    if (this.movieInMongo) {
-      this.router.navigate(['/movie/:dbID/review-new']);
-    } else {
-      const newMovie = {
+  addToDatabase(movie) {
+    const newMovie = {
         title: this.movie.original_title,
         rate: undefined,
         db_id: this.dbId,
-        reviews: []
+        reviews: [],
+        release_date: this.movie.release_date,
+        overview: this.movie.overview,
+        poster_path: this.movie.poster_path
       };
-      console.log(newMovie);
-      this.movieService.createMovie(newMovie).subscribe((data) => {
-        this.movieInMongo = data;
-        this.router.navigate(['/movie/:dbID/review-new']);
-      });
-    }
+    this.movieService.createMovie(newMovie).subscribe((data) => {
+      this.movieInMongo = data;
+    });
+  }
+
+  navigateToReview() {
+      this.router.navigate(['/movie/:dbID/review-new']);
   }
 }

@@ -21,10 +21,10 @@
             <span *ngIf="averageRate">
               User Score: {{averageRate}}/100
             </span>
-            <a *ngIf="loggedIn" class=" far fa-heart icon-item"></a>
-            <a *ngIf="loggedIn" class="far fa-star icon-item"></a>
-            <a *ngIf="loggedIn" class="fas fa-list icon-item"></a>
-            <a *ngIf="loggedIn" (click)="navigateToReview()" class="fas fa-pen icon-item"></a>
+            <a *ngIf="loggedIn && movieInMongo" (click)="addToFavorite()" ) class=" far fa-heart icon-item"></a>
+           <!-- <a *ngIf="loggedIn" class="far fa-star icon-item"></a>
+            <a *ngIf="loggedIn" class="fas fa-list icon-item"></a>-->
+            <a *ngIf="loggedIn && movieInMongo" (click)="navigateToReview()" class="fas fa-pen icon-item"></a>
             <!--<a href="#" class="fas fa-play icon-item"><span class="icon-text"> Play Traileir</span></a>-->
           </div>
           <div class="description-title">

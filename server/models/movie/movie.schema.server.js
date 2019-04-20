@@ -7,6 +7,9 @@ var movieSchema = new mongoose.Schema({
     totalRates: Number,
     db_id: String,
     reviews: [reviewSchema],
+    release_date: String,
+    poster_path: String,
+    overview: String,
     dateCreated: {type:Date, default: Date.now()},
   },
   {collection:'Movies'}

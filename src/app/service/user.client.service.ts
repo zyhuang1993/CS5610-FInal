@@ -58,7 +58,7 @@ export class UserService {
     return this.http.delete(this.baseUrl + '/api/user/' + userId);
   }
 
-  login(username: String, password: String) {
+  login(username: string, password: string) {
     this.options.withCredentials = true;
     const body = {username: username, password: password};
     return this.http.post(this.baseUrl + '/api/login', body, this.options);

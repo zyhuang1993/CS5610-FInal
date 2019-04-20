@@ -11,13 +11,13 @@
       <a class="nav-link" routerLink="/movie">Movies</a>
     </span>
     <span class="navbar-text navbar-profile">
-      <a class="nav-link" routerLink="{{topMovies}}">Top Movies</a>
+      <a class="nav-link" routerLink="/topMovies">Top Movies</a>
     </span>
     <div class="collapse navbar-collapse" id="navbarText">
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search for a movie" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+      <div class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search for a movie" aria-label="Search" [(ngModel)]="keyword" name="keyword">
+        <button (click)="navigateToSearch()" class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </div>
     </div>
     <div>
       <div class="collapse navbar-collapse float-right">

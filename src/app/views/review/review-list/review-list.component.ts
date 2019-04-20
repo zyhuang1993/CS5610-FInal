@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ReviewListComponent implements OnInit {
   reviews: [any];
   like: string;
-  reviewerLink: string = '';
+  reviewerLink = '';
   constructor() { }
 
   ngOnInit() {

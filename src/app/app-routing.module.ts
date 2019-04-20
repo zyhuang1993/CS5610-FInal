@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: 'movie', component: MovieListComponent},
   {path: 'movie/:dbId', component: MovieDetailComponent},
   {path: 'topMovies', component: MovieListComponent},
-  {path: 'search/movie/query?=:keyword', component: MovieSearchComponent},
+  {path: 'search/movie/:keyword', component: MovieSearchComponent},
 
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardUser]},
   {path: 'users/:username', component: OtherUserComponent, canActivate: [AuthGuardUser]},
