@@ -679,6 +679,12 @@ var UserService = /** @class */ (function () {
     UserService.prototype.findFollowingsByUserName = function (username) {
         return this.http.get(this.baseUrl + '/api/allFollowings/' + username);
     };
+    UserService.prototype.addToFavorite = function (userId, movieId) {
+        return this.http.get(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
+    };
+    UserService.prototype.deleteFavorite = function (userId, movieId) {
+        return this.http.delete(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
+    };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
@@ -951,7 +957,7 @@ module.exports = "html, body {\n  margin-top: -10px;\n  background-image: linear
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!averageRate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/5\n            </span>\n            <a *ngIf=\"movieInMongo\" routerLink=\"/movie/{{dbId}}/reviews\" class=\"icon-item\">Reviews</a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"addToFavorite()\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n</main>\n</body>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!averageRate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/5\n            </span>\n            <a *ngIf=\"movieInMongo\" routerLink=\"/movie/{{dbId}}/reviews\" class=\"icon-item\">Reviews</a>\n            <a *ngIf=\"currUser && movieInMongo && judge()\" (click)=\"addToFavorite()\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"currUser && movieInMongo && !judge()\" (click)=\"deleteFavorite()\" class=\" fas fa-heart icon-item\"></a>\n            <a *ngIf=\"currUser && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n</main>\n</body>\n"
 
 /***/ }),
 
@@ -970,27 +976,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
+
 
 
 
 
 
 var MovieDetailComponent = /** @class */ (function () {
-    function MovieDetailComponent(movieService, activatedRoute, sharedService, router) {
+    function MovieDetailComponent(movieService, userService, activatedRoute, sharedService, router) {
+        var _this = this;
         this.movieService = movieService;
+        this.userService = userService;
         this.activatedRoute = activatedRoute;
         this.sharedService = sharedService;
         this.router = router;
-        this.loggedIn = true;
+        this.currUser = null;
+        this.favoriteStatus = 'Favorite';
         this.movie = '';
+        this.activatedRoute.queryParamMap.subscribe(function (params) {
+            if (params.get('refresh')) {
+                _this.ngOnInit();
+            }
+        });
     }
     MovieDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.sharedService.user !== null) {
-            this.loggedIn = true;
-        }
         this.activatedRoute.params.subscribe(function (params) {
             _this.dbId = params.dbId;
+            if (_this.sharedService.user !== null) {
+                _this.currUser = _this.sharedService.user;
+                for (var i = 0; i < _this.currUser.favorite.length; i++) {
+                    if (_this.currUser.favorite[i].db_id === _this.dbId) {
+                        _this.favoriteStatus = 'Unfavorite';
+                        break;
+                    }
+                }
+            }
             _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (movie) {
                 _this.movieInMongo = movie;
                 if (_this.movieInMongo === null) {
@@ -999,13 +1021,21 @@ var MovieDetailComponent = /** @class */ (function () {
                 else {
                     _this.reviews = _this.movieInMongo.reviews;
                     _this.averageRate = _this.getAverageScore(_this.reviews);
+                    if (_this.sharedService.user !== null) {
+                        for (var i = 0; i < _this.currUser.favorite.length; i++) {
+                            if (_this.currUser.favorite[i]._id.equals(_this.movieInMongo._id)) {
+                                _this.favoriteStatus = 'Unfavorite';
+                                break;
+                            }
+                        }
+                    }
                 }
             });
             _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
                 _this.movie = movie;
-                if (_this.movieInMongo === null || _this.movieInMongo === undefined) {
-                    _this.addToDatabase(_this.movie);
-                }
+                // if (this.movieInMongo === null || this.movieInMongo === undefined) {
+                //   this.addToDatabase(this.movie);
+                // }
             });
         });
     };
@@ -1015,7 +1045,24 @@ var MovieDetailComponent = /** @class */ (function () {
         }
     };
     MovieDetailComponent.prototype.addToFavorite = function () {
-        // add this.movieInMongo as favorite;
+        var _this = this;
+        this.userService.addToFavorite(this.currUser._id, this.movieInMongo._id).subscribe(function (data) {
+            _this.favoriteStatus = 'Unfavorite';
+            // this.router.navigate(['/movie/' + this.dbId.toString()], {
+            //   queryParams: {refresh: new Date().getTime()}
+            // });
+        });
+        alert('Add to favorite list successfully');
+    };
+    MovieDetailComponent.prototype.deleteFavorite = function () {
+        var _this = this;
+        this.userService.deleteFavorite(this.currUser._id, this.movieInMongo._id).subscribe(function (data) {
+            _this.favoriteStatus = 'Favorite';
+            // this.router.navigate(['/movie/' + this.dbId.toString()], {
+            //   queryParams: {refresh: new Date().getTime()}
+            // });
+        });
+        alert('Remove movie from favorite list successfully');
     };
     MovieDetailComponent.prototype.addToDatabase = function (movie) {
         var _this = this;
@@ -1049,13 +1096,21 @@ var MovieDetailComponent = /** @class */ (function () {
         var rate = sum / reviews.length;
         return rate.toFixed(1);
     };
+    MovieDetailComponent.prototype.judge = function () {
+        if (this.favoriteStatus === 'Favorite') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-movie-detail',
             template: __webpack_require__(/*! ./movie-detail.component.html */ "./src/app/views/movie/movie-detail/movie-detail.component.html"),
             styles: [__webpack_require__(/*! ./movie-detail.component.css */ "./src/app/views/movie/movie-detail/movie-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_5__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
             _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], MovieDetailComponent);
     return MovieDetailComponent;
@@ -2110,27 +2165,29 @@ var UserListComponent = /** @class */ (function () {
     }
     UserListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userService.findUserById(this.sharedService.user._id).subscribe(function (user) {
-            _this.currUser = user;
-        });
-        this.userService.findAllUsers().subscribe(function (users) {
-            _this.users = users;
-            for (var i = 0; i < _this.users.length; i++) {
-                if (_this.users[i].type === 'Admin' || _this.users[i].type === 'Paid') {
-                    _this.users.splice(i, 1);
-                }
-            }
-            for (var i = 0; i < _this.users.length; i++) {
-                if (_this.users[i]._id === _this.currUser._id) {
-                    _this.users[i].followStatus = 'Self';
-                    continue;
-                }
-                for (var j = 0; j < _this.users[i].follower.length; j++) {
-                    if (_this.users[i].follower[j] === _this.currUser._id) {
-                        _this.users[i].followStatus = 'Unfollow';
+        this.route.params.subscribe(function (params) {
+            _this.userService.findUserById(_this.sharedService.user._id).subscribe(function (user) {
+                _this.currUser = user;
+            });
+            _this.userService.findAllUsers().subscribe(function (users) {
+                _this.users = users;
+                for (var i = 0; i < _this.users.length; i++) {
+                    if (_this.users[i].type === 'Admin' || _this.users[i].type === 'Paid') {
+                        _this.users.splice(i, 1);
                     }
                 }
-            }
+                for (var i = 0; i < _this.users.length; i++) {
+                    if (_this.users[i]._id === _this.currUser._id) {
+                        _this.users[i].followStatus = 'Self';
+                        continue;
+                    }
+                    for (var j = 0; j < _this.users[i].follower.length; j++) {
+                        if (_this.users[i].follower[j] === _this.currUser._id) {
+                            _this.users[i].followStatus = 'Unfollow';
+                        }
+                    }
+                }
+            });
         });
     };
     UserListComponent.prototype.deleteUser = function (userId) {

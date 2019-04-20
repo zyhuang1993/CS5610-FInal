@@ -64,6 +64,8 @@ module.exports = function (app) {
   app.get('/api/allUsers', findAllUsers);
   app.get('/api/allFollowers/:username', findAllFollowers);
   app.get('/api/allFollowings/:username', findAllFollowings);
+  app.get('/api/user/:userId/favorite/:movieId', addToFavorite);
+  app.delete('/api/user/:userId/favorite/:movieId', deleteFavorite);
 
 
   function follow(req, res) {
@@ -339,7 +341,37 @@ module.exports = function (app) {
         },
         function (err) {
           console.log(err);
-          res.status(500).send(err)
+          res.status(500).send(err);
+        }
+      )
+  }
+
+  function addToFavorite(req, res) {
+    var userId = req.params['userId'];
+    var movieId = req.params['movieId'];
+    userModel.addToFavorite(userId, movieId)
+      .then(
+        function (response) {
+          res.status(200).send({message: 'Add to favorite!'});
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+      )
+  }
+
+  function deleteFavorite(req, res) {
+    var userId = req.params['userId'];
+    var movieId = req.params['movieId'];
+    userModel.deleteFavorite(userId, movieId)
+      .then(
+        function (response) {
+          res.status(200).send({message: 'Delete favorite!'});
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
         }
       )
   }
