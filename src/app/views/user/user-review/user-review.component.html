@@ -7,7 +7,7 @@
     <div class="card-columns">
       <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let review of reviews">
         <div class="card">
-          <img  class="card-img-top" [src]="review.img" alt="Card image cap">
+          <img  class="card-img-top" [src]="review.poster_path" alt="Card image cap">
           <div class="card-body">
             <h3>{{review.title}}</h3>
             <p>{{review.description}}</p>>

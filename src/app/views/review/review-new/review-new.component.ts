@@ -3,6 +3,7 @@ import {SharedService} from '../../../service/shared.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {ReviewService} from '../../../service/review.client.service';
+import {MovieService} from '../../../service/movie.client.service';
 
 @Component({
   selector: 'app-review-new',
@@ -16,15 +17,19 @@ export class ReviewNewComponent implements OnInit {
   rate: number;
   userId: string;
   movieDBId: string;
+  movie: any;
 
   constructor(private sharedService: SharedService, private activatedRoute: ActivatedRoute,
-              private reviewService: ReviewService, private router: Router) {
+              private reviewService: ReviewService, private router: Router, private movieService: MovieService) {
     this.userId = this.sharedService.user._id;
   }
 
   ngOnInit() {
    this.activatedRoute.params.subscribe((params) => {
      this.movieDBId = params.dbId;
+     this.movieService.findMovieByDbId(this.movieDBId).subscribe((data) => {
+       this.movie = data;
+     });
    });
   }
 
@@ -38,7 +43,9 @@ export class ReviewNewComponent implements OnInit {
       rate: this.rate,
       reviewer: this.userId,
       likes: 0,
+      poster_path: this.movie.poster_path
     };
+
     this.reviewService.createReview(this.movieDBId, review).subscribe((data) => {
       this.router.navigate(['/movie/' + this.movieDBId]);
     });
