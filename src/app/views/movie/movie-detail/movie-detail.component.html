@@ -15,16 +15,14 @@
             {{movie.release_date}}
           </div>
           <div class="icon description-content">
-            <span *ngIf="!movieInMongo ||!movieInMongo.rate">
+            <span *ngIf="!averageRate">
               Waiting for review
             </span>
             <span *ngIf="averageRate">
-              User Score: {{averageRate}}/100
+              User Score: {{averageRate}}/5
             </span>
-            <a *ngIf="loggedIn && movieInMongo" (click)="addToFavorite()" class=" far fa-heart icon-item"></a>
-           <!-- <a *ngIf="loggedIn" class="far fa-star icon-item"></a>
-            <a *ngIf="loggedIn" class="fas fa-list icon-item"></a>-->
             <a *ngIf="movieInMongo" routerLink="/movie/{{dbId}}/reviews" class="icon-item">Reviews</a>
+            <a *ngIf="loggedIn && movieInMongo" (click)="addToFavorite()" class=" far fa-heart icon-item"></a>
             <a *ngIf="loggedIn && movieInMongo" (click)="navigateToReview()" class="fas fa-pen icon-item"></a>
             <!--<a href="#" class="fas fa-play icon-item"><span class="icon-text"> Play Traileir</span></a>-->
           </div>

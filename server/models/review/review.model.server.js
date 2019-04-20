@@ -6,8 +6,8 @@ var movieModel = require('../movie/movie.model.server');
 
 reviewModel.createReview = createReview;
 reviewModel.deleteReview = deleteReview;
-reviewModel.updateReview = updateReview;
-reviewModel.findReviewById = findReviewById;
+reviewModel.increaseLike = increaseLike;
+reviewModel.decreaseLike = decreaseLike;
 
 module.exports = reviewModel;
 
@@ -24,10 +24,21 @@ function deleteReview(reviewId) {
   return reviewModel.findByIdAndRemove(reviewId);
 }
 
-function updateReview(reviewId) {
+function increaseLike(reviewId) {
   updateReviewInMovie();
   return reviewModel.findByIdAndUpdate(reviewId,
     {$inc: {"likes": 1}},
+    {safe: true, new: true}
+    ).then((newReview) => {
+      updateReviewInMovie(reviewId, newReview);
+      return newReview;
+  });
+}
+
+function decreaseLike(reviewId) {
+  updateReviewInMovie();
+  return reviewModel.findByIdAndUpdate(reviewId,
+    {$inc: {"likes": -1}},
     {safe: true, new: true}
     ).then((newReview) => {
       updateReviewInMovie(reviewId, newReview);

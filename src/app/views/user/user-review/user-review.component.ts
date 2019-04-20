@@ -8,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 export class UserReviewComponent implements OnInit {
   reviews: [any];
   reviewerLink = '';
+  like: string;
   constructor() { }
 
   ngOnInit() {
   }
 
+  likeReview() {
+    if (this.like === 'Like') {
+      this.like = 'Unlike';
+    } else if (this.like === 'Unlike') {
+      this.like = 'Like';
+    }
+  }
 }

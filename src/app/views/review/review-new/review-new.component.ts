@@ -13,7 +13,7 @@ export class ReviewNewComponent implements OnInit {
   @ViewChild('f') reviewForm: NgForm;
   title: string;
   description: string;
-  likes: number;
+  rate: number;
   userId: string;
   movieDBId: string;
 
@@ -31,9 +31,11 @@ export class ReviewNewComponent implements OnInit {
   submit() {
     this.title = this.reviewForm.value.title;
     this.description = this.reviewForm.value.description;
+    this.rate = this.reviewForm.value.rate;
     const review = {
       title: this.title,
       description: this.description,
+      rate: this.rate,
       reviewer: this.userId,
       likes: 0,
     };
