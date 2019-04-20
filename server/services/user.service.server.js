@@ -59,6 +59,40 @@ module.exports = function (app) {
   app.post('/api/loggedIn', loggedIn);
   app.get ('/facebook/login', passport.authenticate('facebook', { scope : 'email' }));
   app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/#/profile', failureRedirect: '/#/login' }));
+  app.get('/api/follower/:currUser/following/:target', follow);
+  app.delete('/api/follower/:currUser/following/:target', unfollow);
+
+  function follow(req, res) {
+    var currUser = req.params['currUser'];
+    var target = req.params['target'];
+
+    userModel.followUser(currUser, target)
+      .then(
+        function (response) {
+          res.status(200).send("follow successfully");
+        },
+        function (err) {
+          console.log(err);
+          res.status(200).send("follow unsuccessfully")
+        }
+      );
+  }
+
+  function unfollow(req, res) {
+    var currUser = req.params['currUser'];
+    var target = req.params['target'];
+
+    userModel.unfollowUser(currUser, target)
+      .then(
+        function (response) {
+          res.status(200).send("follow successfully");
+        },
+        function (err) {
+          console.log(err);
+          res.status(200).send("follow unsuccessfully")
+        }
+      );
+  }
 
   function facebookStrategy(token, refreshToken, profile, done) {
     userModel.findUserByFacebookId(profile.id)
