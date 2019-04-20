@@ -7,7 +7,7 @@
     <div class="card-columns">
       <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
         <div class="card">
-          <img  class="card-img-top" [src]="getMoviePoster()" alt="Card image cap">
+          <img  class="card-img-top" [src]="movie.poster_path" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"><span class="badge badge-secondary">{{movie.title}}</span></h5>
           </div>
