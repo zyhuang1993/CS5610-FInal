@@ -73,11 +73,11 @@ module.exports = function (app) {
     userModel.followUser(currUser, target)
       .then(
         function (response) {
-          res.status(200).send("follow successfully");
+          res.status(200).send({message:"follow successfully"});
         },
         function (err) {
           console.log(err);
-          res.status(200).send("follow unsuccessfully")
+          res.status(200).send({message:"follow unsuccessfully"})
         }
       );
   }
@@ -89,11 +89,11 @@ module.exports = function (app) {
     userModel.unfollowUser(currUser, target)
       .then(
         function (response) {
-          res.status(200).send("follow successfully");
+          res.status(200).send({message:"follow successfully"});
         },
         function (err) {
           console.log(err);
-          res.status(200).send("follow unsuccessfully")
+          res.status(200).send({message:"follow unsuccessfully"});
         }
       );
   }

@@ -13,7 +13,11 @@ export class UserListComponent implements OnInit {
   users: [any];
   constructor(private userService: UserService, private router: Router, private sharedService: SharedService,
               private route: ActivatedRoute) {
-
+    this.route.queryParamMap.subscribe(params => {
+      if (params.get('refresh')) {
+        this.ngOnInit();
+      }
+    });
   }
 
   ngOnInit() {
@@ -59,14 +63,22 @@ export class UserListComponent implements OnInit {
     if (follow === 'Follow') {
       this.userService.follow(curr, target).subscribe(
         (user: any) => {
-          this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
+          this.router.navigate(['/user/user-list'], {
+            queryParams: {refresh: new Date().getTime()}
+          });
+
+          // this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
         }
       );
-      alert('UnFollow successfully!');
+      alert('Follow successfully!');
     } else if (follow === 'Unfollow') {
       this.userService.unfollow(curr, target).subscribe(
         (user: any) => {
-          this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
+          this.router.navigate(['/user/user-list'],{
+            queryParams: {refresh: new Date().getTime()}
+          });
+
+          // this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
         }
       );
       alert('UnFollow successfully!');
