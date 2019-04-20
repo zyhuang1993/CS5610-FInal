@@ -86,6 +86,7 @@ export class ReviewListComponent implements OnInit {
     }
     }
 
+    // need user back-end
     like(review) {
       this.reviewService.incrementReviewLikes(review);
     }
