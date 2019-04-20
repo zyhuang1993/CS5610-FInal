@@ -111,4 +111,12 @@ export class UserService {
     this.options.withCredentials = true;
     return this.http.post(this.baseUrl + '/api/register', user, this.options);
   }
+
+  follow(user: string, target: string) {
+
+  }
+
+  unfollow(user: string, target: string) {
+
+  }
 }
