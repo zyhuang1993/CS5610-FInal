@@ -19,8 +19,16 @@ export class ReviewService {
     return this.http.delete(url);
   }
 
-  updateReview(review) {
-    const url = this.baseUrl = '/api/review/' + review._id;
+  incrementReviewLikes(review) {
+    const url = this.baseUrl = '/api/review/increaseLike' + review._id;
     return this.http.put(url, '');
   }
+
+  decrementReviewLikes(review) {
+
+  }
+
+
+
+
 }
