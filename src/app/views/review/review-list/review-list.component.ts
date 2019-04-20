@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MovieService} from '../../../service/movie.client.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-review-list',
@@ -6,13 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./review-list.component.css']
 })
 export class ReviewListComponent implements OnInit {
+  movie: any;
+  dbId: string;
   reviews: [any];
   like: string;
   reviewerLink = '';
-  constructor() { }
+  constructor(private movieService: MovieService, private activateRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.like = 'Like';
+    this.activateRoute.params.subscribe((params) => {
+      this.dbId = params.dbId;
+      this.movieService.findMovieByDbId(this.dbId).subscribe((data) => {
+        this.movie = data;
+        this.reviews = this.movie.reviews;
+      });
+    });
   }
 
   likeReview() {
@@ -22,10 +32,6 @@ export class ReviewListComponent implements OnInit {
       this.like = 'Like';
     }
   }
-  getMovieImg() {
-
-  }
-
   getReviewer() {
 
   }
