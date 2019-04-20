@@ -83,7 +83,7 @@ var routes = [
     { path: 'topMovies', component: _views_movie_movie_list_movie_list_component__WEBPACK_IMPORTED_MODULE_3__["MovieListComponent"] },
     { path: 'search/movie/:keyword', component: _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_18__["MovieSearchComponent"] },
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
-    { path: 'movie/:dbId/reviews', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"] },
+    { path: 'movie/:dbId/reviews', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
@@ -679,6 +679,12 @@ var UserService = /** @class */ (function () {
     UserService.prototype.findFollowingsByUserName = function (username) {
         return this.http.get(this.baseUrl + '/api/allFollowings/' + username);
     };
+    UserService.prototype.addToFavorite = function (userId, movieId) {
+        return this.http.get(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
+    };
+    UserService.prototype.deleteFavorite = function (userId, movieId) {
+        return this.http.delete(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
+    };
     UserService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
             providedIn: 'root'
@@ -951,7 +957,7 @@ module.exports = "html, body {\n  margin-top: -10px;\n  background-image: linear
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!averageRate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/5\n            </span>\n            <a *ngIf=\"movieInMongo\" routerLink=\"/movie/{{dbId}}/reviews\" class=\"icon-item\">Reviews</a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"addToFavorite()\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"loggedIn && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n</main>\n</body>\n"
+module.exports = "<html>\n<app-header></app-header>\n<body>\n<main>\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-sm\">\n          <img *ngIf=\"movie.poster_path\" class=\"poster movie-poster\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"movie poster\">\n        </div>\n        <div class=\"col-md movie-description\">\n          <div class=\"movie-title\">\n            {{movie.original_title}}\n          </div>\n          <div class=\"description-content\">\n            {{movie.release_date}}\n          </div>\n          <div class=\"icon description-content\">\n            <span *ngIf=\"!averageRate\">\n              Waiting for review\n            </span>\n            <span *ngIf=\"averageRate\">\n              User Score: {{averageRate}}/5\n            </span>\n            <a *ngIf=\"movieInMongo\" routerLink=\"/movie/{{dbId}}/reviews\" class=\"icon-item\">Reviews</a>\n            <a *ngIf=\"currUser && movieInMongo && judge()\" (click)=\"addToFavorite()\" class=\" far fa-heart icon-item\"></a>\n            <a *ngIf=\"currUser && movieInMongo && !judge()\" (click)=\"deleteFavorite()\" class=\" fas fa-heart icon-item\"></a>\n            <a *ngIf=\"currUser && movieInMongo\" (click)=\"navigateToReview()\" class=\"fas fa-pen icon-item\"></a>\n            <!--<a href=\"#\" class=\"fas fa-play icon-item\"><span class=\"icon-text\"> Play Traileir</span></a>-->\n          </div>\n          <div class=\"description-title\">\n            Overview\n          </div>\n          <div class=\"description-content\">\n            {{movie.overview}}\n          </div>\n        </div>\n      </div>\n    </div>\n</main>\n</body>\n"
 
 /***/ }),
 
@@ -970,27 +976,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
+
 
 
 
 
 
 var MovieDetailComponent = /** @class */ (function () {
-    function MovieDetailComponent(movieService, activatedRoute, sharedService, router) {
+    function MovieDetailComponent(movieService, userService, activatedRoute, sharedService, router) {
+        var _this = this;
         this.movieService = movieService;
+        this.userService = userService;
         this.activatedRoute = activatedRoute;
         this.sharedService = sharedService;
         this.router = router;
-        this.loggedIn = true;
+        this.currUser = null;
+        this.favoriteStatus = 'Favorite';
         this.movie = '';
+        this.activatedRoute.queryParamMap.subscribe(function (params) {
+            if (params.get('refresh')) {
+                _this.ngOnInit();
+            }
+        });
     }
     MovieDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        if (this.sharedService.user !== null) {
-            this.loggedIn = true;
-        }
         this.activatedRoute.params.subscribe(function (params) {
             _this.dbId = params.dbId;
+            if (_this.sharedService.user !== null) {
+                _this.currUser = _this.sharedService.user;
+                for (var i = 0; i < _this.currUser.favorite.length; i++) {
+                    if (_this.currUser.favorite[i].db_id === _this.dbId) {
+                        _this.favoriteStatus = 'Unfavorite';
+                        break;
+                    }
+                }
+            }
             _this.movieService.findMovieByDbId(_this.dbId).subscribe(function (movie) {
                 _this.movieInMongo = movie;
                 if (_this.movieInMongo === null) {
@@ -999,13 +1021,21 @@ var MovieDetailComponent = /** @class */ (function () {
                 else {
                     _this.reviews = _this.movieInMongo.reviews;
                     _this.averageRate = _this.getAverageScore(_this.reviews);
+                    if (_this.sharedService.user !== null) {
+                        for (var i = 0; i < _this.currUser.favorite.length; i++) {
+                            if (_this.currUser.favorite[i]._id.equals(_this.movieInMongo._id)) {
+                                _this.favoriteStatus = 'Unfavorite';
+                                break;
+                            }
+                        }
+                    }
                 }
             });
             _this.movieService.findMovieDetailsById(_this.dbId).subscribe(function (movie) {
                 _this.movie = movie;
-                if (_this.movieInMongo === null || _this.movieInMongo === undefined) {
-                    _this.addToDatabase(_this.movie);
-                }
+                // if (this.movieInMongo === null || this.movieInMongo === undefined) {
+                //   this.addToDatabase(this.movie);
+                // }
             });
         });
     };
@@ -1015,7 +1045,24 @@ var MovieDetailComponent = /** @class */ (function () {
         }
     };
     MovieDetailComponent.prototype.addToFavorite = function () {
-        // add this.movieInMongo as favorite;
+        var _this = this;
+        this.userService.addToFavorite(this.currUser._id, this.movieInMongo._id).subscribe(function (data) {
+            _this.favoriteStatus = 'Unfavorite';
+            // this.router.navigate(['/movie/' + this.dbId.toString()], {
+            //   queryParams: {refresh: new Date().getTime()}
+            // });
+        });
+        alert('Add to favorite list successfully');
+    };
+    MovieDetailComponent.prototype.deleteFavorite = function () {
+        var _this = this;
+        this.userService.deleteFavorite(this.currUser._id, this.movieInMongo._id).subscribe(function (data) {
+            _this.favoriteStatus = 'Favorite';
+            // this.router.navigate(['/movie/' + this.dbId.toString()], {
+            //   queryParams: {refresh: new Date().getTime()}
+            // });
+        });
+        alert('Remove movie from favorite list successfully');
     };
     MovieDetailComponent.prototype.addToDatabase = function (movie) {
         var _this = this;
@@ -1049,13 +1096,21 @@ var MovieDetailComponent = /** @class */ (function () {
         var rate = sum / reviews.length;
         return rate.toFixed(1);
     };
+    MovieDetailComponent.prototype.judge = function () {
+        if (this.favoriteStatus === 'Favorite') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     MovieDetailComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-movie-detail',
             template: __webpack_require__(/*! ./movie-detail.component.html */ "./src/app/views/movie/movie-detail/movie-detail.component.html"),
             styles: [__webpack_require__(/*! ./movie-detail.component.css */ "./src/app/views/movie/movie-detail/movie-detail.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _service_user_client_service__WEBPACK_IMPORTED_MODULE_5__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
             _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
     ], MovieDetailComponent);
     return MovieDetailComponent;
@@ -1213,7 +1268,7 @@ module.exports = ".container {\n  margin-top: 70px;\n\n  padding-top:30px;\n  pa
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n<div class=\"container\">\n  <span class=\"heading\">User Rating</span>\n  <span *ngIf=\"averageRate && averageRate > 0\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 0\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 1\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 1\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 2\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 2\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 3\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 3\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 4\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 4\" class=\"fa fa-star\"></span>\n\n  <p *ngIf=\"averageRate\">{{averageRate}} average based on {{reviews.length}} reviews.</p>\n  <hr style=\"border:3px solid #f1f1f1\">\n\n  <div class=\"row\">\n    <div class=\"side\">\n      <div>5 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-5\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 4)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[4]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>4 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-4\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 3)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[3]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>3 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-3\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 2)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[2]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>2 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-2\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 1)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[1]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>1 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-1\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 0)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[0]}}</div>\n    </div>\n  </div>\n\n\n  <!-- reviews -->\n\n        <div class=\"row\">\n          <div *ngFor=\"let review of reviews\">\n            <hr>\n          <div class=\"col-sm-3\">\n            <!-- user-->\n            <div class=\"review-block-name\"><a href=\"#\">nktailor</a></div>\n            <div class=\"review-block-date\">January 29, 2016<br/>1 day ago</div>\n          </div>\n          <div class=\"col-sm-9\">\n            <div class=\"review-block-rate\">\n              <button *ngIf=\"review.rate > 0\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 0\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 1\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 1\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 2\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 2\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 3\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 3\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 4\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 4\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n            </div>\n            <div class=\"review-block-title\">{{review.title}}</div>\n            <div class=\"review-block-description\">{{review.description}}</div>\n          </div>\n        </div>\n\n</main>> <!-- /container -->\n</body>\n</html>\n\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n<div class=\"container\">\n  <span class=\"heading\">User Rating</span>\n  <span *ngIf=\"averageRate && averageRate > 0\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 0\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 1\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 1\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 2\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 2\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 3\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 3\" class=\"fa fa-star\"></span>\n  <span *ngIf=\"averageRate && averageRate > 4\" class=\"fa fa-star checked\"></span>\n  <span *ngIf=\"!averageRate || averageRate <= 4\" class=\"fa fa-star\"></span>\n\n  <p *ngIf=\"averageRate\">{{averageRate}} average based on {{reviews.length}} reviews.</p>\n  <hr style=\"border:3px solid #f1f1f1\">\n\n  <div class=\"row\">\n    <div class=\"side\">\n      <div>5 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-5\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 4)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[4]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>4 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-4\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 3)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[3]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>3 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-3\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 2)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[2]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>2 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-2\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 1)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[1]}}</div>\n    </div>\n    <div class=\"side\">\n      <div>1 star</div>\n    </div>\n    <div class=\"middle\">\n      <div class=\"bar-container\">\n        <div class=\"bar-1\" [style.width]=\"getWidth(reviews, reviewBetweenScores, 0)\"></div>\n      </div>\n    </div>\n    <div class=\"side right\">\n      <div>{{reviewBetweenScores[0]}}</div>\n    </div>\n  </div>\n\n\n  <!-- reviews -->\n\n        <div class=\"row\">\n          <div *ngFor=\"let review of reviews\">\n            <hr>\n          <div class=\"col-sm-3\">\n            <!-- user-->\n            <div class=\"review-block-name\"><a href=\"#\">username</a></div>\n            <div class=\"review-block-date\">\n              <button (click)=\"like(review)\" *ngIf=\"review.likedStatus === 'like'\" class=\"far fa-thumbs-up\"></button>\n              <button (click)=\"unlike(review)\" *ngIf=\"review.likedStatus === 'unlike'\" class=\"far fa-thumbs-down\"></button>\n              <span></span>\n            </div>\n          </div>\n          <div class=\"col-sm-9\">\n            <div class=\"review-block-rate\">\n              <button *ngIf=\"review.rate > 0\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 0\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 1\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 1\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 2\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 2\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 3\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 3\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n              <button *ngIf=\"review.rate > 4\" type=\"button\" class=\"btn btn-warning btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n              <button *ngIf=\"review.rate <= 4\" type=\"button\" class=\"btn btn-default btn-grey btn-xs\" aria-label=\"Left Align\">\n                <span class=\"glyphicon glyphicon-star\" aria-hidden=\"true\"></span>\n              </button>\n\n            </div>\n            <div class=\"review-block-title\">{{review.title}}</div>\n            <div class=\"review-block-description\">{{review.description}}</div>\n          </div>\n        </div>\n\n</main>> <!-- /container -->\n</body>\n</html>\n\n\n"
 
 /***/ }),
 
@@ -1231,15 +1286,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/review.client.service */ "./src/app/service/review.client.service.ts");
+
+
 
 
 
 
 var ReviewListComponent = /** @class */ (function () {
-    function ReviewListComponent(movieService, activateRoute) {
+    function ReviewListComponent(movieService, activateRoute, sharedService, reviewService) {
         this.movieService = movieService;
         this.activateRoute = activateRoute;
+        this.sharedService = sharedService;
+        this.reviewService = reviewService;
         this.reviewBetweenScores = [0, 0, 0, 0, 0];
+        this.curUser = this.sharedService.user;
+        this.likedReviews = this.curUser.likedReviews;
     }
     ReviewListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1250,6 +1313,13 @@ var ReviewListComponent = /** @class */ (function () {
                 _this.reviews = _this.movie.reviews;
                 _this.averageRate = _this.getAverageScore(_this.reviews);
                 _this.reviewBetweenScores = _this.reviewCountsBetween(_this.reviews);
+                for (var i = 0; i < _this.reviews.length; i++) {
+                    for (var j = 0; j < _this.likedReviews.length; j++) {
+                        if (_this.likedReviews[i].equals(_this.reviews[i]._id)) {
+                            _this.reviews[i].likeStatus = 'Unlike';
+                        }
+                    }
+                }
             });
         });
     };
@@ -1298,13 +1368,20 @@ var ReviewListComponent = /** @class */ (function () {
             return stats[i] / reviews.length + '%';
         }
     };
+    ReviewListComponent.prototype.like = function (review) {
+        this.reviewService.incrementReviewLikes(review);
+    };
+    ReviewListComponent.prototype.unlike = function (review) {
+        this.reviewService.decrementReviewLikes(review);
+    };
     ReviewListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-review-list',
             template: __webpack_require__(/*! ./review-list.component.html */ "./src/app/views/review/review-list/review-list.component.html"),
             styles: [__webpack_require__(/*! ./review-list.component.css */ "./src/app/views/review/review-list/review-list.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_movie_client_service__WEBPACK_IMPORTED_MODULE_2__["MovieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"],
+            _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"]])
     ], ReviewListComponent);
     return ReviewListComponent;
 }());
@@ -1351,6 +1428,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/review.client.service */ "./src/app/service/review.client.service.ts");
+/* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
+
 
 
 
@@ -1358,17 +1437,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var ReviewNewComponent = /** @class */ (function () {
-    function ReviewNewComponent(sharedService, activatedRoute, reviewService, router) {
+    function ReviewNewComponent(sharedService, activatedRoute, reviewService, router, movieService) {
         this.sharedService = sharedService;
         this.activatedRoute = activatedRoute;
         this.reviewService = reviewService;
         this.router = router;
+        this.movieService = movieService;
         this.userId = this.sharedService.user._id;
     }
     ReviewNewComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.activatedRoute.params.subscribe(function (params) {
             _this.movieDBId = params.dbId;
+            _this.movieService.findMovieByDbId(_this.movieDBId).subscribe(function (data) {
+                _this.movie = data;
+            });
         });
     };
     ReviewNewComponent.prototype.submit = function () {
@@ -1382,6 +1465,7 @@ var ReviewNewComponent = /** @class */ (function () {
             rate: this.rate,
             reviewer: this.userId,
             likes: 0,
+            poster_path: this.movie.poster_path
         };
         this.reviewService.createReview(this.movieDBId, review).subscribe(function (data) {
             _this.router.navigate(['/movie/' + _this.movieDBId]);
@@ -1398,7 +1482,7 @@ var ReviewNewComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./review-new.component.css */ "./src/app/views/review/review-new/review-new.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_shared_client_service__WEBPACK_IMPORTED_MODULE_2__["SharedService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
-            _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+            _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], _service_movie_client_service__WEBPACK_IMPORTED_MODULE_6__["MovieService"]])
     ], ReviewNewComponent);
     return ReviewNewComponent;
 }());
@@ -2119,27 +2203,29 @@ var UserListComponent = /** @class */ (function () {
     }
     UserListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userService.findUserById(this.sharedService.user._id).subscribe(function (user) {
-            _this.currUser = user;
-        });
-        this.userService.findAllUsers().subscribe(function (users) {
-            _this.users = users;
-            for (var i = 0; i < _this.users.length; i++) {
-                if (_this.users[i].type === 'Admin' || _this.users[i].type === 'Paid') {
-                    _this.users.splice(i, 1);
-                }
-            }
-            for (var i = 0; i < _this.users.length; i++) {
-                if (_this.users[i]._id === _this.currUser._id) {
-                    _this.users[i].followStatus = 'Self';
-                    continue;
-                }
-                for (var j = 0; j < _this.users[i].follower.length; j++) {
-                    if (_this.users[i].follower[j] === _this.currUser._id) {
-                        _this.users[i].followStatus = 'Unfollow';
+        this.route.params.subscribe(function (params) {
+            _this.userService.findUserById(_this.sharedService.user._id).subscribe(function (user) {
+                _this.currUser = user;
+            });
+            _this.userService.findAllUsers().subscribe(function (users) {
+                _this.users = users;
+                for (var i = 0; i < _this.users.length; i++) {
+                    if (_this.users[i].type === 'Admin' || _this.users[i].type === 'Paid') {
+                        _this.users.splice(i, 1);
                     }
                 }
-            }
+                for (var i = 0; i < _this.users.length; i++) {
+                    if (_this.users[i]._id === _this.currUser._id) {
+                        _this.users[i].followStatus = 'Self';
+                        continue;
+                    }
+                    for (var j = 0; j < _this.users[i].follower.length; j++) {
+                        if (_this.users[i].follower[j] === _this.currUser._id) {
+                            _this.users[i].followStatus = 'Unfollow';
+                        }
+                    }
+                }
+            });
         });
     };
     UserListComponent.prototype.deleteUser = function (userId) {
@@ -2216,7 +2302,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All {{otherUser.username}}'s Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let review of reviews\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"review.img\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h3>{{review.title}}</h3>\n            <p>{{review.description}}</p>>\n          </div>\n          <div class=\"card-footer\">\n            <p>The Rate: <span class=\"badge badge-secondary\">{{review.rate}}</span></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>All {{otherUser.username}}'s Reviews</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let review of reviews\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"review.poster_path\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h3>{{review.title}}</h3>\n            <p>{{review.description}}</p>>\n          </div>\n          <div class=\"card-footer\">\n            <p>The Rate: <span class=\"badge badge-secondary\">{{review.rate}}</span></p>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n"
 
 /***/ }),
 

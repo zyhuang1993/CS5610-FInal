@@ -5,6 +5,7 @@ var movieModel = mongoose.model('Movie', movieSchema);
 
 movieModel.createMovie = createMovie;
 movieModel.findMovieByDbId = findMovieByDbId;
+movieModel.findMovieById = findMovieById;
 movieModel.createReviewInMovie = createReviewInMovie;
 movieModel.deleteReviewInMovie = deleteReviewInMovie;
 movieModel.updateReviewInMovie = updateReviewInMovie;
@@ -20,8 +21,12 @@ function findMovieByDbId(dbId) {
   return movieModel.findOne({db_id: dbId});
 }
 
+function findMovieById(movieId) {
+  return movieModel.findById(movieId);
+}
+
 function createReviewInMovie(dbId, review) {
-  return movieModel.findOneAndUpdate({"db_id": dbId},
+  return movieModel.findOneAndUpdate({db_id: dbId},
     {$push: {"reviews": review}},
     {safe: true, upsert: true},
     (err) => {
@@ -31,7 +36,7 @@ function createReviewInMovie(dbId, review) {
 }
 
 function deleteReviewInMovie(dbId, reviewId) {
-  return movieModel.findOneAndUpdate({"db_id": dbId},
+  return movieModel.findOneAndUpdate({db_id: dbId},
     {$pull: {"reviews": {_id: reviewId}}},
     {safe: true, new: true},
     (err) => {

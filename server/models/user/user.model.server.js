@@ -2,6 +2,7 @@ var mongoose =  require('mongoose');
 var userSchema = require('./user.schema.server');
 
 var userModel = mongoose.model('User', userSchema);
+var movieModel = require('../movie/movie.model.server');
 
 userModel.createUser = createUser;
 userModel.findUserById = findUserById;
@@ -13,6 +14,8 @@ userModel.findUserByFacebookId = findUserByFacebookId;
 userModel.followUser = followUser;
 userModel.unfollowUser = unfollowUser;
 userModel.findAllUsers = findAllUsers;
+userModel.addToFavorite = addToFavorite;
+userModel.deleteFavorite = deleteFavorite;
 
 
 function createUser(user) {
@@ -81,6 +84,29 @@ function unfollowUser(curr, target) {
 
 function findAllUsers() {
   return userModel.find();
+}
+
+function addToFavorite(userId, movieId) {
+  return userModel.findUserById(userId)
+    .then( (user) => {
+      movieModel.findMovieById(movieId)
+        .then((movie) => {
+          user.favorite.push(movie);
+          user.save();
+        })
+    })
+}
+
+function deleteFavorite(userId, movieId) {
+  return userModel.findUserById(userId)
+    .then( (user) => {
+      for (let i = 0; i < user.favorite.length; i++) {
+        if (user.favorite[i]._id.equals(movieId)) {
+          user.favorite.splice(i, 1);
+          return user.save();
+        }
+      }
+    })
 }
 
 

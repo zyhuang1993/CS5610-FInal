@@ -131,4 +131,12 @@ export class UserService {
   findFollowingsByUserName(username: string) {
     return this.http.get(this.baseUrl + '/api/allFollowings/' + username);
   }
+
+  addToFavorite(userId: any, movieId: any) {
+    return this.http.get(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
+  }
+
+  deleteFavorite(userId: any, movieId: any) {
+    return this.http.delete(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
+  }
 }
