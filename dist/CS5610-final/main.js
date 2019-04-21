@@ -882,22 +882,12 @@ var HeaderComponent = /** @class */ (function () {
             this.router.navigate(['/login']);
         }
         else if (this.sharedService.user.type === 'Unpaid') {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.router.navigate(['/advertisement/' + this.keyword]);
-=======
-=======
->>>>>>> upstream/ziyan
             if (this.keyword === '') {
                 this.router.navigate(['/advertisement']);
             }
             else {
                 this.router.navigate(['/advertisement/' + this.keyword]);
             }
-<<<<<<< HEAD
->>>>>>> upstream/ziyan
-=======
->>>>>>> upstream/ziyan
         }
         else {
             if (this.keyword && this.keyword !== '') {
