@@ -732,7 +732,7 @@ var UserService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3ZpZXdzL2FkdmVydGlzZW1lbnQvYWR2ZXJ0aXNlbWVudC5jb21wb25lbnQuY3NzIn0= */"
+module.exports = ".main {\n  text-align: center;\n}\n\n#amc {\n  float: left;\n  width: 61.2%;\n}\n\n#combo {\n  float: left;\n  width: 38.8%;\n}\n\n#ticket {\n  float: left;\n  width: 38.8%;\n}\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvYWR2ZXJ0aXNlbWVudC9hZHZlcnRpc2VtZW50LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxrQkFBa0I7QUFDcEI7O0FBRUE7RUFDRSxXQUFXO0VBQ1gsWUFBWTtBQUNkOztBQUVBO0VBQ0UsV0FBVztFQUNYLFlBQVk7QUFDZDs7QUFFQTtFQUNFLFdBQVc7RUFDWCxZQUFZO0FBQ2QiLCJmaWxlIjoic3JjL2FwcC92aWV3cy9hZHZlcnRpc2VtZW50L2FkdmVydGlzZW1lbnQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5tYWluIHtcbiAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4jYW1jIHtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiA2MS4yJTtcbn1cblxuI2NvbWJvIHtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiAzOC44JTtcbn1cblxuI3RpY2tldCB7XG4gIGZsb2F0OiBsZWZ0O1xuICB3aWR0aDogMzguOCU7XG59XG5cbiJdfQ== */"
 
 /***/ }),
 
@@ -743,7 +743,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  advertisement works!\n</p>\n"
+module.exports = "<div class=\"main\">\n  <h1><a href=\"https://www.amctheatres.com/\">Come to visit our site for more! <i class=\"far fa-hand-point-left\"></i></a></h1>\n  <img id=\"amc\" src=\"../../../assets/images/6.1.1.1_amc-history_promo.jpg\">\n  <img id=\"combo\" src=\"../../../assets/images/amc_stubs_5_tuesday_cameo_combo.jpg\">\n  <img id=\"ticket\" src=\"../../../assets/images/amc-ticket-2.png\">\n</div>\n"
 
 /***/ }),
 
@@ -2729,7 +2729,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
 
 
 /***/ })
