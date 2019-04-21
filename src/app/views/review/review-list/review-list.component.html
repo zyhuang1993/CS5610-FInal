@@ -95,7 +95,7 @@
               <span></span>
             </div>
             <h5>
-              <button *ngIf="owner(review.reviewerName)" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
+              <button *ngIf="owner(review.reviewerName) || admin()" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
                 Delete
               </button>
             </h5>
