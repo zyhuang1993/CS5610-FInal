@@ -28,7 +28,11 @@ export class LoginComponent implements OnInit {
           this.errorFlag = true;
           this.errorMsg = 'User does not exist or Wrong Password';
         } else {
-          this.router.navigate(['/profile/']);
+          if (user.type === 'Unpaid') {
+            this.router.navigate(['/advertisement/' + 'login']);
+          } else {
+            this.router.navigate(['/profile/']);
+          }
         }
       }
     );

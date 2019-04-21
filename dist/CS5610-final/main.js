@@ -86,7 +86,7 @@ var routes = [
     { path: 'search/movie/:keyword', component: _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_18__["MovieSearchComponent"] },
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'movie/:dbId/reviews', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
-    { path: 'advertisement', component: _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_20__["AdvertisementComponent"] },
+    { path: 'advertisement/:source', component: _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_20__["AdvertisementComponent"] },
     { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
@@ -763,14 +763,30 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AdvertisementComponent = /** @class */ (function () {
-    function AdvertisementComponent(router) {
+    function AdvertisementComponent(router, activatedRoute) {
         this.router = router;
+        this.activatedRoute = activatedRoute;
     }
     AdvertisementComponent.prototype.ngOnInit = function () {
         var _this = this;
-        setTimeout(function () {
-            _this.router.navigate(['']);
-        }, 5000); // 5s
+        this.activatedRoute.params.subscribe(function (params) {
+            _this.source = params.source;
+            if (_this.source === 'login') {
+                setTimeout(function () {
+                    _this.router.navigate(['/profile']);
+                }, 5000); // 5s
+            }
+            else if (_this.source === '') {
+                setTimeout(function () {
+                    _this.router.navigate(['/topMovies']);
+                }, 5000); // 5s
+            }
+            else {
+                setTimeout(function () {
+                    _this.router.navigate(['/search/movie/' + _this.source]);
+                }, 5000); // 5s
+            }
+        });
     };
     AdvertisementComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -778,7 +794,7 @@ var AdvertisementComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./advertisement.component.html */ "./src/app/views/advertisement/advertisement.component.html"),
             styles: [__webpack_require__(/*! ./advertisement.component.css */ "./src/app/views/advertisement/advertisement.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
     ], AdvertisementComponent);
     return AdvertisementComponent;
 }());
@@ -834,6 +850,7 @@ var HeaderComponent = /** @class */ (function () {
         this.sharedService = sharedService;
         this.userService = userService;
         this.router = router;
+        this.keyword = '';
     }
     HeaderComponent.prototype.ngOnInit = function () {
         if (this.sharedService.user === null) {
@@ -860,6 +877,12 @@ var HeaderComponent = /** @class */ (function () {
         });
     };
     HeaderComponent.prototype.navigateToSearch = function () {
+        if (this.sharedService.user === null) {
+            this.router.navigate(['/login']);
+        }
+        if (this.sharedService.user.status === 'Unpaid') {
+            this.router.navigate(['/advertisement/' + this.keyword]);
+        }
         if (this.keyword && this.keyword !== '') {
             this.router.navigate(['/search/movie/' + this.keyword]);
         }
@@ -1964,7 +1987,12 @@ var LoginComponent = /** @class */ (function () {
                 _this.errorMsg = 'User does not exist or Wrong Password';
             }
             else {
-                _this.router.navigate(['/profile/']);
+                if (user.type === 'Unpaid') {
+                    _this.router.navigate(['/advertisement/' + 'login']);
+                }
+                else {
+                    _this.router.navigate(['/profile/']);
+                }
             }
         });
     };
