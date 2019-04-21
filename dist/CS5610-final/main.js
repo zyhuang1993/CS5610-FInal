@@ -399,6 +399,10 @@ var MovieService = /** @class */ (function () {
         var url = this.moviedbUrl + ("/movie/" + movieId + "/credits?api_key=" + this.apiKey);
         return this.http.get(url);
     };
+    MovieService.prototype.findPopularMoviesByPages = function (page) {
+        var url = this.moviedbUrl + ("/movie/popular?page=" + page + "&language=en-US&api_key=" + this.apiKey);
+        return this.http.get(url);
+    };
     // own db
     MovieService.prototype.findMovieByDbId = function (dbId) {
         var url = this.baseUrl + '/api/movie/' + dbId;
@@ -801,7 +805,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"fixed-top\">\n  <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Review</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/\">Home</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/movie\">Movies</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/topMovies\">Top Movies</a>\n    </span>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <div class=\"form-inline my-2 my-lg-0\">\n        <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search for a movie\" aria-label=\"Search\" [(ngModel)]=\"keyword\" name=\"keyword\">\n        <button (click)=\"navigateToSearch()\" class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n      </div>\n    </div>\n    <div>\n      <div class=\"collapse navbar-collapse float-right\">\n      <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" routerLink=\"{{status}}\">{{loginOrProfile}}</a>\n      </span>\n        <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" (click)=\"logout()\" *ngIf=\"loggedIn\">{{logoutMsg}}</a>\n      </span>\n      </div>\n    </div>\n  </nav>\n</header>\n"
+module.exports = "<header class=\"fixed-top\">\n  <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n    <a class=\"navbar-brand\" href=\"#\">Movie Review</a>\n    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarText\" aria-controls=\"navbarText\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n      <span class=\"navbar-toggler-icon\"></span>\n    </button>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/\">Home</a>\n    </span>\n    <span class=\"navbar-text navbar-profile\">\n      <a class=\"nav-link\" routerLink=\"/movie\">Popular</a>\n    </span>\n    <div class=\"collapse navbar-collapse\" id=\"navbarText\">\n      <div class=\"form-inline my-2 my-lg-0\">\n        <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search for a movie\" aria-label=\"Search\" [(ngModel)]=\"keyword\" name=\"keyword\">\n        <button (click)=\"navigateToSearch()\" class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n      </div>\n    </div>\n    <div>\n      <div class=\"collapse navbar-collapse float-right\">\n      <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" routerLink=\"{{status}}\">{{loginOrProfile}}</a>\n      </span>\n        <span class=\"navbar-text navbar-profile\">\n        <a class=\"nav-link\" (click)=\"logout()\" *ngIf=\"loggedIn\">{{logoutMsg}}</a>\n      </span>\n      </div>\n    </div>\n  </nav>\n</header>\n"
 
 /***/ }),
 
@@ -1227,7 +1231,7 @@ var MovieDetailComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "body {\n  background-image: url('login-background.jpg');\n  background-repeat: no-repeat;\n  position: relative;\n  background-size: 100% 100%;\n}\n\n.container {\n  margin-top: 70px;\n\n  padding-top: 100px;\n  padding-bottom: 100px;\n  width:100%;\n\n  text-align:center;\n}\n\nh1 {\n  margin-bottom: 30px;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtbGlzdC9tb3ZpZS1saXN0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSw2Q0FBdUU7RUFDdkUsNEJBQTRCO0VBQzVCLGtCQUFrQjtFQUNsQiwwQkFBMEI7QUFDNUI7O0FBRUE7RUFDRSxnQkFBZ0I7O0VBRWhCLGtCQUFrQjtFQUNsQixxQkFBcUI7RUFDckIsVUFBVTs7RUFFVixpQkFBaUI7QUFDbkI7O0FBRUE7RUFDRSxtQkFBbUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC92aWV3cy9tb3ZpZS9tb3ZpZS1saXN0L21vdmllLWxpc3QuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbImJvZHkge1xuICBiYWNrZ3JvdW5kLWltYWdlOiB1cmwoXCIuLi8uLi8uLi8uLi9hc3NldHMvaW1hZ2VzL2xvZ2luLWJhY2tncm91bmQuanBnXCIpO1xuICBiYWNrZ3JvdW5kLXJlcGVhdDogbm8tcmVwZWF0O1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIGJhY2tncm91bmQtc2l6ZTogMTAwJSAxMDAlO1xufVxuXG4uY29udGFpbmVyIHtcbiAgbWFyZ2luLXRvcDogNzBweDtcblxuICBwYWRkaW5nLXRvcDogMTAwcHg7XG4gIHBhZGRpbmctYm90dG9tOiAxMDBweDtcbiAgd2lkdGg6MTAwJTtcblxuICB0ZXh0LWFsaWduOmNlbnRlcjtcbn1cblxuaDEge1xuICBtYXJnaW4tYm90dG9tOiAzMHB4O1xufVxuIl19 */"
+module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n}\n\n.navbar-profile {\n  font-size: 20px;\n  font-weight: bold;\n}\n\n.media-item {\n  margin-top: 20px;\n}\n\nh1 {\n  padding-top: 180px;\n  margin-left: 22%;\n  width: 56%;\n}\n\nh2 {\n  margin-left: 22%;\n  width: 56%;\n}\n\n.container {\n  padding-top: 30px;\n}\n\n\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtbGlzdC9tb3ZpZS1saXN0LmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxpREFBaUQ7QUFDbkQ7O0FBRUE7RUFDRSxlQUFlO0VBQ2YsaUJBQWlCO0FBQ25COztBQUVBO0VBQ0UsZ0JBQWdCO0FBQ2xCOztBQUdBO0VBQ0Usa0JBQWtCO0VBQ2xCLGdCQUFnQjtFQUNoQixVQUFVO0FBQ1o7O0FBRUE7RUFDRSxnQkFBZ0I7RUFDaEIsVUFBVTtBQUNaOztBQUVBO0VBQ0UsaUJBQWlCO0FBQ25CIiwiZmlsZSI6InNyYy9hcHAvdmlld3MvbW92aWUvbW92aWUtbGlzdC9tb3ZpZS1saXN0LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJib2R5IHtcbiAgZm9udC1mYW1pbHk6ICdTb3VyY2UgU2FucyBQcm8nLCBBcmlhbCwgc2Fucy1zZXJpZjtcbn1cblxuLm5hdmJhci1wcm9maWxlIHtcbiAgZm9udC1zaXplOiAyMHB4O1xuICBmb250LXdlaWdodDogYm9sZDtcbn1cblxuLm1lZGlhLWl0ZW0ge1xuICBtYXJnaW4tdG9wOiAyMHB4O1xufVxuXG5cbmgxIHtcbiAgcGFkZGluZy10b3A6IDE4MHB4O1xuICBtYXJnaW4tbGVmdDogMjIlO1xuICB3aWR0aDogNTYlO1xufVxuXG5oMiB7XG4gIG1hcmdpbi1sZWZ0OiAyMiU7XG4gIHdpZHRoOiA1NiU7XG59XG5cbi5jb250YWluZXIge1xuICBwYWRkaW5nLXRvcDogMzBweDtcbn1cblxuXG4iXX0= */"
 
 /***/ }),
 
@@ -1238,7 +1242,7 @@ module.exports = "body {\n  background-image: url('login-background.jpg');\n  ba
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>Search Result</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"getMoviePoster()\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{movie.title}}</span></h5>\n          </div>\n          <div class=\"card-footer\">\n\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n"
+module.exports = "<html>\n<body>\n<app-header></app-header>\n<main>\n  <div class=\"container\">\n    <h3>Popular</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card\">\n          <img  class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\"><span class=\"badge badge-secondary\">{{movie.title}}</span></h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a routerLink=\"/movie/{{movie.id}}\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div>\n    <div class=\"container\">\n      <div class=\"text-center\">\n        <!-- pager -->\n        <ul *ngIf=\"pager.pages && pager.pages.length\" class=\"pagination\">\n          <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === 1}\">\n            <a class=\"page-link\" (click)=\"setPage(1)\">First</a>\n          </li>\n          <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === 1}\">\n            <a class=\"page-link\" (click)=\"setPage(pager.currentPage - 1)\">Previous</a>\n          </li>\n          <li class=\"page-item\" *ngFor=\"let page of pager.pages\" [ngClass]=\"{active:pager.currentPage === page}\">\n            <a class=\"page-link\" (click)=\"setPage(page)\">{{page}}</a>\n          </li>\n          <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === pager.totalPages}\">\n            <a class=\"page-link\" (click)=\"setPage(pager.currentPage + 1)\">Next</a>\n          </li>\n          <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === pager.totalPages}\">\n            <a class=\"page-link\" (click)=\"setPage(pager.totalPages)\">Last</a>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</main>\n</body>\n</html>\n\n\n"
 
 /***/ }),
 
@@ -1254,14 +1258,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MovieListComponent", function() { return MovieListComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _service_pagination_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/pagination.client.service */ "./src/app/service/pagination.client.service.ts");
+/* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
+
+
 
 
 var MovieListComponent = /** @class */ (function () {
-    function MovieListComponent() {
+    function MovieListComponent(paginationService, movieService) {
+        this.paginationService = paginationService;
+        this.movieService = movieService;
+        this.pager = {};
     }
     MovieListComponent.prototype.ngOnInit = function () {
+        this.setPage(1);
     };
     MovieListComponent.prototype.getMoviePoster = function () {
+    };
+    MovieListComponent.prototype.findPopularMoviesByPages = function (page) {
+        var _this = this;
+        this.movieService.findPopularMoviesByPages(page).subscribe(function (data) {
+            _this.movies = data.results;
+        });
+    };
+    MovieListComponent.prototype.getImageUrlForAMovie = function (url) {
+        return 'https://image.tmdb.org/t/p/original' + url;
+    };
+    MovieListComponent.prototype.setPage = function (page) {
+        this.pager = this.paginationService.getPager(page);
+        this.findPopularMoviesByPages(page);
     };
     MovieListComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1269,7 +1294,7 @@ var MovieListComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./movie-list.component.html */ "./src/app/views/movie/movie-list/movie-list.component.html"),
             styles: [__webpack_require__(/*! ./movie-list.component.css */ "./src/app/views/movie/movie-list/movie-list.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_pagination_client_service__WEBPACK_IMPORTED_MODULE_2__["PaginationService"], _service_movie_client_service__WEBPACK_IMPORTED_MODULE_3__["MovieService"]])
     ], MovieListComponent);
     return MovieListComponent;
 }());

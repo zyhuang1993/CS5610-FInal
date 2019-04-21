@@ -3,18 +3,44 @@
 <app-header></app-header>
 <main>
   <div class="container">
-    <h3>Search Result</h3>
+    <h3>Popular</h3>
     <div class="card-columns">
       <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let movie of movies">
         <div class="card">
-          <img  class="card-img-top" [src]="getMoviePoster()" alt="Card image cap">
+          <img  class="card-img-top" [src]="getImageUrlForAMovie(movie.poster_path)" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title"><span class="badge badge-secondary">{{movie.title}}</span></h5>
           </div>
           <div class="card-footer">
-
+            <p>{{movie.release_date}}</p>
+            <a routerLink="/movie/{{movie.id}}" class="card-link">More info</a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="container">
+      <div class="text-center">
+        <!-- pager -->
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(1)">First</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}">
+            <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a class="page-link" (click)="setPage(page)">{{page}}</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a class="page-link" (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
