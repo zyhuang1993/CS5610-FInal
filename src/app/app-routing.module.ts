@@ -17,6 +17,7 @@ import {AuthGuardUser} from './service/authguard-user.client.service';
 import {AuthGuardAdmin} from './service/authguard-admin.client.service';
 import {MovieSearchComponent} from './views/movie/movie-search/movie-search.component';
 import {UserReviewComponent} from './views/user/user-review/user-review.component';
+import {AdvertisementComponent} from './views/advertisement/advertisement.component';
 
 const routes: Routes = [
   // guest
@@ -29,6 +30,7 @@ const routes: Routes = [
   {path: 'search/movie/:keyword', component: MovieSearchComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardUser]},
   {path: 'movie/:dbId/reviews', component: ReviewListComponent, canActivate: [AuthGuardUser]},
+  {path: 'advertisement', component: AdvertisementComponent},
 
   {path: 'users/:username', component: OtherUserComponent, canActivate: [AuthGuardUser]},
   {path: 'user/:username/favorite-movie', component: FavoriteMovieComponent, canActivate: [AuthGuardUser]},
