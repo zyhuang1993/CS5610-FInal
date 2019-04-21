@@ -92,7 +92,7 @@ export class ReviewListComponent implements OnInit {
       if (reviews === null || reviews.length === 0) {
         return '0';
       } else {
-        return stats[i] / reviews.length + '%';
+        return (stats[i] / reviews.length) * 100 + '%';
       }
     }
 
