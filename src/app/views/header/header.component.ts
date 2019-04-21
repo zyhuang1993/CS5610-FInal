@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
   logoutMsg: string;
   loggedIn: boolean;
   logoutPath: string;
-  constructor(private sharedService: SharedService, private userService: UserService, private router: Router) { }
+  constructor(private sharedService: SharedService, private userService: UserService, private router: Router) {
+    this.keyword = '';
+  }
 
 
   ngOnInit() {
@@ -48,6 +50,13 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateToSearch() {
+    if (this.sharedService.user === null) {
+      this.router.navigate(['/login']);
+    }
+    if (this.sharedService.user.status === 'Unpaid') {
+      this.router.navigate(['/advertisement/' + this.keyword]);
+    }
+
     if (this.keyword && this.keyword !== '') {
       this.router.navigate(['/search/movie/' + this.keyword]);
 
