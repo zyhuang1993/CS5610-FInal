@@ -33,3 +33,7 @@ body {
 .update {
   color: white !important;
 }
+
+a:hover {
+  cursor: pointer;
+}

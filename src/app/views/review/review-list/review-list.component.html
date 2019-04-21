@@ -81,13 +81,13 @@
   </div>
   <!-- reviews -->
 
-        <div class="row">
           <div *ngFor="let review of reviews">
             <hr>
+            <div class="row">
           <div class="col-sm-3">
             <!-- user-->
             <div class="review-block-name">
-              <h5>By<a routerLink="/users/{{review.reviewerName}}"><span class="badge badge-secondary"> {{review.reviewerName}}</span></a></h5>
+              <h5>By<a routerLink="/users/{{review.reviewerName}}"><span class="badge badge-secondary">{{review.reviewerName}}</span></a></h5>
             </div>
             <div class="review-block-date">
               <button *ngIf="!owner(review.reviewerName) && like(review.likeStatus)" (click)="likeReview(review)" class=" far fa-thumbs-up icon-item"></button>

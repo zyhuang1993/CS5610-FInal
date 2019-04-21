@@ -15,7 +15,7 @@ export class ReviewListComponent implements OnInit {
   dbId: string;
   reviews: [any];
   averageRate: number;
-  likedReviews: [any];
+  likedReviews = [];
   currUser: any;
   reviewBetweenScores: number[] = [0, 0, 0, 0, 0];
   constructor(private movieService: MovieService, private activateRoute: ActivatedRoute, private sharedService: SharedService,
@@ -39,10 +39,12 @@ export class ReviewListComponent implements OnInit {
             this.reviews = this.movie.reviews;
             this.averageRate = this.getAverageScore(this.reviews);
             this.reviewBetweenScores = this.reviewCountsBetween(this.reviews);
-            for (let i = 0; i < this.reviews.length; i++) {
-              for (let j = 0; j < this.likedReviews.length; j++) {
-                if (this.likedReviews[j] === this.reviews[i]._id) {
-                  this.reviews[i].likeStatus = 'Unlike';
+            if (this.likedReviews !== undefined && this.likedReviews.length !== 0) {
+              for (let i = 0; i < this.reviews.length; i++) {
+                for (let j = 0; j < this.likedReviews.length; j++) {
+                  if (this.likedReviews[j] === this.reviews[i]._id) {
+                    this.reviews[i].likeStatus = 'Unlike';
+                  }
                 }
               }
             }
@@ -50,11 +52,6 @@ export class ReviewListComponent implements OnInit {
         }
       );
     });
-  }
-
-
-  getReviewer() {
-
   }
 
    getAverageScore(reviews) {
@@ -89,7 +86,7 @@ export class ReviewListComponent implements OnInit {
     }
 
     getWidth(reviews, stats, i) {
-      if (reviews === null || reviews.length === 0) {
+      if (reviews === null || reviews === undefined || reviews.length === 0) {
         return '0';
       } else {
         return (stats[i] / reviews.length) * 100 + '%';
@@ -126,6 +123,7 @@ export class ReviewListComponent implements OnInit {
   }
 
   owner(username: string) {
+    console.log(this.currUser.username);
     if (this.currUser.username === username) {
       return true;
     } else {
