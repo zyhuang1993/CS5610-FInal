@@ -53,6 +53,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_authguard_admin_client_service__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./service/authguard-admin.client.service */ "./src/app/service/authguard-admin.client.service.ts");
 /* harmony import */ var _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./views/movie/movie-search/movie-search.component */ "./src/app/views/movie/movie-search/movie-search.component.ts");
 /* harmony import */ var _views_user_user_review_user_review_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./views/user/user-review/user-review.component */ "./src/app/views/user/user-review/user-review.component.ts");
+/* harmony import */ var _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./views/advertisement/advertisement.component */ "./src/app/views/advertisement/advertisement.component.ts");
+
 
 
 
@@ -84,6 +86,7 @@ var routes = [
     { path: 'search/movie/:keyword', component: _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_18__["MovieSearchComponent"] },
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'movie/:dbId/reviews', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
+    { path: 'advertisement', component: _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_20__["AdvertisementComponent"] },
     { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
@@ -204,6 +207,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./views/movie/movie-search/movie-search.component */ "./src/app/views/movie/movie-search/movie-search.component.ts");
 /* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./service/review.client.service */ "./src/app/service/review.client.service.ts");
 /* harmony import */ var _views_user_user_review_user_review_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./views/user/user-review/user-review.component */ "./src/app/views/user/user-review/user-review.component.ts");
+/* harmony import */ var _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./views/advertisement/advertisement.component */ "./src/app/views/advertisement/advertisement.component.ts");
+
 
 
 
@@ -259,6 +264,7 @@ var AppModule = /** @class */ (function () {
                 _views_user_following_list_following_list_component__WEBPACK_IMPORTED_MODULE_26__["FollowingListComponent"],
                 _views_movie_movie_search_movie_search_component__WEBPACK_IMPORTED_MODULE_29__["MovieSearchComponent"],
                 _views_user_user_review_user_review_component__WEBPACK_IMPORTED_MODULE_31__["UserReviewComponent"],
+                _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_32__["AdvertisementComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -702,6 +708,69 @@ var UserService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/views/advertisement/advertisement.component.css":
+/*!*****************************************************************!*\
+  !*** ./src/app/views/advertisement/advertisement.component.css ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3ZpZXdzL2FkdmVydGlzZW1lbnQvYWR2ZXJ0aXNlbWVudC5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/views/advertisement/advertisement.component.html":
+/*!******************************************************************!*\
+  !*** ./src/app/views/advertisement/advertisement.component.html ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\n  advertisement works!\n</p>\n"
+
+/***/ }),
+
+/***/ "./src/app/views/advertisement/advertisement.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/views/advertisement/advertisement.component.ts ***!
+  \****************************************************************/
+/*! exports provided: AdvertisementComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvertisementComponent", function() { return AdvertisementComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
+
+
+var AdvertisementComponent = /** @class */ (function () {
+    function AdvertisementComponent(router) {
+        this.router = router;
+    }
+    AdvertisementComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        setTimeout(function () {
+            _this.router.navigate(['']);
+        }, 5000); // 5s
+    };
+    AdvertisementComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-advertisement',
+            template: __webpack_require__(/*! ./advertisement.component.html */ "./src/app/views/advertisement/advertisement.component.html"),
+            styles: [__webpack_require__(/*! ./advertisement.component.css */ "./src/app/views/advertisement/advertisement.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], AdvertisementComponent);
+    return AdvertisementComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/views/header/header.component.css":
 /*!***************************************************!*\
   !*** ./src/app/views/header/header.component.css ***!
@@ -815,7 +884,7 @@ module.exports = "body {\n  font-family: 'Source Sans Pro', Arial, sans-serif;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to Movie Reivew!</h1>\n    <h2>It's movie time!</h2>\n  </div>\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\">\n          <img  class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">{{movie.title}}</h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a routerLink=\"/movie/{{movie.id}}\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div>\n      <div class=\"container\">\n        <div class=\"text-center\">\n          <!-- pager -->\n          <ul *ngIf=\"pager.pages && pager.pages.length\" class=\"pagination\">\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === 1}\">\n              <a class=\"page-link\" (click)=\"setPage(1)\">First</a>\n            </li>\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === 1}\">\n              <a class=\"page-link\" (click)=\"setPage(pager.currentPage - 1)\">Previous</a>\n            </li>\n            <li class=\"page-item\" *ngFor=\"let page of pager.pages\" [ngClass]=\"{active:pager.currentPage === page}\">\n              <a class=\"page-link\" (click)=\"setPage(page)\">{{page}}</a>\n            </li>\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === pager.totalPages}\">\n              <a class=\"page-link\" (click)=\"setPage(pager.currentPage + 1)\">Next</a>\n            </li>\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === pager.totalPages}\">\n              <a class=\"page-link\" (click)=\"setPage(pager.totalPages)\">Last</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n<footer>\n</footer>\n"
+module.exports = "<app-header></app-header>\n<main>\n  <div class=\"home-background\">\n    <h1>Welcome to Movie Reivew!</h1>\n    <h2>It's movie time!</h2>\n    <a routerLink=\"/advertisement\">ad</a>\n  </div>\n  <div class=\"container\">\n    <h3>Now Playing Movies</h3>\n    <div class=\"card-columns\">\n      <div class=\"media movie-list-group-item d-done d-sm-block\" *ngFor=\"let movie of movies\">\n        <div class=\"card media-item\">\n          <img  class=\"card-img-top\" [src]=\"getImageUrlForAMovie(movie.poster_path)\" alt=\"Card image cap\">\n          <div class=\"card-body\">\n            <h5 class=\"card-title\">{{movie.title}}</h5>\n          </div>\n          <div class=\"card-footer\">\n            <p>{{movie.release_date}}</p>\n            <a routerLink=\"/movie/{{movie.id}}\" class=\"card-link\">More info</a>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div>\n      <div class=\"container\">\n        <div class=\"text-center\">\n          <!-- pager -->\n          <ul *ngIf=\"pager.pages && pager.pages.length\" class=\"pagination\">\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === 1}\">\n              <a class=\"page-link\" (click)=\"setPage(1)\">First</a>\n            </li>\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === 1}\">\n              <a class=\"page-link\" (click)=\"setPage(pager.currentPage - 1)\">Previous</a>\n            </li>\n            <li class=\"page-item\" *ngFor=\"let page of pager.pages\" [ngClass]=\"{active:pager.currentPage === page}\">\n              <a class=\"page-link\" (click)=\"setPage(page)\">{{page}}</a>\n            </li>\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === pager.totalPages}\">\n              <a class=\"page-link\" (click)=\"setPage(pager.currentPage + 1)\">Next</a>\n            </li>\n            <li class=\"page-item\" [ngClass]=\"{disabled:pager.currentPage === pager.totalPages}\">\n              <a class=\"page-link\" (click)=\"setPage(pager.totalPages)\">Last</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</main>\n<footer>\n</footer>\n"
 
 /***/ }),
 
