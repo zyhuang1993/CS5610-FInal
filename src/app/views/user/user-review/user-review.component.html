@@ -18,7 +18,7 @@
             <button *ngIf="!owner() && like(review.likeStatus)" (click)="likeReview(review)" class=" far fa-thumbs-up icon-item"></button>
             <button *ngIf="!owner() && !like(review.likeStatus)" (click)="unlikeReview(review)" class=" far fa-thumbs-down icon-item"></button>
             <h5>
-              <button *ngIf="owner()" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
+              <button *ngIf="owner() || admin()" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
                 Delete
               </button>
             </h5>
