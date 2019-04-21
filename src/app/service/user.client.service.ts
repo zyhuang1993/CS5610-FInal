@@ -139,4 +139,22 @@ export class UserService {
   deleteFavorite(userId: any, movieId: any) {
     return this.http.delete(this.baseUrl + '/api/user/' + userId + '/favorite/' + movieId);
   }
+
+  addReview(userId: any, reviewId: any) {
+    return this.http.get(this.baseUrl + '/api/user/' + userId + '/review/' + reviewId);
+  }
+
+  deleteReview(userId: any, reviewId: any) {
+    return this.http.delete(this.baseUrl + '/api/user/' + userId + '/review/' + reviewId);
+
+  }
+
+  likeReview(userId: any, reviewId: any) {
+    return this.http.get(this.baseUrl + '/api/user/' + userId + '/likeReview/' + reviewId);
+
+  }
+
+  unlikeReview(userId: any, reviewId: any) {
+    return this.http.delete(this.baseUrl + '/api/user/' + userId + '/likeReview/' + reviewId);
+  }
 }

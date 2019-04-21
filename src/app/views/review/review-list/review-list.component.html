@@ -84,7 +84,15 @@
             <hr>
           <div class="col-sm-3">
             <!-- user-->
-            <div class="review-block-name"><a href="#">username</a></div>
+            <div class="review-block-name">
+              <h5>Reviews By
+                <a routerLink="/users/{{review.reviewerName}}">
+                <span class="badge badge-secondary">
+                  {{review.reviewerName}}
+                </span>
+              </a>
+              </h5>
+            </div>
             <div class="review-block-date">
               <button (click)="like(review)" *ngIf="review.likedStatus === 'unlike'" class="far fa-thumbs-up"></button>
               <button (click)="unlike(review)" *ngIf="review.likedStatus === 'like'" class="far fa-thumbs-down"></button>
@@ -135,7 +143,7 @@
         </div>
         </div>
 </div>
-</main>> <!-- /container -->
+</main> <!-- /container -->
 </body>
 </html>
 

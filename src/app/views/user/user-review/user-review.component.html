@@ -7,13 +7,20 @@
     <div class="card-columns">
       <div class="media movie-list-group-item d-done d-sm-block" *ngFor="let review of reviews">
         <div class="card">
-          <img  class="card-img-top" [src]="review.poster_path" alt="Card image cap">
+          <img  class="card-img-top" [src]="getImageUrlForAMovie(review.poster_path)" alt="Card image cap">
           <div class="card-body">
             <h3>{{review.title}}</h3>
-            <p>{{review.description}}</p>>
+            <p>{{review.description}}</p>
           </div>
           <div class="card-footer">
             <p>The Rate: <span class="badge badge-secondary">{{review.rate}}</span></p>
+            <a *ngIf="!owner() && like(review.likeStatus)" (click)="likeReview(review)" class=" far fa-thumbs-up icon-item"></a>
+            <a *ngIf="!owner() && !like(review.likeStatus)" (click)="unlikeReview(review)" class=" far fa-thumbs-down icon-item"></a>
+            <h5 class="card-title">
+              <button *ngIf="owner()" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
+                Delete
+              </button>
+            </h5>
           </div>
         </div>
       </div>

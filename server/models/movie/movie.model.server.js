@@ -48,16 +48,18 @@ function deleteReviewInMovie(dbId, reviewId) {
 function updateReviewInMovie(dbId, review) {
   return movieModel.findMovieByDbId(dbId)
     .then((movie) => {
-    const index = findIndex(movie.reviews, review);
-    movie.reviews.splice(index,1);
-    movie.reviews.splice(index,0,review);
-    return movie.save();
+      if (movie !== null) {
+        const index = findIndex(movie.reviews, review);
+        movie.reviews.splice(index,1);
+        movie.reviews.splice(index,0,review);
+        return movie.save();
+      }
   });
 }
 
 function findIndex(array, target) {
   for (let i = 0;i<array.length;i++) {
-    if (array[i]._id.toString() === target._id.toString()) {
+    if (array[i]._id.equals(target._id)) {
       return i;
     }
   }

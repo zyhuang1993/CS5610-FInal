@@ -17,6 +17,7 @@ export class MovieDetailComponent implements OnInit {
   averageRate: string;
   reviews: [any];
   favoriteStatus = 'Favorite';
+  noReview: boolean = true;
   casts: [any];
   constructor(private movieService: MovieService, private userService: UserService, private activatedRoute: ActivatedRoute,
               private sharedService: SharedService, private router: Router) {
@@ -57,6 +58,12 @@ export class MovieDetailComponent implements OnInit {
           } else  {
             this.reviews = this.movieInMongo.reviews;
             this.averageRate = this.getAverageScore(this.reviews);
+            for (let i = 0; i < this.reviews.length; i++) {
+              if (this.reviews[i].reviewer === this.currUser._id) {
+                this.noReview = false;
+                break;
+              }
+            }
           }
         });
       });
@@ -105,7 +112,7 @@ export class MovieDetailComponent implements OnInit {
   }
 
   navigateToReview() {
-      this.router.navigate(['/movie/:dbID/review-new']);
+      this.router.navigate(['/movie/' + this.dbId.toString() + '/review-new']);
   }
 
   getAverageScore(reviews) {
