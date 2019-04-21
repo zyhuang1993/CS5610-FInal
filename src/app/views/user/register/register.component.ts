@@ -19,9 +19,9 @@ export class RegisterComponent implements OnInit {
   errorMsg = '';
   user: any;
   public filterTypes = [
-    {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
-    {value: 'Paid', display: 'Vip'}
+    {value: 'Paid', display: 'Vip'},
+    {value: 'Admin', display: 'Admin'}
   ];
 
 

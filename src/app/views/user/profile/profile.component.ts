@@ -18,7 +18,6 @@ export class ProfileComponent implements OnInit {
   errorFlag: boolean;
   errorMsg = '';
   public filterTypes = [
-    {value: 'Admin', display: 'Admin'},
     {value: 'Unpaid', display: 'User'},
     {value: 'Paid', display: 'Vip'}
   ];
@@ -33,6 +32,11 @@ export class ProfileComponent implements OnInit {
           this.user = user;
           if (this.user.type === 'Admin') {
             this.isAdmin = true;
+            this.filterTypes = [
+              {value: 'Unpaid', display: 'User'},
+              {value: 'Paid', display: 'Vip'},
+              {value: 'Admin', display: 'Admin'}
+            ]
           } else {
             this.isAdmin = false;
           }
