@@ -33,6 +33,11 @@ export class MovieService {
     return this.http.get(url);
   }
 
+  getCast(movieId) {
+    const url = this.moviedbUrl + `/movie/${movieId}/credits?api_key=${this.apiKey}`;
+    return this.http.get(url);
+  }
+
   // own db
   findMovieByDbId(dbId) {
     const url = this.baseUrl + '/api/movie/' + dbId;
