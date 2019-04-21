@@ -53,7 +53,11 @@ export class HeaderComponent implements OnInit {
     if (this.sharedService.user === null) {
       this.router.navigate(['/login']);
     } else if (this.sharedService.user.type === 'Unpaid') {
-      this.router.navigate(['/advertisement/' + this.keyword]);
+      if (this.keyword === '') {
+        this.router.navigate(['/advertisement']);
+      } else {
+        this.router.navigate(['/advertisement/' + this.keyword]);
+      }
     } else {
       if (this.keyword && this.keyword !== '') {
         this.router.navigate(['/search/movie/' + this.keyword]);

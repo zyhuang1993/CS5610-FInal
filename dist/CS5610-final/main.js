@@ -87,6 +87,7 @@ var routes = [
     { path: 'profile', component: _views_user_profile_profile_component__WEBPACK_IMPORTED_MODULE_9__["ProfileComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'movie/:dbId/reviews', component: _views_review_review_list_review_list_component__WEBPACK_IMPORTED_MODULE_15__["ReviewListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'advertisement/:source', component: _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_20__["AdvertisementComponent"] },
+    { path: 'advertisement', component: _views_advertisement_advertisement_component__WEBPACK_IMPORTED_MODULE_20__["AdvertisementComponent"] },
     { path: 'users/:username', component: _views_user_other_user_other_user_component__WEBPACK_IMPORTED_MODULE_14__["OtherUserComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/favorite-movie', component: _views_movie_favorite_movie_favorite_movie_component__WEBPACK_IMPORTED_MODULE_10__["FavoriteMovieComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
     { path: 'user/:username/follower-list', component: _views_user_follower_list_follower_list_component__WEBPACK_IMPORTED_MODULE_11__["FollowerListComponent"], canActivate: [_service_authguard_user_client_service__WEBPACK_IMPORTED_MODULE_16__["AuthGuardUser"]] },
@@ -776,7 +777,7 @@ var AdvertisementComponent = /** @class */ (function () {
                     _this.router.navigate(['/profile']);
                 }, 5000); // 5s
             }
-            else if (_this.source === '') {
+            else if (_this.source === undefined) {
                 setTimeout(function () {
                     _this.router.navigate(['/topMovies']);
                 }, 5000); // 5s
@@ -881,8 +882,12 @@ var HeaderComponent = /** @class */ (function () {
             this.router.navigate(['/login']);
         }
         else if (this.sharedService.user.type === 'Unpaid') {
-            console.log(this.sharedService.user.type);
-            this.router.navigate(['/advertisement/' + this.keyword]);
+            if (this.keyword === '') {
+                this.router.navigate(['/advertisement']);
+            }
+            else {
+                this.router.navigate(['/advertisement/' + this.keyword]);
+            }
         }
         else {
             if (this.keyword && this.keyword !== '') {
@@ -2720,7 +2725,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })
