@@ -140,4 +140,12 @@ export class ReviewListComponent implements OnInit {
       return false;
     }
   }
+
+  admin() {
+    if (this.currUser.type === 'Admin') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
