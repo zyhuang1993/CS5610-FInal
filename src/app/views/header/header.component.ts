@@ -53,7 +53,8 @@ export class HeaderComponent implements OnInit {
     if (this.sharedService.user === null) {
       this.router.navigate(['/login']);
     }
-    if (this.sharedService.user.status === 'Unpaid') {
+    if (this.sharedService.user.type.toString() === 'Unpaid') {
+      console.log(this.sharedService.user.type);
       this.router.navigate(['/advertisement/' + this.keyword]);
     }
 
