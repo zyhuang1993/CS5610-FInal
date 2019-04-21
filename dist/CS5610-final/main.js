@@ -880,15 +880,17 @@ var HeaderComponent = /** @class */ (function () {
         if (this.sharedService.user === null) {
             this.router.navigate(['/login']);
         }
-        if (this.sharedService.user.type.toString() === 'Unpaid') {
+        else if (this.sharedService.user.type === 'Unpaid') {
             console.log(this.sharedService.user.type);
             this.router.navigate(['/advertisement/' + this.keyword]);
         }
-        if (this.keyword && this.keyword !== '') {
-            this.router.navigate(['/search/movie/' + this.keyword]);
-        }
         else {
-            this.router.navigate(['/topMovies']);
+            if (this.keyword && this.keyword !== '') {
+                this.router.navigate(['/search/movie/' + this.keyword]);
+            }
+            else {
+                this.router.navigate(['/topMovies']);
+            }
         }
     };
     HeaderComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -2718,7 +2720,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
 
 
 /***/ })

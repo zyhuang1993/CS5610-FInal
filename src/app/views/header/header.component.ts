@@ -52,17 +52,15 @@ export class HeaderComponent implements OnInit {
   navigateToSearch() {
     if (this.sharedService.user === null) {
       this.router.navigate(['/login']);
-    }
-    if (this.sharedService.user.type.toString() === 'Unpaid') {
-      console.log(this.sharedService.user.type);
+    } else if (this.sharedService.user.type === 'Unpaid') {
       this.router.navigate(['/advertisement/' + this.keyword]);
-    }
-
-    if (this.keyword && this.keyword !== '') {
-      this.router.navigate(['/search/movie/' + this.keyword]);
-
     } else {
-      this.router.navigate(['/topMovies']);
+      if (this.keyword && this.keyword !== '') {
+        this.router.navigate(['/search/movie/' + this.keyword]);
+
+      } else {
+        this.router.navigate(['/topMovies']);
+      }
     }
   }
 
