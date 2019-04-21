@@ -2209,7 +2209,6 @@ var ProfileComponent = /** @class */ (function () {
                 'format&fit=crop&w=1000&q=80', type: 'Unpaid' };
         this.errorMsg = '';
         this.filterTypes = [
-            { value: 'Admin', display: 'Admin' },
             { value: 'Unpaid', display: 'User' },
             { value: 'Paid', display: 'Vip' }
         ];
@@ -2221,6 +2220,11 @@ var ProfileComponent = /** @class */ (function () {
                 _this.user = user;
                 if (_this.user.type === 'Admin') {
                     _this.isAdmin = true;
+                    _this.filterTypes = [
+                        { value: 'Unpaid', display: 'User' },
+                        { value: 'Paid', display: 'Vip' },
+                        { value: 'Admin', display: 'Admin' }
+                    ];
                 }
                 else {
                     _this.isAdmin = false;
@@ -2312,9 +2316,9 @@ var RegisterComponent = /** @class */ (function () {
         this.router = router;
         this.errorMsg = '';
         this.filterTypes = [
-            { value: 'Admin', display: 'Admin' },
             { value: 'Unpaid', display: 'User' },
-            { value: 'Paid', display: 'Vip' }
+            { value: 'Paid', display: 'Vip' },
+            { value: 'Admin', display: 'Admin' }
         ];
         this.errorFlag = false;
     }
