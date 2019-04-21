@@ -30,7 +30,7 @@ const routes: Routes = [
   {path: 'search/movie/:keyword', component: MovieSearchComponent},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardUser]},
   {path: 'movie/:dbId/reviews', component: ReviewListComponent, canActivate: [AuthGuardUser]},
-  {path: 'advertisement', component: AdvertisementComponent},
+  {path: 'advertisement/:source', component: AdvertisementComponent},
 
   {path: 'users/:username', component: OtherUserComponent, canActivate: [AuthGuardUser]},
   {path: 'user/:username/favorite-movie', component: FavoriteMovieComponent, canActivate: [AuthGuardUser]},

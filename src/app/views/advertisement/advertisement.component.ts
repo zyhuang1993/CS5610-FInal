@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SharedService} from '../../service/shared.client.service';
 
 @Component({
   selector: 'app-advertisement',
@@ -7,13 +8,26 @@ import {Router} from '@angular/router';
   styleUrls: ['./advertisement.component.css']
 })
 export class AdvertisementComponent implements OnInit {
-
-  constructor(private router: Router) { }
+  source: string;
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.router.navigate(['']);
-    }, 5000);  // 5s
+    this.activatedRoute.params.subscribe((params) => {
+      this.source = params.source;
+      if (this.source === 'login') {
+        setTimeout(() => {
+          this.router.navigate(['/profile']);
+        }, 5000);  // 5s
+      } else if (this.source === '') {
+        setTimeout(() => {
+          this.router.navigate(['/topMovies']);
+        }, 5000);  // 5s
+      } else {
+        setTimeout(() => {
+          this.router.navigate(['/search/movie/' + this.source]);
+        }, 5000);  // 5s
+      }
+    });
   }
 
 }
