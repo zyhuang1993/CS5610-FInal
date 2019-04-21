@@ -26,23 +26,37 @@ function findMovieById(movieId) {
 }
 
 function createReviewInMovie(dbId, review) {
-  return movieModel.findOneAndUpdate({db_id: dbId},
-    {$push: {"reviews": review}},
-    {safe: true, upsert: true},
-    (err) => {
-      console.log(err);
-    }
-    );
+  return movieModel.findMovieByDbId(dbId)
+    .then((movie)=> {
+      movie.reviews.push(review);
+      movie.save();
+    });
+  // return movieModel.findOneAndUpdate({db_id: dbId},
+  //   {$push: {"reviews": review}},
+  //   {safe: true, upsert: true},
+  //   (err) => {
+  //     console.log(err);
+  //   }
+  //   );
 }
 
 function deleteReviewInMovie(dbId, reviewId) {
-  return movieModel.findOneAndUpdate({db_id: dbId},
-    {$pull: {"reviews": {_id: reviewId}}},
-    {safe: true, new: true},
-    (err) => {
-    console.log(err);
-    }
-    );
+  return movieModel.findMovieByDbId(dbId)
+    .then((movie)=> {
+      for(let i = 0; i < movie.reviews.length; i++) {
+        if (movie.reviews[i]._id.equals(reviewId)) {
+          movie.reviews.splice(i, 1);
+          return movie.save();
+        }
+      }
+    });
+  // return movieModel.findOneAndUpdate({db_id: dbId},
+  //   {$pull: {"reviews": {_id: reviewId}}},
+  //   {safe: true, new: true},
+  //   (err) => {
+  //   console.log(err);
+  //   }
+  //   );
 }
 
 function updateReviewInMovie(dbId, review) {

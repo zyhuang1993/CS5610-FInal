@@ -18,7 +18,7 @@ module.exports=function (app) {
   }
 
   function deleteReview(req, res) {
-    const reviewId = req.reviewId;
+    const reviewId = req.params['reviewId'];
     reviewModel.deleteReview(reviewId)
       .then((data) => {
         res.json(data);
