@@ -880,7 +880,8 @@ var HeaderComponent = /** @class */ (function () {
         if (this.sharedService.user === null) {
             this.router.navigate(['/login']);
         }
-        if (this.sharedService.user.status === 'Unpaid') {
+        if (this.sharedService.user.type.toString() === 'Unpaid') {
+            console.log(this.sharedService.user.type);
             this.router.navigate(['/advertisement/' + this.keyword]);
         }
         if (this.keyword && this.keyword !== '') {
@@ -1995,7 +1996,7 @@ var LoginComponent = /** @class */ (function () {
                 _this.errorMsg = 'User does not exist or Wrong Password';
             }
             else {
-                if (user.type === 'Unpaid') {
+                if (user.type.toString() === 'Unpaid') {
                     _this.router.navigate(['/advertisement/' + 'login']);
                 }
                 else {
@@ -2717,7 +2718,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })
