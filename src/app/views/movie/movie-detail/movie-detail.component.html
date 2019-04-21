@@ -5,7 +5,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm">
-          <img *ngIf="movie.poster_path" class="poster movie-poster" [src]="getImageUrlForAMovie(movie.poster_path)" alt="movie poster">
+          <img *ngIf="movie.poster_path" class="poster movie-poster" [src]="getImageUrl(movie.poster_path)" alt="movie poster">
         </div>
         <div class="col-md movie-description">
           <a href="{{movie.homepage}}" class="movie-title">
@@ -41,8 +41,18 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <hr style="border:2px solid #f1f1f1">
 
+  <div class="container" style="margin-bottom: 20px">
+    <h3>Top Billed Cast</h3>
+    <div *ngFor="let cast of casts">
+  <div class="card float-left">
+    <img class="card-img-top" [src]="getImageUrl(cast.profile_path)" alt="Card image cap">
+    <div class="card-body">
+      <p class="card-text">{{cast.name}}</p>
     </div>
+  </div>
+    </div>
+  </div>
 </main>
 </body>
