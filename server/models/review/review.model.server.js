@@ -8,6 +8,7 @@ reviewModel.createReview = createReview;
 reviewModel.deleteReview = deleteReview;
 reviewModel.increaseLike = increaseLike;
 reviewModel.decreaseLike = decreaseLike;
+reviewModel.findReviewById = findReviewById;
 
 module.exports = reviewModel;
 

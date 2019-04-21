@@ -4,7 +4,7 @@ var reviewSchema = new mongoose.Schema({
     title: String,
     description: String,
     rate: Number,
-    reviewer: {type: mongoose.Schema.ObjectId, ref: "User"},
+    reviewer: {type: mongoose.Schema.ObjectId, ref: "Users"},
     db_id: String,
     likes: Number,
     poster_path: String,

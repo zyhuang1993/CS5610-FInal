@@ -66,7 +66,12 @@ module.exports = function (app) {
   app.get('/api/allFollowings/:username', findAllFollowings);
   app.get('/api/user/:userId/favorite/:movieId', addToFavorite);
   app.delete('/api/user/:userId/favorite/:movieId', deleteFavorite);
-
+  app.get('/api/user/:userId/favorite/:movieId', addToFavorite);
+  app.delete('/api/user/:userId/favorite/:movieId', deleteFavorite);
+  app.get('/api/user/:userId/review/:reviewId/', addReview);
+  app.delete('/api/user/:userId/review/:reviewId/', deleteReview);
+  app.get('/api/user/:userId/likeReview/:reviewId/', likeReview);
+  app.delete('/api/user/:userId/likeReview/:reviewId/', unlikeReview);
 
   function follow(req, res) {
     var currUser = req.params['currUser'];
@@ -368,6 +373,66 @@ module.exports = function (app) {
       .then(
         function (response) {
           res.status(200).send({message: 'Delete favorite!'});
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+      )
+  }
+
+  function addReview(req, res) {
+    var userId = req.params['userId'];
+    var reviewId = req.params['reviewId'];
+    userModel.addReview(userId, reviewId)
+      .then(
+        function (response) {
+          res.status(200).send({message: 'Add Review!'});
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+      )
+  }
+
+  function deleteReview(req, res) {
+    var userId = req.params['userId'];
+    var reviewId = req.params['reviewId'];
+    userModel.deleteReview(userId, reviewId)
+      .then(
+        function (response) {
+          res.status(200).send({message: 'Delete Review!'});
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+      )
+  }
+
+  function likeReview(req, res) {
+    var userId = req.params['userId'];
+    var reviewId = req.params['reviewId'];
+    userModel.likeReview(userId, reviewId)
+      .then(
+        function (response) {
+          res.status(200).send({message: 'Like the review!'});
+        },
+        function (err) {
+          console.log(err);
+          res.status(500).send(err);
+        }
+      )
+  }
+
+  function unlikeReview(req, res) {
+    var userId = req.params['userId'];
+    var reviewId = req.params['reviewId'];
+    userModel.unlikeReview(userId, reviewId)
+      .then(
+        function (response) {
+          res.status(200).send({message: 'Unlike the review!'});
         },
         function (err) {
           console.log(err);
