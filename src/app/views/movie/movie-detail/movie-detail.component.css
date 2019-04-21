@@ -59,7 +59,7 @@ html, body {
 }
 
 .description-title {
-  margin-top: 40px;
+  margin-top: 30px;
   font-size: 22px;
   font-weight: bold;
   color: white;
@@ -93,4 +93,12 @@ h3 {
   font-size: 15px;
   color: #FFFFFF;
   text-align: center;
+}
+
+.genre {
+  margin-right: 15px;
+  color: white;
+  text-align: left;
+  font-size: 18px;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
 }
