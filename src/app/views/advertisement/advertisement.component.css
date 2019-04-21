@@ -1,0 +1,19 @@
+.main {
+  text-align: center;
+}
+
+#amc {
+  float: left;
+  width: 61.2%;
+}
+
+#combo {
+  float: left;
+  width: 38.8%;
+}
+
+#ticket {
+  float: left;
+  width: 38.8%;
+}
+
