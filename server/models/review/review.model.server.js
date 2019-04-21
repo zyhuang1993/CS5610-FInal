@@ -64,7 +64,9 @@ function deleteReviewInMovie(reviewId) {
 
 function updateReviewInMovie(reviewId, review) {
   reviewModel.findReviewById(reviewId)
-    .then((review) => {
-      movieModel.updateReviewInMovie(review.db_id, review)
+    .then((res) => {
+      if (res !== null) {
+        movieModel.updateReviewInMovie(res.db_id, review)
+      }
     });
 }

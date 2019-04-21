@@ -19,10 +19,11 @@ export class ReviewNewComponent implements OnInit {
   userId: string;
   movieDBId: string;
   movie: any;
-
+  username: string;
   constructor(private sharedService: SharedService, private activatedRoute: ActivatedRoute, private userService: UserService,
               private reviewService: ReviewService, private router: Router, private movieService: MovieService) {
     this.userId = this.sharedService.user._id;
+    this.username = this.sharedService.user.username;
   }
 
   ngOnInit() {
@@ -43,8 +44,10 @@ export class ReviewNewComponent implements OnInit {
       description: this.description,
       rate: this.rate,
       reviewer: this.userId,
+      reviewerName: this.username,
       likes: 0,
-      poster_path: this.movie.poster_path
+      poster_path: this.movie.poster_path,
+      db_id: this.movieDBId
     };
 
     this.reviewService.createReview(this.movieDBId, review).subscribe((data: any) => {

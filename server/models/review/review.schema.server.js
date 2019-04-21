@@ -5,6 +5,7 @@ var reviewSchema = new mongoose.Schema({
     description: String,
     rate: Number,
     reviewer: {type: mongoose.Schema.ObjectId, ref: "Users"},
+    reviewerName: String,
     db_id: String,
     likes: Number,
     poster_path: String,
