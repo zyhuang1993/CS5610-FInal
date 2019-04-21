@@ -58,7 +58,7 @@ export class UserReviewComponent implements OnInit {
     this.reviewService.deleteReview(reviewId).subscribe((data: any) => {
       this.userService.deleteReview(this.currUser._id, reviewId).subscribe(
         (res) => {
-          this.router.navigate(['user/' + this.otherUser.username + '/review-list'], {queryParams: {refresh: new Date().getTime()}
+          this.router.navigate(['/user/' + this.otherUser.username + '/review-list'], {queryParams: {refresh: new Date().getTime()}
           });
         }
       );
@@ -68,7 +68,7 @@ export class UserReviewComponent implements OnInit {
   likeReview(review) {
     this.reviewService.incrementReviewLikes(review).subscribe((data: any) => {
       this.userService.likeReview(this.currUser._id, review._id).subscribe((res) => {
-        this.router.navigate(['user/' + this.otherUser.username + '/review-list'], {
+        this.router.navigate(['/user/' + this.otherUser.username + '/review-list'], {
           queryParams: {refresh: new Date().getTime()}
         });
       });
@@ -78,7 +78,7 @@ export class UserReviewComponent implements OnInit {
   unlikeReview(review) {
     this.reviewService.decrementReviewLikes(review).subscribe((data: any) => {
       this.userService.unlikeReview(this.currUser._id, review._id).subscribe((res) => {
-        this.router.navigate(['user/' + this.otherUser.username + '/review-list'], {
+        this.router.navigate(['/user/' + this.otherUser.username + '/review-list'], {
           queryParams: {refresh: new Date().getTime()}
         });
       });

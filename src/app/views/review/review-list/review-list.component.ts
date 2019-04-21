@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MovieService} from '../../../service/movie.client.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
 import {ReviewService} from '../../../service/review.client.service';
+import {UserService} from '../../../service/user.client.service';
 
 @Component({
   selector: 'app-review-list',
@@ -15,30 +16,39 @@ export class ReviewListComponent implements OnInit {
   reviews: [any];
   averageRate: number;
   likedReviews: [any];
-  curUser: any;
+  currUser: any;
   reviewBetweenScores: number[] = [0, 0, 0, 0, 0];
   constructor(private movieService: MovieService, private activateRoute: ActivatedRoute, private sharedService: SharedService,
-              private reviewService: ReviewService) {
-   this.curUser = this.sharedService.user;
-   this.likedReviews = this.curUser.likedReviews;
+              private reviewService: ReviewService, private userService: UserService, private router: Router) {
+    this.activateRoute.queryParamMap.subscribe(params => {
+      if (params.get('refresh')) {
+        this.ngOnInit();
+      }
+    });
   }
 
   ngOnInit() {
     this.activateRoute.params.subscribe((params) => {
       this.dbId = params.dbId;
-      this.movieService.findMovieByDbId(this.dbId).subscribe((data) => {
-        this.movie = data;
-        this.reviews = this.movie.reviews;
-        this.averageRate = this.getAverageScore(this.reviews);
-        this.reviewBetweenScores = this.reviewCountsBetween(this.reviews);
-        for (let i = 0; i < this.reviews.length; i++) {
-          for (let j = 0; j < this.likedReviews.length; j++) {
-            if (this.likedReviews[i].equals(this.reviews[i]._id)) {
-              this.reviews[i].likeStatus = 'Unlike';
+      this.userService.findUserById(this.sharedService.user._id).subscribe(
+        (user: any) => {
+          this.currUser = user;
+          this.likedReviews = user.likedReview;
+          this.movieService.findMovieByDbId(this.dbId).subscribe((data) => {
+            this.movie = data;
+            this.reviews = this.movie.reviews;
+            this.averageRate = this.getAverageScore(this.reviews);
+            this.reviewBetweenScores = this.reviewCountsBetween(this.reviews);
+            for (let i = 0; i < this.reviews.length; i++) {
+              for (let j = 0; j < this.likedReviews.length; j++) {
+                if (this.likedReviews[j] === this.reviews[i]._id) {
+                  this.reviews[i].likeStatus = 'Unlike';
+                }
+              }
             }
-          }
+          });
         }
-      });
+      );
     });
   }
 
@@ -79,23 +89,55 @@ export class ReviewListComponent implements OnInit {
     }
 
     getWidth(reviews, stats, i) {
-    if (reviews === null || reviews.length === 0) {
-      return '0';
+      if (reviews === null || reviews.length === 0) {
+        return '0';
+      } else {
+        return stats[i] / reviews.length + '%';
+      }
+    }
+
+  likeReview(review) {
+    this.reviewService.incrementReviewLikes(review).subscribe((data: any) => {
+      this.userService.likeReview(this.currUser._id, review._id).subscribe((res) => {
+        this.router.navigate(['/movie/' + this.dbId + '/reviews'], {queryParams: {refresh: new Date().getTime()}
+        });
+      });
+    });
+  }
+
+  unlikeReview(review) {
+    this.reviewService.decrementReviewLikes(review).subscribe((data: any) => {
+      this.userService.unlikeReview(this.currUser._id, review._id).subscribe((res) => {
+        this.router.navigate(['/movie/' + this.dbId + '/reviews'], {queryParams: {refresh: new Date().getTime()}
+        });
+      });
+    });
+  }
+
+  deleteReview(reviewId: string) {
+    this.reviewService.deleteReview(reviewId).subscribe((data: any) => {
+      this.userService.deleteReview(this.currUser._id, reviewId).subscribe(
+        (res) => {
+          this.router.navigate(['/movie/' + this.dbId + '/reviews'],{queryParams: {refresh: new Date().getTime()}
+          });
+        }
+      );
+    });
+  }
+
+  owner(username: string) {
+    if (this.currUser.username === username) {
+      return true;
     } else {
-      return stats[i] / reviews.length + '%';
+      return false;
     }
-    }
+  }
 
-    // need user back-end
-    like(review) {
-      this.reviewService.incrementReviewLikes(review).subscribe((data) => {
-        review.likeStatus = 'like';
-      });
+  like(status) {
+    if (status === 'Like') {
+      return true;
+    } else {
+      return false;
     }
-
-    unlike(review) {
-      this.reviewService.decrementReviewLikes(review).subscribe((data) => {
-        review.likeStatus = 'unlike';
-      });
-    }
+  }
 }

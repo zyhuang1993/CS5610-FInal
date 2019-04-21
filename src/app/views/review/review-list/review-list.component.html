@@ -3,6 +3,10 @@
 <app-header></app-header>
 <main>
 <div class="container">
+  <div class = "row back">
+    <h1><i class="fas fa-ticket-alt" routerLink="/movie/{{this.dbId}}">Movie Page</i></h1>
+  </div>
+
   <span class="heading">User Rating</span>
   <span *ngIf="averageRate && averageRate > 0" class="fa fa-star checked"></span>
   <span *ngIf="!averageRate || averageRate <= 0" class="fa fa-star"></span>
@@ -75,8 +79,6 @@
       <div>{{reviewBetweenScores[0]}}</div>
     </div>
   </div>
-
-
   <!-- reviews -->
 
         <div class="row">
@@ -85,19 +87,18 @@
           <div class="col-sm-3">
             <!-- user-->
             <div class="review-block-name">
-              <h5>Reviews By
-                <a routerLink="/users/{{review.reviewerName}}">
-                <span class="badge badge-secondary">
-                  {{review.reviewerName}}
-                </span>
-              </a>
-              </h5>
+              <h5>By<a routerLink="/users/{{review.reviewerName}}"><span class="badge badge-secondary"> {{review.reviewerName}}</span></a></h5>
             </div>
             <div class="review-block-date">
-              <button (click)="like(review)" *ngIf="review.likedStatus === 'unlike'" class="far fa-thumbs-up"></button>
-              <button (click)="unlike(review)" *ngIf="review.likedStatus === 'like'" class="far fa-thumbs-down"></button>
+              <button *ngIf="!owner(review.reviewerName) && like(review.likeStatus)" (click)="likeReview(review)" class=" far fa-thumbs-up icon-item"></button>
+              <button *ngIf="!owner(review.reviewerName) && !like(review.likeStatus)" (click)="unlikeReview(review)" class=" far fa-thumbs-down icon-item"></button>
               <span></span>
             </div>
+            <h5>
+              <button *ngIf="owner(review.reviewerName)" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
+                Delete
+              </button>
+            </h5>
           </div>
           <div class="col-sm-9">
             <div class="review-block-rate">
