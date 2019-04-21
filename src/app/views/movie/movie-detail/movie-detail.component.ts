@@ -18,6 +18,7 @@ export class MovieDetailComponent implements OnInit {
   reviews: [any];
   favoriteStatus = 'Favorite';
   noReview: boolean = true;
+  casts: [any];
   constructor(private movieService: MovieService, private userService: UserService, private activatedRoute: ActivatedRoute,
               private sharedService: SharedService, private router: Router) {
     this.movie = '';
@@ -40,6 +41,10 @@ export class MovieDetailComponent implements OnInit {
           }
         }
       }
+
+      this.movieService.getCast(this.dbId).subscribe((data: any) => {
+        this.casts = data.cast.slice(0, 6);
+      });
 
       this.movieService.findMovieDetailsById(this.dbId).subscribe((movie) => {
         this.movie = movie;
@@ -65,7 +70,7 @@ export class MovieDetailComponent implements OnInit {
     });
   }
 
-  getImageUrlForAMovie(url) {
+  getImageUrl(url) {
     if (url) {
       return 'https://image.tmdb.org/t/p/original' + url;
     }

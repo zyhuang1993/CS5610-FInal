@@ -1,13 +1,14 @@
 html, body {
   margin-top: -10px;
-  background-image: linear-gradient(160deg, #2884ff 20%, #7cfff2 80%);
+  background-image: linear-gradient(160deg, #34d8ff 20%, #3036ff 80%);
   background-repeat: no-repeat;
   position: relative;
   background-size: 100% 100%;
 }
 
 .container {
-  padding-top: 50px;
+  padding-top: 30px;
+  padding-bottom: 20px;
 }
 
 
@@ -58,7 +59,7 @@ html, body {
 }
 
 .description-title {
-  margin-top: 40px;
+  margin-top: 30px;
   font-size: 22px;
   font-weight: bold;
   color: white;
@@ -71,5 +72,33 @@ html, body {
   color: #fff;
 }
 
+a:hover {
+  text-decoration: none;
+  color: darkgrey;
+}
 
+.card {
+  margin-left: 50px;
+  height: 10rem;
+  width: 8rem;
+}
+h3 {
+  color: #fff;
+  width: 56%;
+  margin-left: 40px;
+  margin-bottom: 20px;
+}
 
+.card-text {
+  font-size: 15px;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+.genre {
+  margin-right: 15px;
+  color: white;
+  text-align: left;
+  font-size: 18px;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
+}

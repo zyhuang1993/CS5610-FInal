@@ -30,6 +30,7 @@ import {AuthGuardAdmin} from './service/authguard-admin.client.service';
 import { MovieSearchComponent } from './views/movie/movie-search/movie-search.component';
 import {ReviewService} from './service/review.client.service';
 import { UserReviewComponent } from './views/user/user-review/user-review.component';
+import { AdvertisementComponent } from './views/advertisement/advertisement.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { UserReviewComponent } from './views/user/user-review/user-review.compon
     FollowingListComponent,
     MovieSearchComponent,
     UserReviewComponent,
+    AdvertisementComponent,
   ],
   imports: [
     BrowserModule,
