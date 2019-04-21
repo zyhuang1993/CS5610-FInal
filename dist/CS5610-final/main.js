@@ -1533,7 +1533,7 @@ var ReviewListComponent = /** @class */ (function () {
             return '0';
         }
         else {
-            return stats[i] / reviews.length + '%';
+            return (stats[i] / reviews.length) * 100 + '%';
         }
     };
     ReviewListComponent.prototype.likeReview = function (review) {
