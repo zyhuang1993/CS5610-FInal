@@ -14,8 +14,9 @@
           </div>
           <div class="card-footer">
             <p>The Rate: <span class="badge badge-secondary">{{review.rate}}</span></p>
-            <a *ngIf="!owner() && like(review.likeStatus)" (click)="likeReview(review)" class=" far fa-thumbs-up icon-item"></a>
-            <a *ngIf="!owner() && !like(review.likeStatus)" (click)="unlikeReview(review)" class=" far fa-thumbs-down icon-item"></a>
+            <p><span class="badge badge-secondary" routerLink="/movie/{{review.db_id}}">To Movie</span></p>
+            <button *ngIf="!owner() && like(review.likeStatus)" (click)="likeReview(review)" class=" far fa-thumbs-up icon-item"></button>
+            <button *ngIf="!owner() && !like(review.likeStatus)" (click)="unlikeReview(review)" class=" far fa-thumbs-down icon-item"></button>
             <h5>
               <button *ngIf="owner()" (click) = "deleteReview(review._id)" class="btn btn-block btn-primary">
                 Delete
