@@ -3,6 +3,7 @@ var userSchema = require('./user.schema.server');
 
 var userModel = mongoose.model('User', userSchema);
 var movieModel = require('../movie/movie.model.server');
+var reviewModel = require('../review/review.model.server');
 
 userModel.createUser = createUser;
 userModel.findUserById = findUserById;
@@ -16,6 +17,10 @@ userModel.unfollowUser = unfollowUser;
 userModel.findAllUsers = findAllUsers;
 userModel.addToFavorite = addToFavorite;
 userModel.deleteFavorite = deleteFavorite;
+userModel.addReview = addReview;
+userModel.deleteReview = deleteReview;
+userModel.likeReview = likeReview;
+userModel.unlikeReview = unlikeReview;
 
 function createUser(user) {
   return userModel.create(user);
@@ -106,6 +111,49 @@ function deleteFavorite(userId, movieId) {
         }
       }
     })
+}
+
+function addReview(userId, reviewId) {
+  return userModel.findUserById(userId)
+    .then( (user) => {
+      reviewModel.findReviewById(reviewId)
+        .then((review) => {
+          user.reviews.push(review);
+          user.save();
+        })
+    });
+}
+
+function deleteReview(userId, reviewId) {
+  return userModel.findUserById(userId)
+    .then( (user) => {
+      for (let i = 0; i < user.reviews.length; i++) {
+        if (user.reviews[i]._id.equals(reviewId)) {
+          user.reviews.splice(i, 1);
+          return user.save();
+        }
+      }
+    });
+}
+
+function likeReview(userId, reviewId) {
+  return userModel.findUserById(userId)
+    .then( (user) => {
+      user.likedReview.push(reviewId);
+      user.save();
+    });
+}
+
+function unlikeReview(userId, reviewId) {
+  return userModel.findUserById(userId)
+    .then( (user) => {
+      for (let i = 0; i < user.likedReview.length; i++) {
+        if (user.likedReview[i].equals(reviewId)) {
+          user.likedReview.splice(i, 1);
+          return user.save();
+        }
+      }
+    });
 }
 
 

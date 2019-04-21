@@ -8,6 +8,7 @@ reviewModel.createReview = createReview;
 reviewModel.deleteReview = deleteReview;
 reviewModel.increaseLike = increaseLike;
 reviewModel.decreaseLike = decreaseLike;
+reviewModel.findReviewById = findReviewById;
 
 module.exports = reviewModel;
 
@@ -57,13 +58,17 @@ function createReviewInMovie(dbId, newReview) {
 function deleteReviewInMovie(reviewId) {
   reviewModel.findReviewById(reviewId)
     .then((review) => {
-      movieModel.deleteReviewInMovie(review.db_id, reviewId);
+      if (review !== null) {
+        movieModel.deleteReviewInMovie(review.db_id, reviewId);
+      }
     });
 }
 
 function updateReviewInMovie(reviewId, review) {
   reviewModel.findReviewById(reviewId)
-    .then((review) => {
-      movieModel.updateReviewInMovie(review.db_id, review)
+    .then((res) => {
+      if (res !== null) {
+        movieModel.updateReviewInMovie(res.db_id, review)
+      }
     });
 }

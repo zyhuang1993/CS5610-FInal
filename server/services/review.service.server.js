@@ -13,38 +13,38 @@ module.exports=function (app) {
       .then((newReview) => {
         res.json(newReview);
       }, (err) => {
-        res.status(404).send(err);
+        res.status(500).send(err);
       });
   }
 
   function deleteReview(req, res) {
-    const reviewId = req.reviewId;
+    const reviewId = req.params['reviewId'];
     reviewModel.deleteReview(reviewId)
       .then((data) => {
         res.json(data);
       }, (err) => {
-        res.status(404).send(err);
+        res.status(500).send(err);
       });
   }
 
   //only update likes in review
   function increaseLike(req, res) {
-    const reviewId = req.reviewId;
+    const reviewId = req.params['reviewId'];
     reviewModel.increaseLike(reviewId)
       .then((review) => {
         res.json(review);
       }, (err) => {
-        res.status(400).send(err);
+        res.status(500).send(err);
       });
   }
 
   function decreaseLike(req, res) {
-    const reviewId = req.reviewId;
+    const reviewId = req.params['reviewId'];
     reviewModel.decreaseLike(reviewId)
       .then((review) => {
         res.json(review);
       }, (err) => {
-        res.status(400).send(err);
+        res.status(500).send(err);
       });
   }
 
