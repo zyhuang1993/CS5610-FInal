@@ -38,6 +38,11 @@ export class MovieService {
     return this.http.get(url);
   }
 
+  findPopularMoviesByPages(page) {
+    const url = this.moviedbUrl + `/movie/popular?page=${page}&language=en-US&api_key=${this.apiKey}`;
+    return this.http.get(url);
+  }
+
   // own db
   findMovieByDbId(dbId) {
     const url = this.baseUrl + '/api/movie/' + dbId;
