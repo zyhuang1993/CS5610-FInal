@@ -49,6 +49,7 @@ body {
 }
 .review-block-rate{
   font-size:13px;
+  margin-top: 5px;
   margin-bottom:15px;
 }
 .review-block-title{
@@ -144,5 +145,7 @@ hr {
 .back {
   margin-bottom: 30px;
 }
+
+
 
 
