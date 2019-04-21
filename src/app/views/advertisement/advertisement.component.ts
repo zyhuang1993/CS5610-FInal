@@ -18,7 +18,7 @@ export class AdvertisementComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['/profile']);
         }, 5000);  // 5s
-      } else if (this.source === '') {
+      } else if (this.source === undefined) {
         setTimeout(() => {
           this.router.navigate(['/topMovies']);
         }, 5000);  // 5s

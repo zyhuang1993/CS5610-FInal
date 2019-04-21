@@ -31,6 +31,7 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardUser]},
   {path: 'movie/:dbId/reviews', component: ReviewListComponent, canActivate: [AuthGuardUser]},
   {path: 'advertisement/:source', component: AdvertisementComponent},
+  {path: 'advertisement', component: AdvertisementComponent},
 
   {path: 'users/:username', component: OtherUserComponent, canActivate: [AuthGuardUser]},
   {path: 'user/:username/favorite-movie', component: FavoriteMovieComponent, canActivate: [AuthGuardUser]},
