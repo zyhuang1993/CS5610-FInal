@@ -40,7 +40,7 @@ app.set('port', port);
 
 mongoose.Promise = global.Promise;
 //var connectionString = 'mongodb://localhost:27017/webfinal';
- var connectionString = 'mongodb://heroku_p1dr3dp9:3kpum3ptca8ab0l1braf1dh5l7@ds135456.mlab.com:35456/heroku_p1dr3dp9';
+var connectionString = 'mongodb://heroku_p1dr3dp9:3kpum3ptca8ab0l1braf1dh5l7@ds135456.mlab.com:35456/heroku_p1dr3dp9';
 const client = mongoose.connect( connectionString, { useNewUrlParser: true });
 var db = mongoose.connection;
 
