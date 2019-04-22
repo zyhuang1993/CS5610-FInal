@@ -9,6 +9,8 @@ reviewModel.deleteReview = deleteReview;
 reviewModel.increaseLike = increaseLike;
 reviewModel.decreaseLike = decreaseLike;
 reviewModel.findReviewById = findReviewById;
+reviewModel.updateReview = updateReview;
+reviewModel.deleteUserReviews = deleteUserReviews;
 
 module.exports = reviewModel;
 
@@ -71,4 +73,13 @@ function updateReviewInMovie(reviewId, review) {
         movieModel.updateReviewInMovie(res.db_id, review)
       }
     });
+}
+
+function deleteUserReviews(userId) {
+  return reviewModel.deleteMany({reviewer: userId} ,function (err) {});
+}
+
+function updateReview(reviewId, review) {
+  updateReviewInMovie(reviewId, review);
+  return reviewModel.findByIdAndUpdate(reviewId, review, {safe: true, new:true});
 }

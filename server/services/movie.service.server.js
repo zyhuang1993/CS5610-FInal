@@ -24,4 +24,17 @@ module.exports=function (app) {
       });
   }
 
+
+  function updateReviewUsernameInMovie(req, res) {
+    const username = req.body.username;
+    console.log(username);
+    const userId = req.params.userId;
+    movieModel.updateReviewUsernameInMovie(userId, username)
+      .then((data) => {
+        res.json(data);
+      }, (err) => {
+        res.status(500).send(err);
+      });
+  }
+
 };

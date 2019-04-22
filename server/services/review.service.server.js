@@ -3,6 +3,7 @@ module.exports=function (app) {
   app.delete('/api/review/:reviewId', deleteReview);
   app.put('/api/review/:reviewId/increaseLikes', increaseLike);
   app.put('/api/review/:reviewId/decreaseLikes', decreaseLike);
+  app.delete('/api/:userId/review', deleteUserReviews);
 
   var reviewModel = require('../models/review/review.model.server');
 
@@ -47,5 +48,17 @@ module.exports=function (app) {
         res.status(500).send(err);
       });
   }
+
+
+  function deleteUserReviews(req, res) {
+    const userId = req.params.userId;
+    reviewModel.deleteUserReviews(userId)
+      .then((data) => {
+        res.json(data);
+      }, (err) => {
+        res.status(500).send(err);
+      });
+  }
+
 
 };

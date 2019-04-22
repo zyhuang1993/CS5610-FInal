@@ -123,7 +123,6 @@ export class ReviewListComponent implements OnInit {
   }
 
   owner(username: string) {
-    console.log(this.currUser.username);
     if (this.currUser.username === username) {
       return true;
     } else {

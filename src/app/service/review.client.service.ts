@@ -29,6 +29,15 @@ export class ReviewService {
     return this.http.put(url, '');
   }
 
+  updateReviewUsername(userId, username) {
+    const url = this.baseUrl + `/api/${userId}/review`;
+    return this.http.put(url,  {username});
+  }
+
+  deleteUserReviews(userId) {
+    const url = this.baseUrl + `/api/${userId}/review`;
+    return this.http.delete(url);
+  }
 
 
 }

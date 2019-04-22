@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import {UserService} from '../../../service/user.client.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
+import {ReviewService} from '../../../service/review.client.service';
+import {MovieService} from '../../../service/movie.client.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +24,7 @@ export class ProfileComponent implements OnInit {
     {value: 'Paid', display: 'Vip'}
   ];
   constructor(private userService: UserService, private route: ActivatedRoute, private router: Router,
-              private sharedService: SharedService) {
+              private sharedService: SharedService, private reviewService: ReviewService, private movieService: MovieService) {
   }
 
   ngOnInit() {
@@ -36,7 +38,7 @@ export class ProfileComponent implements OnInit {
               {value: 'Unpaid', display: 'User'},
               {value: 'Paid', display: 'Vip'},
               {value: 'Admin', display: 'Admin'}
-            ]
+            ];
           } else {
             this.isAdmin = false;
           }

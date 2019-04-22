@@ -2,6 +2,7 @@ module.exports = function (app) {
   var userModel = require('../models/user/user.model.server');
   var passport = require('passport');
   var bcrypt = require("bcrypt-nodejs");
+  var reviewModel = require('../models/review/review.model.server');
   var LocalStrategy = require('passport-local').Strategy;
   var FacebookStrategy = require('passport-facebook').Strategy;
   var facebookConfig = {
@@ -319,8 +320,21 @@ module.exports = function (app) {
     userModel
       .updateUser(userId, user)
       .then(function(user) {
-        res.status(200).send(user);
-      }, function(error){
+          let index = 0;
+          let now = reviewModel.updateReview(user.reviews[index]._id, user.reviews[index]);
+          for (let i = 1; i < user.reviews.length; i++) {
+            now = now
+              .then((review) => {
+                index++;
+                return reviewModel.updateReview(user.reviews[index]._id, user.reviews[index]);
+              })
+          }
+          return now
+            .then((review) => {
+                res.json(user);
+              }
+            )
+        }, function(error){
         console.log('update user by Id error: ' + error);
         res.status(200).send({message: 'User not found!'});
       });
@@ -328,6 +342,8 @@ module.exports = function (app) {
 
   function deleteUserById(req, res) {
     var userId = req.params['uid'];
+    userModel.findUserById(userId)
+      .then()
     userModel
       .deleteUser(userId)
       .then(function(user) {
