@@ -83,7 +83,7 @@ export class UserService {
     this.options.withCredentials = true;
     return this.http.post(this.baseUrl + '/api/loggedIn', '', this.options).pipe(
       map((user: any) => {
-        if (user !== '0') {
+        if (user !== '0' && (user.type === 'Unpaid' || user.type === 'Paid' || user.type === 'Admin')) {
           this.sharedService.user = user;
           return true;
         } else {
