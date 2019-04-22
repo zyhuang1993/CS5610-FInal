@@ -322,20 +322,23 @@ module.exports = function (app) {
       .updateUser(userId, user)
       .then(function(newUser) {
         let index = 0;
-        let now = reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
-        for (var i = 1; i < newUser.reviews.length; i++) {
-          now = now.then(
+        if (user.reviews && user.reviews.length > 0) {
+          let now = reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
+          for (var i = 1; i < newUser.reviews.length; i++) {
+            now = now.then(
+              (review) => {
+                index++;
+                return reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
+              });
+          }
+          return now.then(
             (review) => {
-              index++;
-              return reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
+              res.json(newUser);
             }
           )
+        } else {
+          res.json(newUser);
         }
-        return now.then(
-          (review) => {
-            res.json(newUser);
-          }
-        )
       }, function(error){
         console.log('update user by Id error: ' + error);
         res.status(200).send({message: 'User not found!'});
@@ -345,14 +348,29 @@ module.exports = function (app) {
   function deleteUserById(req, res) {
     var userId = req.params['uid'];
     userModel.findUserById(userId)
-      .then()
-    userModel
-      .deleteUser(userId)
-      .then(function(user) {
-        res.status(200).send(user);
-      }, function(error){
-        console.log('delete user by Id error: ' + error);
-        res.status(200).send({message: 'User not found!'});
+      .then((user) => {
+        let index = 0;
+        if (user.reviews && user.reviews.length > 0) {
+          let now = reviewModel.deleteReview(user.reviews[index]._id);
+          for (var i = 1; i < user.reviews.length;i++) {
+            now = now.then((review) => {
+              index++;
+              return reviewModel.deleteReview(user.reviews[index]._id);
+            });
+          }
+          return now.then((review) => {
+            userModel
+              .deleteUser(userId)
+              .then(function(user) {
+                res.status(200).send(user);
+              }, function(error){
+                console.log('delete user by Id error: ' + error);
+                res.status(200).send({message: 'User not found!'});
+              });
+          })
+        } else {
+          res.json(user);
+        }
       });
   }
 
