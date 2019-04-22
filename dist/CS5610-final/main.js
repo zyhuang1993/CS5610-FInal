@@ -2337,7 +2337,6 @@ var RegisterComponent = /** @class */ (function () {
         this.filterTypes = [
             { value: 'Unpaid', display: 'User' },
             { value: 'Paid', display: 'Vip' },
-            { value: 'Admin', display: 'Admin' }
         ];
         this.errorFlag = false;
     }

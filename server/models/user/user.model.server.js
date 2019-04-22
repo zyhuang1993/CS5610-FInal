@@ -44,13 +44,12 @@ function findUserByCredentials(username, password) {
 
 function updateUser(userId,user) {
   return userModel.findByIdAndUpdate(userId,user,{new: true, safe: true})
-    .then((user) => {
-      let reviews = user.reviews;
-      for (let i = 0; i < reviews.length; i++) {
-        reviews[i].reviewerName = user.username;
+    .then((newUser) => {
+      let newName = newUser.username;
+      for (let i = 0; i < newUser.reviews.length; i++) {
+        newUser.reviews[i].reviewerName = newName;
       }
-      user.reviews = reviews;
-      return user.save();
+      return newUser.save();
     });
 }
 
