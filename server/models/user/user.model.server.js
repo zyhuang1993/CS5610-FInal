@@ -43,7 +43,14 @@ function findUserByCredentials(username, password) {
 }
 
 function updateUser(userId,user) {
-  return userModel.findByIdAndUpdate(userId,user,{new: true, safe: true});
+  return userModel.findByIdAndUpdate(userId,user,{new: true, safe: true})
+    .then((newUser) => {
+      let newName = newUser.username;
+      for (let i = 0; i < newUser.reviews.length; i++) {
+        newUser.reviews[i].reviewerName = newName;
+      }
+      return newUser.save();
+    });
 }
 
 function deleteUser(userId){

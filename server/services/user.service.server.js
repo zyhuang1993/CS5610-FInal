@@ -1,5 +1,6 @@
 module.exports = function (app) {
   var userModel = require('../models/user/user.model.server');
+  var reviewModel = require('../models/review/review.model.server');
   var passport = require('passport');
   var bcrypt = require("bcrypt-nodejs");
   var LocalStrategy = require('passport-local').Strategy;
@@ -318,8 +319,22 @@ module.exports = function (app) {
     user.password = bcrypt.hashSync(user.password);
     userModel
       .updateUser(userId, user)
-      .then(function(user) {
-        res.status(200).send(user);
+      .then(function(newUser) {
+        let index = 0;
+        let now = reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
+        for (var i = 1; i < newUser.reviews.length; i++) {
+          now = now.then(
+            (review) => {
+              index++;
+              return reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
+            }
+          )
+        }
+        return now.then(
+          (review) => {
+            res.json(newUser);
+          }
+        )
       }, function(error){
         console.log('update user by Id error: ' + error);
         res.status(200).send({message: 'User not found!'});
