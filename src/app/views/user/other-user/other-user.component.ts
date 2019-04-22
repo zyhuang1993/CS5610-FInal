@@ -15,7 +15,7 @@ export class OtherUserComponent implements OnInit {
       'format&fit=crop&w=1000&q=80', type: 'Unpaid'};
   otherUser = {_id: '', username: 'username', password: 'password',
     img: 'https://images.unsplash.com/photo-1483691278019-cb7253bee49f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=' +
-      'format&fit=crop&w=1000&q=80', type: 'Unpaid'};
+      'format&fit=crop&w=1000&q=80', type: 'Unpaid', follower: [], reviews: [], favorite: []};
   follow = 'Follow';
   followings: [any];
   errorFlag: boolean;
