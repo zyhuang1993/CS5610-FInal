@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-    if (this.sharedService.user === null) {
+    if (this.sharedService.user === null || this.sharedService.user === undefined) {
       this.status = '/login';
       this.loginOrProfile = 'Login';
       this.topReviews = '/login';
