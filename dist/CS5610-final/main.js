@@ -388,10 +388,6 @@ var MovieService = /** @class */ (function () {
         var url = this.moviedbUrl + ("/movie/" + movieId + "?api_key=" + this.apiKey + "&language=en-US");
         return this.http.get(url);
     };
-    MovieService.prototype.findTrailsById = function (movieId) {
-        var url = this.moviedbUrl + ("/movie/" + movieId + "?api_key=" + this.apiKey + "&language=en-US");
-        return this.http.get(url);
-    };
     MovieService.prototype.searchMovies = function (keyword) {
         var url = this.moviedbUrl + ("/search/movie?query=" + keyword + "&page=1&language=en-US&api_key=" + this.apiKey);
         return this.http.get(url);
@@ -412,6 +408,14 @@ var MovieService = /** @class */ (function () {
     MovieService.prototype.createMovie = function (movie) {
         var url = this.baseUrl + '/api/movie';
         return this.http.post(url, movie);
+    };
+    MovieService.prototype.updateReviewUsernameInMovie = function (userId, username) {
+        var url = this.baseUrl + ("/api/movie/" + userId);
+        return this.http.put(url, { username: username });
+    };
+    MovieService.prototype.deleteUserReviewsInMovie = function (userId) {
+        var url = this.baseUrl + ("/api/movie/" + userId);
+        return this.http.delete(url);
     };
     MovieService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -522,6 +526,14 @@ var ReviewService = /** @class */ (function () {
     ReviewService.prototype.decrementReviewLikes = function (review) {
         var url = this.baseUrl + '/api/review/' + review._id + '/decreaseLikes';
         return this.http.put(url, '');
+    };
+    ReviewService.prototype.updateReviewUsername = function (userId, username) {
+        var url = this.baseUrl + ("/api/" + userId + "/review");
+        return this.http.put(url, { username: username });
+    };
+    ReviewService.prototype.deleteUserReviews = function (userId) {
+        var url = this.baseUrl + ("/api/" + userId + "/review");
+        return this.http.delete(url);
     };
     ReviewService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
@@ -1565,7 +1577,6 @@ var ReviewListComponent = /** @class */ (function () {
         });
     };
     ReviewListComponent.prototype.owner = function (username) {
-        console.log(this.currUser.username);
         if (this.currUser.username === username) {
             return true;
         }
@@ -2195,17 +2206,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/review.client.service */ "./src/app/service/review.client.service.ts");
+/* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
+
+
 
 
 
 
 
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(userService, route, router, sharedService) {
+    function ProfileComponent(userService, route, router, sharedService, reviewService, movieService) {
         this.userService = userService;
         this.route = route;
         this.router = router;
         this.sharedService = sharedService;
+        this.reviewService = reviewService;
+        this.movieService = movieService;
         this.user = { _id: '', username: 'username', password: 'password',
             img: 'https://images.unsplash.com/photo-1483691278019-cb7253bee49f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=' +
                 'format&fit=crop&w=1000&q=80', type: 'Unpaid' };
@@ -2261,7 +2278,7 @@ var ProfileComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./profile.component.css */ "./src/app/views/user/profile/profile.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_user_client_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
-            _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"]])
+            _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"], _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"], _service_movie_client_service__WEBPACK_IMPORTED_MODULE_6__["MovieService"]])
     ], ProfileComponent);
     return ProfileComponent;
 }());
@@ -2414,18 +2431,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _service_user_client_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/user.client.service */ "./src/app/service/user.client.service.ts");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../service/shared.client.service */ "./src/app/service/shared.client.service.ts");
+/* harmony import */ var _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../service/review.client.service */ "./src/app/service/review.client.service.ts");
+/* harmony import */ var _service_movie_client_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../service/movie.client.service */ "./src/app/service/movie.client.service.ts");
+
+
 
 
 
 
 
 var UserListComponent = /** @class */ (function () {
-    function UserListComponent(userService, router, sharedService, route) {
+    function UserListComponent(userService, router, sharedService, route, reviewService, movieService) {
         var _this = this;
         this.userService = userService;
         this.router = router;
         this.sharedService = sharedService;
         this.route = route;
+        this.reviewService = reviewService;
+        this.movieService = movieService;
         this.route.queryParamMap.subscribe(function (params) {
             if (params.get('refresh')) {
                 _this.ngOnInit();
@@ -2468,6 +2491,8 @@ var UserListComponent = /** @class */ (function () {
                 }
             }
         });
+        this.reviewService.deleteUserReviews(userId).subscribe(function (data) { });
+        this.movieService.deleteUserReviewsInMovie(userId).subscribe(function (data) { });
         alert('Delete successfully!');
     };
     UserListComponent.prototype.followUser = function (curr, target, follow) {
@@ -2506,7 +2531,7 @@ var UserListComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./user-list.component.css */ "./src/app/views/user/user-list/user-list.component.css")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_service_user_client_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"], _service_shared_client_service__WEBPACK_IMPORTED_MODULE_4__["SharedService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"], _service_review_client_service__WEBPACK_IMPORTED_MODULE_5__["ReviewService"], _service_movie_client_service__WEBPACK_IMPORTED_MODULE_6__["MovieService"]])
     ], UserListComponent);
     return UserListComponent;
 }());
@@ -2730,7 +2755,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/yuewang/Documents/CS5610-Final/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! /home/hzy/MyWork/CS5610-final/src/main.ts */"./src/main.ts");
 
 
 /***/ })

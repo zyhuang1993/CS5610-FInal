@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../../service/user.client.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SharedService} from '../../../service/shared.client.service';
+import {ReviewService} from '../../../service/review.client.service';
+import {MovieService} from '../../../service/movie.client.service';
 
 @Component({
   selector: 'app-user-list',
@@ -12,7 +14,7 @@ export class UserListComponent implements OnInit {
   currUser: any;
   users: [any];
   constructor(private userService: UserService, private router: Router, private sharedService: SharedService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, private reviewService: ReviewService, private movieService: MovieService) {
     this.route.queryParamMap.subscribe(params => {
       if (params.get('refresh')) {
         this.ngOnInit();
@@ -62,6 +64,8 @@ export class UserListComponent implements OnInit {
         }
       }
     );
+    this.reviewService.deleteUserReviews(userId).subscribe((data) => {});
+    this.movieService.deleteUserReviewsInMovie(userId).subscribe((data) => {});
     alert('Delete successfully!');
   }
 

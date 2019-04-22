@@ -23,11 +23,6 @@ export class MovieService {
     return this.http.get(url);
   }
 
-  findTrailsById(movieId) {
-    const url = this.moviedbUrl + `/movie/${movieId}?api_key=${this.apiKey}&language=en-US`;
-    return this.http.get(url);
-  }
-
   searchMovies(keyword) {
     const url = this.moviedbUrl + `/search/movie?query=${keyword}&page=1&language=en-US&api_key=${this.apiKey}`;
     return this.http.get(url);
@@ -43,6 +38,7 @@ export class MovieService {
     return this.http.get(url);
   }
 
+
   // own db
   findMovieByDbId(dbId) {
     const url = this.baseUrl + '/api/movie/' + dbId;
@@ -54,6 +50,15 @@ export class MovieService {
     return this.http.post(url, movie);
   }
 
+  updateReviewUsernameInMovie(userId, username) {
+    const url = this.baseUrl + `/api/movie/${userId}`;
+    return this.http.put(url, {username});
+  }
+
+  deleteUserReviewsInMovie(userId) {
+    const url = this.baseUrl + `/api/movie/${userId}`;
+    return this.http.delete(url);
+  }
 
 
 
