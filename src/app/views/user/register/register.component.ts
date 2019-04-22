@@ -21,7 +21,6 @@ export class RegisterComponent implements OnInit {
   public filterTypes = [
     {value: 'Unpaid', display: 'User'},
     {value: 'Paid', display: 'Vip'},
-    {value: 'Admin', display: 'Admin'}
   ];
 
 
