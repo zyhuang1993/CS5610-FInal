@@ -21,7 +21,7 @@
             <span *ngIf="averageRate">
               User Score: {{averageRate}}/5
             </span>
-            <a *ngIf="movieInMongo && averageRate" routerLink="/movie/{{dbId}}/reviews" class="icon-item">Reviews</a>
+            <a *ngIf="currUser && movieInMongo && averageRate" routerLink="/movie/{{dbId}}/reviews" class="icon-item">Reviews</a>
             <a *ngIf="currUser && movieInMongo && judge()" (click)="addToFavorite()" class=" far fa-heart icon-item"></a>
             <a *ngIf="currUser && movieInMongo && !judge()" (click)="deleteFavorite()" class=" fas fa-heart icon-item"></a>
             <a *ngIf="currUser && movieInMongo && noReview" (click)="navigateToReview()" class="fas fa-pen icon-item"></a>

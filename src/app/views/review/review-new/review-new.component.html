@@ -12,13 +12,13 @@
       Please Enter Review Title!
       </span>
       <div class="form-group">
-        <input type="number" min="0" max="5" class="form-control" name="rate" placeholder="rate" ngModel required #rate="ngModel"/>
+        <input type="number" min="1" max="5" class="form-control" name="rate" placeholder="rate" ngModel required #rate="ngModel"/>
       </div>
       <span class="help-block" *ngIf="!rate.valid && rate.touched">
       Please Enter Review Rate!
       </span>
       <div class="form-group">
-        <textarea type="text" class="form-control" rows="5" placeholder="description" ngModel required #description="ngModel"></textarea>
+        <textarea type="text" class="form-control" rows="5" name="description" placeholder="description" ngModel required #description="ngModel"></textarea>
       </div>
       <span class="help-block" *ngIf="!description.valid && description.touched">
         Please Enter your description!
