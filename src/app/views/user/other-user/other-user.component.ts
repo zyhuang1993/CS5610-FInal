@@ -53,10 +53,10 @@ export class OtherUserComponent implements OnInit {
   }
 
   getUserImg() {
-    if (this.currUser.img === '') {
+    if (this.otherUser.img === '') {
       return '../../../../assets/images/default-heads.jpg';
     } else {
-      return this.currUser.img;
+      return this.otherUser.img;
     }
   }
 
