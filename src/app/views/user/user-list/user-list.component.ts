@@ -32,10 +32,11 @@ export class UserListComponent implements OnInit {
 
       this.userService.findAllUsers().subscribe(
         (users: any) => {
-          this.users = users;
           for (let i = 0; i < this.users.length; i++) {
-            if (this.users[i].type === 'Admin' || this.users[i].type === 'Paid') {
-              this.users.splice(i, 1);
+            if (users[i].type === 'Admin' || users[i].type === 'Paid') {
+              continue;
+            } else {
+              this.users.push(users[i]);
             }
           }
           for (let i = 0; i < this.users.length; i++) {
