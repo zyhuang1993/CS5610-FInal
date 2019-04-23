@@ -359,19 +359,47 @@ module.exports = function (app) {
             });
           }
           return now.then((review) => {
-            userModel
-              .deleteUser(userId)
-              .then(function(user) {
-                res.status(200).send(user);
-              }, function(error){
-                console.log('delete user by Id error: ' + error);
-                res.status(200).send({message: 'User not found!'});
-              });
+            if (user.follower.length > 0) {
+              index = 0;
+              now = userModel.deleteFollowingById(user._id, user.follower[index]);
+              for (var i = 1; i < user.follower.length;i++) {
+                now = now.then((res) => {
+                  index++;
+                  return userModel.deleteFollowingById(user._id, user.follower[index]);
+                });
+              }
+              return now.then((res) => {
+                if (user.following.length > 0) {
+                  index = 0;
+                  now = userModel.deleteFollowerById(user._id, user.following[index]);
+                  for (var i = 1; i < user.following.length;i++) {
+                    now = now.then((res) => {
+                      index++;
+                      return userModel.deleteFollowerById(user._id, user.following[index]);
+                    });
+                  }
+                  return now.then((res) => {
+                    userModel
+                      .deleteUser(userId)
+                      .then(function(user) {
+                        res.status(200).send(user);
+                      }, function(error){
+                        console.log('delete user by Id error: ' + error);
+                        res.status(200).send({message: 'User not found!'});
+                      });
+                  });
+                } else {
+                  res.json(user);
+                }
+              })
+            } else {
+              res.json(user);
+            }
           })
         } else {
           res.json(user);
-        }
-      });
+        }}
+      )
   }
 
   function findAllUsers(req, res) {
