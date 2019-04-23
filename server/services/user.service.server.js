@@ -347,58 +347,64 @@ module.exports = function (app) {
 
   function deleteUserById(req, res) {
     var userId = req.params['uid'];
-    userModel.deleteUser(userId)
+    userModel.findUserById(userId)
       .then((user) => {
-        let index = 0;
-        if (user.reviews && user.reviews.length > 0) {
-          let now = reviewModel.deleteReview(user.reviews[index]._id);
-          for (var i = 1; i < user.reviews.length;i++) {
-            now = now.then((review) => {
-              index++;
-              return reviewModel.deleteReview(user.reviews[index]._id);
-            });
-          }
-          return now.then((review) => {
-            if (user.follower.length > 0) {
-              index = 0;
-              now = userModel.deleteFollowingById(user._id, user.follower[index]);
-              for (var i = 1; i < user.follower.length;i++) {
-                now = now.then((res) => {
-                  index++;
-                  return userModel.deleteFollowingById(user._id, user.follower[index]);
-                });
-              }
-              return now.then((res) => {
-                if (user.following.length > 0) {
-                  index = 0;
-                  now = userModel.deleteFollowerById(user._id, user.following[index]);
-                  for (var i = 1; i < user.following.length;i++) {
-                    now = now.then((res) => {
+          return userModel.deleteUser(userId)
+            .then(
+              (res) => {
+                let index = 0;
+                if (user.reviews && user.reviews.length > 0) {
+                  let now = reviewModel.deleteReview(user.reviews[index]._id);
+                  for (var i = 1; i < user.reviews.length; i++) {
+                    now = now.then((review) => {
                       index++;
-                      return userModel.deleteFollowerById(user._id, user.following[index]);
+                      return reviewModel.deleteReview(user.reviews[index]._id);
                     });
                   }
-                  return now.then((res) => {
-                    userModel
-                      .deleteUser(userId)
-                      .then(function(user) {
-                        res.status(200).send(user);
-                      }, function(error){
-                        console.log('delete user by Id error: ' + error);
-                        res.status(200).send({message: 'User not found!'});
-                      });
-                  });
+                  return now.then((review) => {
+                    if (user.follower.length > 0) {
+                      index = 0;
+                      now = userModel.deleteFollowingById(user._id, user.follower[index]);
+                      for (var i = 1; i < user.follower.length; i++) {
+                        now = now.then((res) => {
+                          index++;
+                          return userModel.deleteFollowingById(user._id, user.follower[index]);
+                        });
+                      }
+                      return now.then((res) => {
+                        if (user.following.length > 0) {
+                          index = 0;
+                          now = userModel.deleteFollowerById(user._id, user.following[index]);
+                          for (var i = 1; i < user.following.length; i++) {
+                            now = now.then((res) => {
+                              index++;
+                              return userModel.deleteFollowerById(user._id, user.following[index]);
+                            });
+                          }
+                          return now.then((res) => {
+                            userModel
+                              .deleteUser(userId)
+                              .then(function (user) {
+                                res.status(200).send(user);
+                              }, function (error) {
+                                console.log('delete user by Id error: ' + error);
+                                res.status(200).send({message: 'User not found!'});
+                              });
+                          });
+                        } else {
+                          res.json(user);
+                        }
+                      })
+                    } else {
+                      res.json(user);
+                    }
+                  })
                 } else {
                   res.json(user);
                 }
-              })
-            } else {
-              res.json(user);
-            }
-          })
-        } else {
-          res.json(user);
-        }}
+              }
+            )
+        }
       )
   }
 
