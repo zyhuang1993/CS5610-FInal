@@ -39,24 +39,29 @@ export class ReviewNewComponent implements OnInit {
     this.title = this.reviewForm.value.title;
     this.description = this.reviewForm.value.description;
     this.rate = this.reviewForm.value.rate;
-    const review = {
-      title: this.title,
-      description: this.description,
-      rate: this.rate,
-      reviewer: this.userId,
-      reviewerName: this.username,
-      likes: 0,
-      poster_path: this.movie.poster_path,
-      db_id: this.movieDBId
-    };
+    if (this.rate < 1 || this.rate > 5) {
+      alert('the rate should be between 1 and 5.');
+    } else {
+      const review = {
+        title: this.title,
+        description: this.description,
+        rate: this.rate,
+        reviewer: this.userId,
+        reviewerName: this.username,
+        likes: 0,
+        poster_path: this.movie.poster_path,
+        db_id: this.movieDBId
+      };
 
-    this.reviewService.createReview(this.movieDBId, review).subscribe((data: any) => {
-      this.userService.addReview(this.userId, data._id).subscribe(
-        (res) => {
-          this.router.navigate(['/movie/' + this.movieDBId]);
-        }
-      );
-    });
+      this.reviewService.createReview(this.movieDBId, review).subscribe((data: any) => {
+        this.userService.addReview(this.userId, data._id).subscribe(
+          (res) => {
+            this.router.navigate(['/movie/' + this.movieDBId]);
+          }
+        );
+      });
+    }
+
   }
 
 }
