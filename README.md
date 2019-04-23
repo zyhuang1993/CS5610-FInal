@@ -1,6 +1,6 @@
 # CS5610Final
 This is the final project for CS 5610. Please open the url: https://webdev19spring-final-project.herokuapp.com.
-
+Team Member: Ziyan Huang and Yue Wang.
 
 ## Testing
 
