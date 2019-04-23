@@ -48,16 +48,14 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  deleteUser(userId: string) {
+  deleteUser(userId) {
     this.userService.deleteUser(userId).subscribe(
       (data: any) => {
         this.reviewService.deleteUserReviews(userId).subscribe((data) => {
-          this.movieService.deleteUserReviewsInMovie(userId).subscribe((data) => {
-            this.router.navigate(['/user/user-list'], {
-              queryParams: {refresh: new Date().getTime()}
-            });
+              this.router.navigate(['/user/user-list'], {
+                queryParams: {refresh: new Date().getTime()}
+              });
           });
-        });
       }
     );
     alert('Delete successfully!');
@@ -70,8 +68,6 @@ export class UserListComponent implements OnInit {
           this.router.navigate(['/user/user-list'], {
             queryParams: {refresh: new Date().getTime()}
           });
-
-          // this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
         }
       );
       alert('Follow successfully!');

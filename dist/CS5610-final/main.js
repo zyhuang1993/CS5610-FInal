@@ -2486,10 +2486,8 @@ var UserListComponent = /** @class */ (function () {
         var _this = this;
         this.userService.deleteUser(userId).subscribe(function (data) {
             _this.reviewService.deleteUserReviews(userId).subscribe(function (data) {
-                _this.movieService.deleteUserReviewsInMovie(userId).subscribe(function (data) {
-                    _this.router.navigate(['/user/user-list'], {
-                        queryParams: { refresh: new Date().getTime() }
-                    });
+                _this.router.navigate(['/user/user-list'], {
+                    queryParams: { refresh: new Date().getTime() }
                 });
             });
         });
@@ -2502,7 +2500,6 @@ var UserListComponent = /** @class */ (function () {
                 _this.router.navigate(['/user/user-list'], {
                     queryParams: { refresh: new Date().getTime() }
                 });
-                // this.router.navigate(['/user/' + this.currUser.username + '/following-list']);
             });
             alert('Follow successfully!');
         }
