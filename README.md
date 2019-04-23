@@ -3,7 +3,7 @@ This is the final project for CS 5610. Please open the url: https://webdev19spri
 Team Member: Ziyan Huang and Yue Wang.
 
 ## Testing
-
+Note: Sometimes it needs 1-2 seconds for our dynamic content to get reloaded.
 ## 1. 
 For anonymous users, you can only view the details for movies listed on homepage or on popular-movies page. For the first one, just click the ‘More info’ to jump to movie details. In the details page, you can have the main information for that movie and the rate for that movie. Besides that, you cannot do nothing more. For the second one, just click the ‘Popular’ in the navbar to jump to popular-movies list. You can then do the same thing you do at the homepage.
 ## 2. 
