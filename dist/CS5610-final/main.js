@@ -1523,7 +1523,7 @@ var ReviewListComponent = /** @class */ (function () {
         for (var _i = 0, reviews_2 = reviews; _i < reviews_2.length; _i++) {
             var review = reviews_2[_i];
             var rate = review.rate;
-            if (rate > 0 && rate <= 1) {
+            if (rate >= 0 && rate <= 1) {
                 stats[0]++;
             }
             else if (rate > 1 && rate <= 2) {
@@ -1689,8 +1689,8 @@ var ReviewNewComponent = /** @class */ (function () {
         this.title = this.reviewForm.value.title;
         this.description = this.reviewForm.value.description;
         this.rate = this.reviewForm.value.rate;
-        if (this.rate < 1 || this.rate > 5) {
-            alert('the rate should be between 1 and 5.');
+        if (this.rate < 0 || this.rate > 5) {
+            alert('the rate should be between 0 and 5.');
         }
         else {
             var review = {
