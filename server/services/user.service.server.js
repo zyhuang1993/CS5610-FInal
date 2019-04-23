@@ -347,7 +347,7 @@ module.exports = function (app) {
 
   function deleteUserById(req, res) {
     var userId = req.params['uid'];
-    userModel.findUserById(userId)
+    userModel.deleteUser(userId)
       .then((user) => {
         let index = 0;
         if (user.reviews && user.reviews.length > 0) {
