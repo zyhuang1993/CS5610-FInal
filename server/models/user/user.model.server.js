@@ -21,6 +21,8 @@ userModel.addReview = addReview;
 userModel.deleteReview = deleteReview;
 userModel.likeReview = likeReview;
 userModel.unlikeReview = unlikeReview;
+userModel.deleteFollowerById = deleteFollowerById;
+userModel.deleteFollowingById = deleteFollowingById;
 
 function createUser(user) {
   return userModel.create(user);
@@ -86,6 +88,38 @@ function unfollowUser(curr, target) {
             if (currUser.following[i].equals(target._id)) {
               currUser.following.splice(i, 1);
               currUser.save();
+              break;
+            }
+          }
+        })
+    });
+}
+
+function deleteFollowerById(deleted, target) {
+  return userModel.findById(deleted)
+    .then(function (deletedUser) {
+      userModel.findById(target)
+        .then(function (target) {
+          for (var i = 0; i < target.follower.length; i++) {
+            if (target.follower[i].equals(deletedUser._id)) {
+              target.follower.splice(i, 1);
+              target.save();
+              break;
+            }
+          }
+        })
+    });
+}
+
+function deleteFollowingById(deleted, target) {
+  return userModel.findById(deleted)
+    .then(function (deletedUser) {
+      userModel.findById(target)
+        .then(function (target) {
+          for (var i = 0; i < target.follower.length; i++) {
+            if (target.following[i].equals(deletedUser._id)) {
+              target.following.splice(i, 1);
+              target.save();
               break;
             }
           }
