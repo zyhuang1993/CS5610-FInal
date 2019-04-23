@@ -351,7 +351,7 @@ module.exports = function (app) {
       .then((user) => {
           return userModel.deleteUser(userId)
             .then(
-              (res) => {
+              (response) => {
                 let index = 0;
                 if (user.reviews && user.reviews.length > 0) {
                   let now = reviewModel.deleteReview(user.reviews[index]._id);
@@ -366,12 +366,12 @@ module.exports = function (app) {
                       index = 0;
                       now = userModel.deleteFollowingById(user._id, user.follower[index]);
                       for (var i = 1; i < user.follower.length; i++) {
-                        now = now.then((res) => {
+                        now = now.then((response) => {
                           index++;
                           return userModel.deleteFollowingById(user._id, user.follower[index]);
                         });
                       }
-                      return now.then((res) => {
+                      return now.then((response) => {
                         if (user.following.length > 0) {
                           index = 0;
                           now = userModel.deleteFollowerById(user._id, user.following[index]);
@@ -381,7 +381,7 @@ module.exports = function (app) {
                               return userModel.deleteFollowerById(user._id, user.following[index]);
                             });
                           }
-                          return now.then((res) => {
+                          return now.then((response) => {
                             userModel
                               .deleteUser(userId)
                               .then(function (user) {
