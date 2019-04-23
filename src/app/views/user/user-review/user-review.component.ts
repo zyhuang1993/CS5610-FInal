@@ -31,9 +31,9 @@ export class UserReviewComponent implements OnInit {
           this.currUser = user;
           this.reviewsLiked = user.likedReview;
           this.userService.findUserByUserName(params['username']).subscribe(
-            (user: any) => {
-              this.otherUser = user;
-              this.reviews = user.reviews;
+            (newUser: any) => {
+              this.otherUser = newUser;
+              this.reviews = newUser.reviews;
               for (let i = 0; i < this.reviews.length; i++) {
                 for (let j = 0; j < this.reviewsLiked.length; j++) {
                   if (this.reviewsLiked[j] === this.reviews[i]._id) {
