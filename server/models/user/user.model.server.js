@@ -96,35 +96,30 @@ function unfollowUser(curr, target) {
 }
 
 function deleteFollowerById(deleted, target) {
-  return userModel.findById(deleted)
-    .then(function (deletedUser) {
-      userModel.findById(target)
-        .then(function (target) {
-          for (var i = 0; i < target.follower.length; i++) {
-            if (target.follower[i].equals(deletedUser._id)) {
-              target.follower.splice(i, 1);
-              target.save();
-              break;
-            }
-          }
-        })
+  return userModel.findUserById(target)
+    .then(function (remain) {
+      for (var i = 0; i < remain.follower.length; i++) {
+        if (remain.follower[i].equals(deleted)) {
+          remain.follower.splice(i, 1);
+          remain.save();
+          break;
+        }
+      }
     });
 }
 
+
 function deleteFollowingById(deleted, target) {
-  return userModel.findById(deleted)
-    .then(function (deletedUser) {
-      userModel.findById(target)
-        .then(function (target) {
-          for (var i = 0; i < target.follower.length; i++) {
-            if (target.following[i].equals(deletedUser._id)) {
-              target.following.splice(i, 1);
-              target.save();
+  return userModel.findUserById(target)
+        .then(function (remain) {
+          for (var i = 0; i < remain.following.length; i++) {
+            if (remain.following[i].equals(deleted)) {
+              remain.following.splice(i, 1);
+              remain.save();
               break;
             }
           }
-        })
-    });
+        });
 }
 
 function findAllUsers() {

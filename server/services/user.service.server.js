@@ -362,7 +362,7 @@ module.exports = function (app) {
                     });
                   }
                   return now.then((review) => {
-                    if (user.follower.length > 0) {
+                    if (user.follower && user.follower.length > 0) {
                       index = 0;
                       now = userModel.deleteFollowingById(user._id, user.follower[index]);
                       for (var i = 1; i < user.follower.length; i++) {
@@ -372,7 +372,7 @@ module.exports = function (app) {
                         });
                       }
                       return now.then((response) => {
-                        if (user.following.length > 0) {
+                        if (user.following && user.following.length > 0) {
                           index = 0;
                           now = userModel.deleteFollowerById(user._id, user.following[index]);
                           for (var i = 1; i < user.following.length; i++) {
@@ -382,14 +382,15 @@ module.exports = function (app) {
                             });
                           }
                           return now.then((response) => {
-                            userModel
-                              .deleteUser(userId)
-                              .then(function (user) {
-                                res.status(200).send(user);
-                              }, function (error) {
-                                console.log('delete user by Id error: ' + error);
-                                res.status(200).send({message: 'User not found!'});
-                              });
+                            res.json(user);
+                            // userModel
+                              // .deleteUser(userId)
+                              // .then(function (user) {
+                              //   res.status(200).send(user);
+                              // }, function (error) {
+                              //   console.log('delete user by Id error: ' + error);
+                              //   res.status(200).send({message: 'User not found!'});
+                              // });
                           });
                         } else {
                           res.json(user);
