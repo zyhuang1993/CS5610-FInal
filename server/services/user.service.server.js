@@ -350,6 +350,7 @@ module.exports = function (app) {
     userModel.findUserById(userId)
       .then((user) => {
         let index = 0;
+        console.log(user.reviews);
         if (user.reviews && user.reviews.length > 0) {
           let now = reviewModel.deleteReview(user.reviews[index]._id);
           for (var i = 1; i < user.reviews.length;i++) {
