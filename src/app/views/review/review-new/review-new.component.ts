@@ -39,8 +39,8 @@ export class ReviewNewComponent implements OnInit {
     this.title = this.reviewForm.value.title;
     this.description = this.reviewForm.value.description;
     this.rate = this.reviewForm.value.rate;
-    if (this.rate < 1 || this.rate > 5) {
-      alert('the rate should be between 1 and 5.');
+    if (this.rate < 0 || this.rate > 5) {
+      alert('the rate should be between 0 and 5.');
     } else {
       const review = {
         title: this.title,
