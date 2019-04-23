@@ -32,13 +32,7 @@ export class UserListComponent implements OnInit {
 
       this.userService.findAllUsers().subscribe(
         (users: any) => {
-          for (let i = 0; i < this.users.length; i++) {
-            if (users[i].type === 'Admin' || users[i].type === 'Paid') {
-              continue;
-            } else {
-              this.users.push(users[i]);
-            }
-          }
+          this.users = users;
           for (let i = 0; i < this.users.length; i++) {
             if (this.users[i]._id === this.currUser._id) {
               this.users[i].followStatus = 'Self';
@@ -105,4 +99,11 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  type(type: string) {
+    if (type === 'Unpaid') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
