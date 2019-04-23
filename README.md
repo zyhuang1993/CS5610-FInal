@@ -1,6 +1,5 @@
 # CS5610Final
-This is the final project for CS 5610. Please open the url: https://webdev19spring-final-project.herokuapp.com 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
+This is the final project for CS 5610. Please open the url: https://webdev19spring-final-project.herokuapp.com.
 
 ## Development server
 
