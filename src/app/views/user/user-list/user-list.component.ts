@@ -57,15 +57,22 @@ export class UserListComponent implements OnInit {
   deleteUser(userId: string) {
     this.userService.deleteUser(userId).subscribe(
       (data: any) => {
-        for (let i = 0; i < this.users.length; i++) {
-          if (this.users[i]._id === userId) {
-            this.users.splice(i, 1);
-          }
-        }
+        // for (let i = 0; i < this.users.length; i++) {
+        //   if (this.users[i]._id === userId) {
+        //     this.users.splice(i, 1);
+        //   }
+        // }
+        this.reviewService.deleteUserReviews(userId).subscribe((data) => {
+          this.movieService.deleteUserReviewsInMovie(userId).subscribe((data) => {
+            this.router.navigate(['/user/user-list'], {
+              queryParams: {refresh: new Date().getTime()}
+            });
+          });
+
+        });
+
       }
     );
-    this.reviewService.deleteUserReviews(userId).subscribe((data) => {});
-    this.movieService.deleteUserReviewsInMovie(userId).subscribe((data) => {});
     alert('Delete successfully!');
   }
 
