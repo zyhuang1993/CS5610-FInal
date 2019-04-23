@@ -27,23 +27,22 @@ export class UserListComponent implements OnInit {
       this.userService.findUserById(this.sharedService.user._id).subscribe(
         (user: any) => {
           this.currUser = user;
-        }
-      );
-
-      this.userService.findAllUsers().subscribe(
-        (users: any) => {
-          this.users = users;
-          for (let i = 0; i < this.users.length; i++) {
-            if (this.users[i]._id === this.currUser._id) {
-              this.users[i].followStatus = 'Self';
-              continue;
-            }
-            for (let j = 0; j < this.users[i].follower.length; j++) {
-              if (this.users[i].follower[j] === this.currUser._id) {
-                this.users[i].followStatus = 'Unfollow';
+          this.userService.findAllUsers().subscribe(
+            (users: any) => {
+              this.users = users;
+              for (let i = 0; i < this.users.length; i++) {
+                if (this.users[i]._id === this.currUser._id) {
+                  this.users[i].followStatus = 'Self';
+                  continue;
+                }
+                for (let j = 0; j < this.users[i].follower.length; j++) {
+                  if (this.users[i].follower[j] === this.currUser._id) {
+                    this.users[i].followStatus = 'Unfollow';
+                  }
+                }
               }
             }
-          }
+          );
         }
       );
     });
