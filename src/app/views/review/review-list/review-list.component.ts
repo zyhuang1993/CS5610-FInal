@@ -70,7 +70,7 @@ export class ReviewListComponent implements OnInit {
     const stats = [0, 0, 0, 0, 0];
     for (const review of reviews) {
       const rate = review.rate;
-      if (rate > 0 && rate <= 1) {
+      if (rate >= 0 && rate <= 1) {
         stats[0]++;
       } else if (rate > 1 && rate <= 2) {
         stats[1]++;
