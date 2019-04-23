@@ -322,7 +322,7 @@ module.exports = function (app) {
       .updateUser(userId, user)
       .then(function(newUser) {
         let index = 0;
-        if (user.reviews && user.reviews.length > 0) {
+        if (newUser.reviews && newUser.reviews.length > 0) {
           let now = reviewModel.updateReview(newUser.reviews[index]._id, newUser.reviews[index]);
           for (var i = 1; i < newUser.reviews.length; i++) {
             now = now.then(
