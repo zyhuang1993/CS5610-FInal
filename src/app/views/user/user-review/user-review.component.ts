@@ -56,7 +56,7 @@ export class UserReviewComponent implements OnInit {
 
   deleteReview(reviewId: string) {
     this.reviewService.deleteReview(reviewId).subscribe((data: any) => {
-      this.userService.deleteReview(this.currUser._id, reviewId).subscribe(
+      this.userService.deleteReview(this.otherUser._id, reviewId).subscribe(
         (res) => {
           this.router.navigate(['/user/' + this.otherUser.username + '/review-list'], {queryParams: {refresh: new Date().getTime()}
           });
